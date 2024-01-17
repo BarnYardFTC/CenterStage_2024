@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.center_stage.robot_systems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "ArmProgram")
-public class ArmProgram extends LinearOpMode {
+public class ArmSystem extends LinearOpMode {
     DcMotor arm;
     final int ARM_UP_POSITION = 700;
     final double ARM_POWER = 0.2;

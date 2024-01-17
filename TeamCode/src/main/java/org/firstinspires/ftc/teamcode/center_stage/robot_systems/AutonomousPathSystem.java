@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.center_stage.robot_systems;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.not_important_and_test_programs.PixelDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
 
 @Autonomous(name = "Autonomous Path")
-public class AutonomousPath extends LinearOpMode {
+public class AutonomousPathSystem extends LinearOpMode {
 
     DcMotor fr_wheel;
     DcMotor br_wheel;

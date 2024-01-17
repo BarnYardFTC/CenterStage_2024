@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.center_stage;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "CenterStage TeleOp")
-public class CenterStage_TeleOp extends LinearOpMode {
+public class DriverControlledPeriod extends LinearOpMode {
     Servo left_claw;
     Servo right_claw;
     final double LEFT_CLAW_CLOSED_POSITION = 0.25;
