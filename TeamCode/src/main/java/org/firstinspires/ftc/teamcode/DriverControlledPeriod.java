@@ -26,7 +26,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             else {
                 arm.brake();
             }
-
+            arm.addDataToTelemetry(telemetry);
         }
     }
 
