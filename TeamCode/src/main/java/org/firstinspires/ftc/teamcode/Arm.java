@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
     private DcMotor arm;
-    private final double POWER = 0.1;
+    private final double POWER = 0.2;
     private int hold_position = 0;
     private boolean got_position_to_hold = false;
     public Arm(DcMotor motor) {
