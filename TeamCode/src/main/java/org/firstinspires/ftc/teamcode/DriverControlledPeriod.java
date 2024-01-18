@@ -7,38 +7,47 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
-    //
+    Arm arm;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
-
-        arm.addDataToTelemetry(telemetry);
+        initArm();
         telemetry.update();
         waitForStart();
         while (opModeIsActive()) {
-            if (gamepad1.dpad_up) {
-                if (arm.passedMaximalPosition()) {
-                    arm.returnToMaximalPosition();
-                } else {
-                    arm.moveUp();
-                }
-            } else if (gamepad1.dpad_down) {
-                if (arm.passedMinimalHoldPosition()) {
-                    arm.stopMoving();
-                } else {
-                    arm.moveDown();
-                }
-            } else {
-                if (arm.passedMinimalHoldPosition()) {
-                    arm.stopMoving();
-                } else {
-                    arm.brake();
-                }
-            }
-            arm.addDataToTelemetry(telemetry);
+            runArm();
             telemetry.update();
         }
+    }
+    public void initArm() {
+        arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
+        arm.addDataToTelemetry(telemetry);
+    }
+    public void runArm() {
+        if (gamepad1.dpad_up) {
+            if (arm.passedMaximalPosition()) {
+                arm.returnToMaximalPosition();
+            } else {
+                arm.moveUp();
+            }
+        } else if (gamepad1.dpad_down) {
+            if (arm.passedMinimalHoldPosition()) {
+                arm.stopMoving();
+            } else {
+                arm.moveDown();
+            }
+        } else {
+            if (arm.passedMinimalHoldPosition()) {
+                arm.stopMoving();
+            } else if (arm.passedMaximalPosition()) {
+                arm.returnToMaximalPosition();
+            }
+            else{
+                arm.brake();
+            }
+        }
+        arm.addDataToTelemetry(telemetry);
     }
 }
 
