@@ -10,7 +10,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Arm {
     private DcMotor arm;
     private final double POWER = 0.2;
-    private final int ARM_SPEED = 60;
+    private final int SPEED = 60;
+    private final int MINIMAL_POSITION = 0;
+    private final int MAXIMAL_POSITION = 2000;
     private int hold_position = 0;
     private boolean got_position_to_hold = false;
     public Arm(DcMotor motor) {
@@ -19,31 +21,58 @@ public class Arm {
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm.setPower(POWER);
     }
-
-    public void moveUp() {
-        got_position_to_hold = false;
-        arm.setTargetPosition(arm.getCurrentPosition() + ARM_SPEED);
+    private boolean armInBoundries() {
+        return arm.getCurrentPosition() < MAXIMAL_POSITION && arm.getCurrentPosition() > MINIMAL_POSITION;
+    }
+    private void returnToBoundries() {
+        if (arm.getCurrentPosition() < MINIMAL_POSITION) {
+            arm.setTargetPosition(arm.getCurrentPosition() + SPEED);
+        }
+        else {
+            arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
+        }
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void moveUp() {
+        if (armInBoundries()) {
+            got_position_to_hold = false;
+            arm.setTargetPosition(arm.getCurrentPosition() + SPEED);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else {
+            returnToBoundries();
+        }
     }
     public void moveDown() {
-        got_position_to_hold = false;
-        arm.setTargetPosition(arm.getCurrentPosition() - ARM_SPEED);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (armInBoundries()) {
+            got_position_to_hold = false;
+            arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else {
+            returnToBoundries();
+        }
     }
     public void brake(){
-        if (!got_position_to_hold) {
-            hold_position = arm.getCurrentPosition();
-            got_position_to_hold = true;
+
+        if (armInBoundries()) {
+            if (!got_position_to_hold) {
+                hold_position = arm.getCurrentPosition();
+                got_position_to_hold = true;
+            }
+            arm.setTargetPosition(hold_position);
+            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        arm.setTargetPosition(hold_position);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        else {
+            returnToBoundries();
+        }
 
     }
-
 
     public void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("Arm position: ", arm.getCurrentPosition());
         telemetry.addData("Arm hold position: ", hold_position);
     }
+
 
 }
