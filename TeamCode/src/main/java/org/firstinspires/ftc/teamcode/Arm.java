@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
     private DcMotor arm;
-    private final double POWER = 0.2;
+    private final double POWER = 0.4;
     private int hold_position = 0;
     private boolean got_position_to_hold = false;
     public Arm(DcMotor motor) {
@@ -21,12 +21,12 @@ public class Arm {
 
     public void moveUp() {
         got_position_to_hold = false;
-        arm.setTargetPosition(arm.getCurrentPosition() + 50);
+        arm.setTargetPosition(arm.getCurrentPosition() + 10);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void moveDown() {
         got_position_to_hold = false;
-        arm.setTargetPosition(arm.getCurrentPosition() - 50);
+        arm.setTargetPosition(arm.getCurrentPosition() - 10);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void brake(){
