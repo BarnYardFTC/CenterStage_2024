@@ -10,18 +10,22 @@ public class DriverControlledPeriod extends LinearOpMode {
 //
     @Override
     public void runOpMode() throws InterruptedException {
-        Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
-        arm.addDataToTelemetry(telemetry);
+
+        DcMotor arm2 = hardwareMap.get(DcMotor.class, "arm");
+
+        Arm arm = new Arm(arm2);
+
+        arm.addDataToTelemetry(telemetry, arm2);
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.dpad_up) {
-                arm.moveUp();
+                arm.moveUp(arm2);
             }
             else if (gamepad1.dpad_down) {
-                arm.moveDown();
+                arm.moveDown(arm2);
             }
             else {
-                arm.brake();
+                arm.brake(arm2);
             }
         }
     }
