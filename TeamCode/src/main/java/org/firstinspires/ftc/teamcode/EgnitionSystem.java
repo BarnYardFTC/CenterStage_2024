@@ -21,10 +21,10 @@ public class EgnitionSystem extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        fl_wheel = hardwareMap.get(DcMotor.class, "front left");
-        fr_wheel = hardwareMap.get(DcMotor.class, "front right");
-        bl_wheel = hardwareMap.get(DcMotor.class, "back left");
-        br_wheel = hardwareMap.get(DcMotor.class, "back right");
+        fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
+        fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
+        bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
+        br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
 
         bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);

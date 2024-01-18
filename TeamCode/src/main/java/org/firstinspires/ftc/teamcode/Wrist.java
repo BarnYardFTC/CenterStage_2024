@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Wrist {
 
     Servo wrist;
-    final double WRIST_UP_POSITION = 0.4; // ToDo: Find correct values
-    final double WRIST_DOWN_POSITION = 0.08; // ToDo: Find correct values
+    final double WRIST_UP_POSITION = 0.35;
+    final double WRIST_DOWN_POSITION = 0.1;
     boolean was_Y_pressed = false;
     public Wrist(Servo servo) {
         wrist = servo;
