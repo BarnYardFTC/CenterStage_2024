@@ -19,6 +19,10 @@ public class FieldCentricDrive extends LinearOpMode {
     DcMotor br_wheel;
     IMU imu;
 
+    public void initEgnitionSystems(){
+
+    }
+
     @Override
     public void runOpMode() {
 
@@ -47,12 +51,7 @@ public class FieldCentricDrive extends LinearOpMode {
 
                 double max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
 
-                telemetry.addData("Yaw", "Press B on Gamepad to reset.");
-
                 double heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-                telemetry.addData("Yaw (Z)", JavaUtil.formatNumber(heading, 2));
-                telemetry.update();
 
                 double adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
                 double adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
@@ -68,6 +67,7 @@ public class FieldCentricDrive extends LinearOpMode {
                 fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
                 br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
 
+                telemetry.addLine("Press B to reset robot's head direction");
             }
         }
     }

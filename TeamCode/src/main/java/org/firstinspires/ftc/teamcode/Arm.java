@@ -59,7 +59,6 @@ public class Arm {
 
     public void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("Arm position: ", arm.getCurrentPosition());
-        telemetry.addData("Arm hold position: ", target_position);
     }
 
 

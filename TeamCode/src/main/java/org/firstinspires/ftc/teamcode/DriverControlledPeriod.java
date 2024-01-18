@@ -1,13 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
     Arm arm;
+    DcMotor fl_wheel;
+    DcMotor fr_wheel;
+    DcMotor bl_wheel;
+    DcMotor br_wheel;
+    IMU imu;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -48,6 +56,25 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
         }
         arm.addDataToTelemetry(telemetry);
+    }
+    public void initEgnitionSystem() {
+        fl_wheel = hardwareMap.get(DcMotor.class, "front left");
+        fr_wheel = hardwareMap.get(DcMotor.class, "front right");
+        bl_wheel = hardwareMap.get(DcMotor.class, "back left");
+        br_wheel = hardwareMap.get(DcMotor.class, "back right");
+
+        bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        imu = hardwareMap.get(IMU.class, "imu");
+
+        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
+        imu.resetYaw();
+    }
+    public void runEgnitionSystem() {
+
     }
 }
 
