@@ -15,17 +15,19 @@ public class DriverControlledPeriod extends LinearOpMode {
 
         Arm arm = new Arm(arm2);
 
-        arm.addDataToTelemetry(telemetry, arm2);
+        arm.addDataToTelemetry(telemetry);
+        telemetry.addLine("Program updated");
+        telemetry.update();
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.dpad_up) {
-                arm.moveUp(arm2);
+                arm.moveUp();
             }
             else if (gamepad1.dpad_down) {
-                arm.moveDown(arm2);
+                arm.moveDown();
             }
             else {
-                arm.brake(arm2);
+                arm.brake();
             }
         }
     }
