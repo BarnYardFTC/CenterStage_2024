@@ -11,61 +11,48 @@ public class Arm {
     private DcMotor arm;
     private final double POWER = 0.2;
     private final int SPEED = 60;
-    private final int MINIMAL_POSITION = 0;
     private final int MAXIMAL_POSITION = 2000;
+    private final int MINIMAL_HOLD_POSITION = 100;
     private int hold_position = 0;
     private boolean got_position_to_hold = false;
     public Arm(DcMotor motor) {
         arm = motor;
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm.setPower(POWER);
     }
-    private boolean armInBoundries() {
-        return arm.getCurrentPosition() < MAXIMAL_POSITION && arm.getCurrentPosition() > MINIMAL_POSITION;
+    public boolean passedMaximalPosition() {
+        return arm.getCurrentPosition() > MAXIMAL_POSITION;
     }
-    private void returnToBoundries() {
-        if (arm.getCurrentPosition() < MINIMAL_POSITION) {
-            arm.setTargetPosition(arm.getCurrentPosition() + SPEED);
-        }
-        else {
-            arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
-        }
+    public boolean passedMinimalHoldPosition() {
+        return arm.getCurrentPosition() < MINIMAL_HOLD_POSITION;
+    }
+    public void returnToMaximalPosition() {
+        arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+    public void stopMoving() {
+        arm.setPower(0);
+    }
     public void moveUp() {
-        if (armInBoundries()) {
-            got_position_to_hold = false;
-            arm.setTargetPosition(arm.getCurrentPosition() + SPEED);
-            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else {
-            returnToBoundries();
-        }
+        got_position_to_hold = false;
+        arm.setTargetPosition(arm.getCurrentPosition() + SPEED);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void moveDown() {
-        if (armInBoundries()) {
-            got_position_to_hold = false;
-            arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
-            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else {
-            returnToBoundries();
-        }
+        got_position_to_hold = false;
+        arm.setPower(POWER);
+        arm.setTargetPosition(arm.getCurrentPosition() - SPEED);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void brake(){
+        arm.setPower(POWER);
+        if (!got_position_to_hold) {
+            hold_position = arm.getCurrentPosition();
+            got_position_to_hold = true;
+        }
+        arm.setTargetPosition(hold_position);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        if (armInBoundries()) {
-            if (!got_position_to_hold) {
-                hold_position = arm.getCurrentPosition();
-                got_position_to_hold = true;
-            }
-            arm.setTargetPosition(hold_position);
-            arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else {
-            returnToBoundries();
-        }
 
     }
 

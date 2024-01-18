@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
-//
+    //
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -16,21 +16,31 @@ public class DriverControlledPeriod extends LinearOpMode {
         arm.addDataToTelemetry(telemetry);
         telemetry.update();
         waitForStart();
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             if (gamepad1.dpad_up) {
-                arm.moveUp();
-            }
-            else if (gamepad1.dpad_down) {
-                arm.moveDown();
-            }
-            else {
-                arm.brake();
+                if (arm.passedMaximalPosition()) {
+                    arm.returnToMaximalPosition();
+                } else {
+                    arm.moveUp();
+                }
+            } else if (gamepad1.dpad_down) {
+                if (arm.passedMinimalHoldPosition()) {
+                    arm.stopMoving();
+                } else {
+                    arm.moveDown();
+                }
+            } else {
+                if (arm.passedMinimalHoldPosition()) {
+                    arm.stopMoving();
+                } else {
+                    arm.brake();
+                }
             }
             arm.addDataToTelemetry(telemetry);
             telemetry.update();
         }
     }
-
+}
 
 
 
@@ -218,4 +228,3 @@ public class DriverControlledPeriod extends LinearOpMode {
 //        motor.setTargetPosition(position);
 //        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //    }
-}
