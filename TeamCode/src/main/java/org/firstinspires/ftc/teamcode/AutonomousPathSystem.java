@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.center_stage.robot_systems.autonomous_systems;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.not_important_and_test_programs.PixelDetector;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
