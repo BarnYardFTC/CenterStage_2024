@@ -11,12 +11,9 @@ public class DriverControlledPeriod extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        DcMotor arm2 = hardwareMap.get(DcMotor.class, "arm");
-
-        Arm arm = new Arm(arm2);
+        Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
 
         arm.addDataToTelemetry(telemetry);
-        telemetry.addLine("Program updated");
         telemetry.update();
         waitForStart();
         while(opModeIsActive()) {
