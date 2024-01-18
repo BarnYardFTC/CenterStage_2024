@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class FieldCentricDrive extends LinearOpMode {
+public class EgnitionSystem extends LinearOpMode {
 
 
     DcMotor fl_wheel;
@@ -19,9 +17,6 @@ public class FieldCentricDrive extends LinearOpMode {
     DcMotor br_wheel;
     IMU imu;
 
-    public void initEgnitionSystems(){
-
-    }
 
     @Override
     public void runOpMode() {
