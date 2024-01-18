@@ -15,10 +15,25 @@ import org.firstinspires.ftc.teamcode.center_stage.robot_systems.teleop_systems.
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         Arm arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
+        arm.addDataToTelemetry(telemetry);
+        waitForStart();
+        while(opModeIsActive()) {
+            if (gamepad1.dpad_up) {
+                arm.moveUp();
+            }
+            else if (gamepad1.dpad_down) {
+                arm.moveDown();
+            }
+            else {
+                arm.brake();
+            }
+        }
     }
+
 
 
 

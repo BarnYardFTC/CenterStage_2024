@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "Field Centric Drive")
 public class FieldCentricDrive extends LinearOpMode {
 
 
