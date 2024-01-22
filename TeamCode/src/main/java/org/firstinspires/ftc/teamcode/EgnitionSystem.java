@@ -2,12 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
 public class EgnitionSystem extends LinearOpMode {
 
 
@@ -27,7 +27,7 @@ public class EgnitionSystem extends LinearOpMode {
         br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
 
         bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         imu = hardwareMap.get(IMU.class, "imu");
 

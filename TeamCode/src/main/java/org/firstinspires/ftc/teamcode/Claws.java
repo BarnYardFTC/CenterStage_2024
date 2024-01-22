@@ -6,9 +6,9 @@ public class Claws {
 
     Servo left_claw;
     Servo right_claw;
-    final double LEFT_CLAW_CLOSED_POSITION = 0;
+    final double LEFT_CLAW_CLOSED_POSITION = 0.25;
     final double LEFT_CLAW_OPENED_POSITION = 0.3;
-    final double RIGHT_CLAW_CLOSED_POSITION = 1;
+    final double RIGHT_CLAW_CLOSED_POSITION = 0.3;
     final double RIGHT_CLAW_OPENED_POSITION = 0;
     boolean was_right_bumper_pressed = false;
     boolean was_left_bumper_pressed = false;

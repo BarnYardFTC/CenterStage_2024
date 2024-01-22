@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-
 public class RobotCentricDrive extends LinearOpMode {
 
     DcMotor fr_wheel;
@@ -16,13 +15,13 @@ public class RobotCentricDrive extends LinearOpMode {
 
     @Override
     public void runOpMode()  {
-        fr_wheel = hardwareMap.get(DcMotor.class, "front right");
-        br_wheel = hardwareMap.get(DcMotor.class, "back right");
-        bl_wheel = hardwareMap.get(DcMotor.class, "back left");
-        fl_wheel = hardwareMap.get(DcMotor.class, "front left");
+        fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
+        br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
+        fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
 
         bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         waitForStart();
@@ -33,7 +32,7 @@ public class RobotCentricDrive extends LinearOpMode {
         while(opModeIsActive()){
             powerY = -gamepad1.left_stick_y;
             powerX = -gamepad1.left_stick_x;
-            powerRot = gamepad1.right_stick_x;
+            powerRot = -gamepad1.right_stick_x;
 
             fr_wheel.setPower(powerY + powerX + powerRot);
             fl_wheel.setPower(powerY - powerX - powerRot);

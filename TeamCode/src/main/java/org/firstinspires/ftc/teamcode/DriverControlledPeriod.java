@@ -104,7 +104,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
 
         bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         imu = hardwareMap.get(IMU.class, "imu");
 
