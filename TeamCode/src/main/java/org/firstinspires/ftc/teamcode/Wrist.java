@@ -4,26 +4,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wrist {
 
-    Servo wrist;
-    final double WRIST_UP_POSITION = 0.45;
-    final double WRIST_DOWN_POSITION = 0.1;
-    boolean was_Y_pressed = false;
-    public Wrist(Servo servo) {
+    static Servo wrist;
+    static final double WRIST_UP_POSITION = 0.45;
+    static final double WRIST_DOWN_POSITION = 0.1;
+    static boolean was_Y_pressed = false;
+    public static void init(Servo servo) {
         wrist = servo;
     }
-    public void moveUp(){
-        wrist.setPosition(WRIST_UP_POSITION);
-    }
-    public void moveDown() {
+    public static void moveToStartPosition() {
         wrist.setPosition(WRIST_DOWN_POSITION);
     }
-    public void runWrist(boolean Y_pressed){
+    public static void runWrist(boolean Y_pressed){
         if (Y_pressed && !was_Y_pressed) {
             if (Math.abs(wrist.getPosition() - WRIST_DOWN_POSITION) < Math.abs(wrist.getPosition() - WRIST_UP_POSITION)) {
-                moveUp();
+                wrist.setPosition(WRIST_UP_POSITION);
             }
             else {
-                moveDown();
+                wrist.setPosition(WRIST_DOWN_POSITION);
             }
             was_Y_pressed = true;
         }

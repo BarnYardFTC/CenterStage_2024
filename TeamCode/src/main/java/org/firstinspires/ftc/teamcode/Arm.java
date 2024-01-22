@@ -8,33 +8,35 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
-    private DcMotor arm;
-    private final double POWER = 0.2;
-    private final int SPEED = 60;
-    private final int MAXIMAL_POSITION = 900;
-    private final int MINIMAL_HOLD_POSITION = 20;
-    private boolean got_position_to_hold = false;
-    private int target_position = 0;
-    public Arm(DcMotor motor) {
+
+    static private DcMotor arm;
+    static private final double POWER = 0.2;
+    static private final int SPEED = 60;
+    static private final int MAXIMAL_POSITION = 900;
+    static private final int MINIMAL_HOLD_POSITION = 20;
+    static private boolean got_position_to_hold = false;
+    static private int target_position = 0;
+
+    public static void init(DcMotor motor) {
         arm = motor;
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public void moveUp() {
+    public static void moveUp() {
         arm.setPower(POWER);
         got_position_to_hold = false;
         target_position = arm.getCurrentPosition() + SPEED;
         arm.setTargetPosition(target_position);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void moveDown() {
+    public static void moveDown() {
         arm.setPower(POWER);
         got_position_to_hold = false;
         target_position = arm.getCurrentPosition() - SPEED;
         arm.setTargetPosition(target_position);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void brake(){
+    public static void brake(){
         arm.setPower(POWER);
         if (!got_position_to_hold) {
             got_position_to_hold = true;
@@ -42,22 +44,22 @@ public class Arm {
         arm.setTargetPosition(target_position);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public boolean passedMaximalPosition() {
+    public static boolean passedMaximalPosition() {
         return arm.getCurrentPosition() > MAXIMAL_POSITION;
     }
-    public boolean passedMinimalHoldPosition() {
+    public static boolean passedMinimalHoldPosition() {
         return arm.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
-    public void returnToMaximalPosition() {
+    public static void returnToMaximalPosition() {
         target_position = arm.getCurrentPosition() - SPEED;
         arm.setTargetPosition(target_position);
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void stopMoving() {
+    public static void stopMoving() {
         arm.setPower(0);
     }
 
-    public void addDataToTelemetry(Telemetry telemetry) {
+    public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("Arm position: ", arm.getCurrentPosition());
     }
 

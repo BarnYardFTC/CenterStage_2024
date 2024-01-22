@@ -21,10 +21,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     DcMotor br_wheel;
     IMU imu;
 
-    Wrist wrist;
-
-    Claws claws;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -36,8 +32,10 @@ public class DriverControlledPeriod extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        wrist.moveDown();
-        claws.openBothClaws();
+        Claws.moveToStartPosition();
+        Wrist.moveToStartPosition();
+
+
         while (opModeIsActive()) {
             runArm();
             runEgnitionSystem();
@@ -52,48 +50,48 @@ public class DriverControlledPeriod extends LinearOpMode {
         telemetry.addLine("Press left/right bumpers to move the corresponding claws");
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
-        claws = new Claws(left_claw, right_claw);
+        Claws.init(left_claw, right_claw);
     }
     public void runClaws(){
         telemetry.addLine("Press left/right bumpers to move the corresponding claws");
-        claws.runClaws(gamepad1.left_bumper, gamepad1.right_bumper);
-
+        Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
     }
     public void initWrist() {
         telemetry.addLine("Press Y to move the wrist Up & Down");
         Servo servo = hardwareMap.get(Servo.class, "wrist");
-        wrist = new Wrist(servo);
+        Wrist.init(servo);
     }
     public void runWrist() {
         telemetry.addLine("Press Y to move the wrist Up & Down");
-        wrist.runWrist(gamepad1.y);
+        Wrist.runWrist(gamepad1.y);
     }
     public void initArm() {
-        arm = new Arm(hardwareMap.get(DcMotor.class, "arm"));
-        arm.addDataToTelemetry(telemetry);
+        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
+        Arm.init(motor);
+        Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {
-        arm.addDataToTelemetry(telemetry);
+        Arm.addDataToTelemetry(telemetry);
         if (gamepad1.dpad_up) {
-            if (arm.passedMaximalPosition()) {
-                arm.returnToMaximalPosition();
+            if (Arm.passedMaximalPosition()) {
+                Arm.returnToMaximalPosition();
             } else {
-                arm.moveUp();
+                Arm.moveUp();
             }
         } else if (gamepad1.dpad_down) {
-            if (arm.passedMinimalHoldPosition()) {
-                arm.stopMoving();
+            if (Arm.passedMinimalHoldPosition()) {
+                Arm.stopMoving();
             } else {
-                arm.moveDown();
+                Arm.moveDown();
             }
         } else {
-            if (arm.passedMinimalHoldPosition()) {
-                arm.stopMoving();
-            } else if (arm.passedMaximalPosition()) {
-                arm.returnToMaximalPosition();
+            if (Arm.passedMinimalHoldPosition()) {
+                Arm.stopMoving();
+            } else if (Arm.passedMaximalPosition()) {
+                Arm.returnToMaximalPosition();
             }
             else{
-                arm.brake();
+                Arm.brake();
             }
         }
     }
