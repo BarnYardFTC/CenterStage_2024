@@ -95,9 +95,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
-
     }
     public void runEgnitionSystem() {
-        EgnitionSystem.run(gamepad1, telemetry);
+        EgnitionSystem.runTeleop(gamepad1, telemetry);
+        EgnitionSystem.updateVariablesAndImuTeleop(gamepad1);
     }
 }

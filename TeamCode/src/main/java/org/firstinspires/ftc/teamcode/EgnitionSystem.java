@@ -19,94 +19,100 @@ public class EgnitionSystem {
     static private DcMotor br_wheel;
     static private IMU imu;
 
+    static private double max = 1;
+    static private double lx = 0;
+    static private double ly = 0;
+    static private double rx = 0;
+    static private double heading = 0;
+    static private double adjustedLx = 0;
+    static private double adjustedLy = 0;
+    static private double power = 0;
+
+    static private final double AUTONOMOUS_MOVING_POWER = 0.5;
+
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {
         EgnitionSystem.fl_wheel = fl_wheel;
         EgnitionSystem.fr_wheel = fr_wheel;
         EgnitionSystem.bl_wheel = bl_wheel;
         EgnitionSystem.br_wheel = br_wheel;
 
-        bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        EgnitionSystem.bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        EgnitionSystem.br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         EgnitionSystem.imu = imu;
 
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
+        EgnitionSystem.imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
-        imu.resetYaw();
+        EgnitionSystem.imu.resetYaw();
     }
-    public static void run(Gamepad gamepad1, Telemetry telemetry) {
-        double lx = gamepad1.left_stick_x;
-            double ly = -gamepad1.left_stick_y;
-            double rx = gamepad1.right_stick_x;
+    public static void runTeleop(Gamepad gamepad1, Telemetry telemetry) {
+        telemetry.addLine("Press B to reset robot's head direction");
+        if (gamepad1.b) {
+            imu.resetYaw();
+        }
 
-            double max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
-
-            double heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            double adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
-            double adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-
-            double power = 0.2 + (0.6 * gamepad1.right_trigger);
-
-            if (gamepad1.b) {
-                imu.resetYaw();
-            }
-
-            fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
-            bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
-            fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
-            br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
-
-            telemetry.addLine("Press B to reset robot's head direction");
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
     }
 
+    public static void updateVariablesAndImuTeleop(Gamepad gamepad1) {
+        lx = gamepad1.left_stick_x;
+        ly =-gamepad1.left_stick_y;
+        rx = gamepad1.right_stick_x;
 
-//    @Override
-//    public void runOpMode() {
-//
-//        fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
-//        fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
-//        bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
-//        br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
-//
-//        bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-//        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-//
-//        imu = hardwareMap.get(IMU.class, "imu");
-//
-//        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
-//                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-//                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
-//        imu.resetYaw();
-//
-//        waitForStart();
-//
-//        while (opModeIsActive()) {
-//            double lx = gamepad1.left_stick_x;
-//            double ly = -gamepad1.left_stick_y;
-//            double rx = gamepad1.right_stick_x;
-//
-//            double max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
-//
-//            double heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-//
-//            double adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
-//            double adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-//
-//            double power = 0.2 + (0.6 * gamepad1.right_trigger);
-//
-//            if (gamepad1.b) {
-//                imu.resetYaw();
-//            }
-//
-//            fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
-//            bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
-//            fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
-//            br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
-//
-//            telemetry.addLine("Press B to reset robot's head direction");
-//        }
+        max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
+
+        heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
+        adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
+
+        power = 0.2 + (0.6 * gamepad1.right_trigger);
+    }
+    public static void setHorizontalPower(double power) {
+        lx = power;
+    }
+    public static void setVerticalPower(double power) {
+        ly = power;
+    }
+    public static void setRotPower(double power){
+        rx = power;
+    }
+    public static void updateVariablesAutonomous() {
+        max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
+
+        heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        adjustedLx = ly * Math.sin(heading) + lx * Math.cos(heading);
+        adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
+    }
+    public static void runAutonomous() {
+
+        setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx)) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(br_wheel, ((adjustedLy + adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
+
+    }
+
+    private static void setPowerEncoders(DcMotor motor, double power) {
+        motor.setTargetPosition((int) (motor.getCurrentPosition() + power));
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public static void initEncoders() {
+        fl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
 
 }
