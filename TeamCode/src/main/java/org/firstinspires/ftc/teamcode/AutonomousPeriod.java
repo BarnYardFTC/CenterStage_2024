@@ -1,5 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-public class AutonomousPeriod {
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+public class AutonomousPeriod extends LinearOpMode {
+
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
+
 
 }

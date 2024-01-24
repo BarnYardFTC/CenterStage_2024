@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Arm {
 
     static private DcMotor arm;
-    static private final double POWER = 0.2;
+    static private final double POWER = 1;
     static private final int SPEED = 60;
     static private final int MAXIMAL_POSITION = 900;
     static private final int MINIMAL_HOLD_POSITION = 20;

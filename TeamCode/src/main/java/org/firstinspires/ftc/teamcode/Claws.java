@@ -30,7 +30,7 @@ public class Claws {
                 right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
             }
             else {
-                right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
+                right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
             }
             was_right_bumper_pressed = true;
         }

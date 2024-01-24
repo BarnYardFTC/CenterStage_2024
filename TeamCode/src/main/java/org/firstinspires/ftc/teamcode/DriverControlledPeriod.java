@@ -13,14 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
-    Arm arm;
-
-    DcMotor fl_wheel;
-    DcMotor fr_wheel;
-    DcMotor bl_wheel;
-    DcMotor br_wheel;
-    IMU imu;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -96,45 +88,16 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void initEgnitionSystem() {
-        fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
-        fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
-        bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
-        br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
+        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
+        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
+        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        IMU imu = hardwareMap.get(IMU.class, "imu");
 
-        bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        imu = hardwareMap.get(IMU.class, "imu");
-
-        imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
-        imu.resetYaw();
+        EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
 
     }
     public void runEgnitionSystem() {
-        double lx = gamepad1.left_stick_x;
-        double ly = -gamepad1.left_stick_y;
-        double rx = gamepad1.right_stick_x;
-
-        double max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
-
-        double heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-        double adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
-        double adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-
-        double power = 0.2 + (0.6 * gamepad1.right_trigger);
-
-        if (gamepad1.b) {
-            imu.resetYaw();
-        }
-
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
-
-        telemetry.addLine("Press B to reset robot's head direction");
+        EgnitionSystem.run(gamepad1, telemetry);
     }
 }
