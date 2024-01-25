@@ -50,7 +50,7 @@ public class AutonomousRedBack extends LinearOpMode {
         EgnitionSystem.initEncoders();
     }
     public static void runEgnitionSystem() {
-        EgnitionSystem.setHorizontalPower(0.3);
+        EgnitionSystem.setVerticalPower(0.3);
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();
     }

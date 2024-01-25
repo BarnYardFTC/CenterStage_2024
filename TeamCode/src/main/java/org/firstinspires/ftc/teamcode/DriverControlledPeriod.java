@@ -97,7 +97,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
     }
     public void runEgnitionSystem() {
+        EgnitionSystem.updateVariablesTeleop(gamepad1);
         EgnitionSystem.runTeleop(gamepad1, telemetry);
-        EgnitionSystem.updateVariablesAndImuTeleop(gamepad1);
     }
 }

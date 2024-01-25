@@ -47,18 +47,19 @@ public class EgnitionSystem {
         EgnitionSystem.imu.resetYaw();
     }
     public static void runTeleop(Gamepad gamepad1, Telemetry telemetry) {
-        telemetry.addLine("Press B to reset robot's head direction");
-        if (gamepad1.b) {
-            imu.resetYaw();
-        }
 
         fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
         bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
         fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
+
+        telemetry.addLine("Press B to reset robot's head direction");
+        if (gamepad1.b) {
+            imu.resetYaw();
+        }
     }
 
-    public static void updateVariablesAndImuTeleop(Gamepad gamepad1) {
+    public static void updateVariablesTeleop(Gamepad gamepad1) {
         lx = gamepad1.left_stick_x;
         ly =-gamepad1.left_stick_y;
         rx = gamepad1.right_stick_x;
