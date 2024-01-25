@@ -49,10 +49,11 @@ public class AutonomousRedBack extends LinearOpMode {
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
         EgnitionSystem.initEncoders();
     }
-    public static void runEgnitionSystem() {
-        EgnitionSystem.setVerticalPower(0.3);
+    public void runEgnitionSystem() {
+        EgnitionSystem.setVerticalPower(1);
+        EgnitionSystem.setRotPower(1);
         EgnitionSystem.updateVariablesAutonomous();
-        EgnitionSystem.runAutonomous();
+        EgnitionSystem.runAutonomous(telemetry);
     }
 
 

@@ -28,7 +28,8 @@ public class EgnitionSystem {
     static private double adjustedLy = 0;
     static private double power = 0;
 
-    static private final double AUTONOMOUS_MOVING_POWER = 0.5;
+    static private final double AUTONOMOUS_MOVING_POWER = 0.3;
+    static private final int ENCODER_CHANGING_SPEED = 1000;
 
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {
         EgnitionSystem.fl_wheel = fl_wheel;
@@ -38,6 +39,7 @@ public class EgnitionSystem {
 
         EgnitionSystem.bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         EgnitionSystem.br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        EgnitionSystem.fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         EgnitionSystem.imu = imu;
 
@@ -46,22 +48,17 @@ public class EgnitionSystem {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
         EgnitionSystem.imu.resetYaw();
     }
-    public static void runTeleop(Gamepad gamepad1, Telemetry telemetry) {
+    public static void runTeleop() {
 
         fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
         bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
         fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
-
-        telemetry.addLine("Press B to reset robot's head direction");
-        if (gamepad1.b) {
-            imu.resetYaw();
-        }
     }
 
-    public static void updateVariablesTeleop(Gamepad gamepad1) {
+    public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;
-        ly =-gamepad1.left_stick_y;
+        ly = -gamepad1.left_stick_y;
         rx = gamepad1.right_stick_x;
 
         max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
@@ -72,6 +69,11 @@ public class EgnitionSystem {
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
         power = 0.2 + (0.6 * gamepad1.right_trigger);
+
+        telemetry.addLine("Press B to reset robot's head direction");
+        if (gamepad1.b) {
+            imu.resetYaw();
+        }
     }
     public static void setHorizontalPower(double power) {
         lx = power;
@@ -87,20 +89,24 @@ public class EgnitionSystem {
 
         heading = -imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        adjustedLx = ly * Math.sin(heading) + lx * Math.cos(heading);
+        adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-    }
-    public static void runAutonomous() {
 
-        setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx)) * AUTONOMOUS_MOVING_POWER);
+    }
+    public static void runAutonomous(Telemetry telemetry) {
+
+        setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(br_wheel, ((adjustedLy + adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
 
+        telemetry.addLine(String.valueOf(br_wheel.getCurrentPosition()));
+        telemetry.update();
     }
 
     private static void setPowerEncoders(DcMotor motor, double power) {
-        motor.setTargetPosition((int) (motor.getCurrentPosition() + power));
+        motor.setPower(power);
+        motor.setTargetPosition((int) (motor.getCurrentPosition() + power*ENCODER_CHANGING_SPEED));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void initEncoders() {
