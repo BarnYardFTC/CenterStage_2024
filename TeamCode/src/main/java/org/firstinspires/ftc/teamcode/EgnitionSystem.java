@@ -93,15 +93,12 @@ public class EgnitionSystem {
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
     }
-    public static void runAutonomous(Telemetry telemetry) {
+    public static void runAutonomous() {
 
         setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(br_wheel, ((adjustedLy + adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
-
-        telemetry.addLine(String.valueOf(br_wheel.getCurrentPosition()));
-        telemetry.update();
     }
 
     private static void setPowerEncoders(DcMotor motor, double power) {
@@ -115,6 +112,24 @@ public class EgnitionSystem {
         bl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public static int getFlEncoderPosition() {
+        return fl_wheel.getCurrentPosition();
+    }
+    public static int getFrEncoderPosition() {
+        return fr_wheel.getCurrentPosition();
+    }
+    public static int getBlEncoderPosition() {
+        return bl_wheel.getCurrentPosition();
+    }
+    public static int getBrEncoderPosition() {
+        return br_wheel.getCurrentPosition();
+    }
+    public static void resetAllEncoders() {
         fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

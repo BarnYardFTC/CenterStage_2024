@@ -17,7 +17,7 @@ public class AutonomousPathSystem extends LinearOpMode {
     DcMotor bl_wheel;
     DcMotor fl_wheel;
 
-    PixelDetector pixelDetector = new PixelDetector(this);
+    PixelDetector2 pixelDetector = new PixelDetector2(this);
     VisionPortal camera;
     int intSpikePosition;
     String spikePosition;

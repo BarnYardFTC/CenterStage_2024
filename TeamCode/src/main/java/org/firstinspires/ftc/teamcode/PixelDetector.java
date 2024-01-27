@@ -14,61 +14,72 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 public class PixelDetector implements VisionProcessor {
-
-    static int spike_position = 0;
+    
+    private static int spike_position = 0;
 
     OpMode OpMode;
     Mat leftRegion = new Mat();
     Mat rightRegion = new Mat();
-    Mat midRegion = new Mat();
-    int leftRegion_avg, rightRegion_avg, midRegion_avg;
+    int leftRegion_avg, rightRegion_avg;
     Mat YCrCb = new Mat();
     Mat Y = new Mat();
 
-    static int frameWidth;
-    static int frameHeight;
+    int frameWidth;
+    int frameHeight;
+
+    private final int LEFT_REGION_START_X = 155;
+    private final int LEFT_REGION_START_Y = 200;
+
+    // ToDo: Find the correct values
+
+    private final int RIGHT_REGION_START_X = 1030;
+    private final int RIGHT_REGION_START_Y = 200;
+
+    private final int REGIONS_WIDTH = 100;
+    private final int REGIONS_HEIGHT = 150;
+
+    // ToDo: Find the correct values
+
+    private final int BRIGHTNESS_DIFFERENCE = 100; // ToDo: Find the correct value
 
     public PixelDetector(OpMode opMode){
         this.OpMode = opMode;
-
     }
-
-    @Override
-    public void init(int width, int height, CameraCalibration calibration) {
-
+    public static int getSpike_position() {
+        return spike_position;
     }
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-
         frameWidth = frame.width();
         frameHeight = frame.height();
 
-        Imgproc.rectangle(frame, new Point(155,200), new Point(155+100, 200+150), new Scalar(255, 0, 0)); // left
-        Imgproc.rectangle(frame, new Point(1030, 200),new Point(1030+100, 200 +150), new Scalar(255, 0, 0)); // right
-        Imgproc.rectangle(frame, new Point(530, 150), new Point(530 + 260, 150+100), new Scalar(255,0,0)); // mid
+        Imgproc.rectangle(frame, new Point(LEFT_REGION_START_X,LEFT_REGION_START_Y), new Point(LEFT_REGION_START_X+REGIONS_WIDTH,
+                LEFT_REGION_START_Y+REGIONS_HEIGHT), new Scalar(255, 0, 0)); // left
 
-        leftRegion = frame.submat(new Rect(155, 200, 100, 150));
-        rightRegion = frame.submat(new Rect(1030, 200, 100, 150));
-        midRegion = frame.submat(new Rect(530,150,260,100));
+        Imgproc.rectangle(frame, new Point(RIGHT_REGION_START_X, RIGHT_REGION_START_Y),new Point(RIGHT_REGION_START_X+REGIONS_WIDTH
+                , RIGHT_REGION_START_Y +REGIONS_HEIGHT), new Scalar(255, 0, 0)); // right
+
+
+
+        leftRegion = frame.submat(new Rect(LEFT_REGION_START_X, LEFT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
+        rightRegion = frame.submat(new Rect(RIGHT_REGION_START_X, RIGHT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
 
         Imgproc.cvtColor(frame, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+
         Core.extractChannel(YCrCb, Y, 2);
 
         leftRegion_avg = (int) Core.mean(leftRegion).val[0];
         rightRegion_avg = (int) Core.mean(rightRegion).val[0];
-        midRegion_avg = (int) Core.mean(midRegion).val[0];
 
-        int brightest_avg = Math.max(Math.max(leftRegion_avg, rightRegion_avg), Math.max(leftRegion_avg, midRegion_avg));
-
-        if (brightest_avg == leftRegion_avg) {
+        if (leftRegion_avg - rightRegion_avg >= BRIGHTNESS_DIFFERENCE)  {
             spike_position = 0;
         }
-        else if (brightest_avg == midRegion_avg) {
-            spike_position = 1;
+        else if (rightRegion_avg - leftRegion_avg >= BRIGHTNESS_DIFFERENCE) {
+            spike_position = 2;
         }
         else {
-            spike_position = 2;
+            spike_position = 1;
         }
 
         return null;
@@ -76,6 +87,10 @@ public class PixelDetector implements VisionProcessor {
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+
+    }
+    @Override
+    public void init(int width, int height, CameraCalibration calibration) {
 
     }
 }

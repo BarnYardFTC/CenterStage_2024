@@ -10,17 +10,40 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red back")
 public class AutonomousRedBack extends LinearOpMode {
 
+    private int spike_position = -1;
+
+    private final int PHASE_ONE_ENCODER_FINISH_POSITION = 500;
+
+    private int phase = 1;
+
     @Override
     public void runOpMode() throws InterruptedException {
-//        initArm();
-//        initClaws();
-//        initWrist();
+
+        initArm();
+        initClaws();
+        initWrist();
         initEgnitionSystem();
+        initCamera();
+
+        while (opModeInInit()) {
+            spike_position = PixelDetector.getSpike_position();
+            telemetry.addData("Spike position: ", spike_position);
+            telemetry.update();
+        }
+        Camera.close();
 
         waitForStart();
 
         while (opModeIsActive()) {
-            runEgnitionSystem();
+//            if (spike_position == 0) {
+//                run0();
+//            }
+//            else if (spike_position == 1) {
+//                run1();
+//            }
+//            else {
+//                run2();
+//            }
         }
 
     }
@@ -49,12 +72,27 @@ public class AutonomousRedBack extends LinearOpMode {
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
         EgnitionSystem.initEncoders();
     }
-    public void runEgnitionSystem() {
-        EgnitionSystem.setVerticalPower(1);
-        EgnitionSystem.setRotPower(1);
-        EgnitionSystem.updateVariablesAutonomous();
-        EgnitionSystem.runAutonomous(telemetry);
+    public void initCamera() {
+        Camera.init(this, hardwareMap);
     }
 
+    public void run0() {
 
+    }
+    public void run1() {
+
+        if (phase == 1) {
+            EgnitionSystem.setVerticalPower(0.5);
+            if (EgnitionSystem.getFlEncoderPosition() >= PHASE_ONE_ENCODER_FINISH_POSITION) {
+                phase++;
+            }
+        }
+
+
+        EgnitionSystem.updateVariablesAutonomous();
+        EgnitionSystem.runAutonomous();
+    }
+    public void run2() {
+
+    }
 }
