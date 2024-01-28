@@ -59,7 +59,8 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        Arm.init(motor);
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {

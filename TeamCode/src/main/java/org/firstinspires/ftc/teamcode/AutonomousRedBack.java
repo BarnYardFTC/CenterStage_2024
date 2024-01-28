@@ -21,13 +21,12 @@ public class AutonomousRedBack extends LinearOpMode {
         if (phase == 1) {
             EgnitionSystem.setVerticalPower(0.5);
             if (EgnitionSystem.getFlEncoderPosition() >= PHASE_ONE_ENCODER_FINISH_POSITION) {
-                phase++;
+                phase ++;
+                EgnitionSystem.setVerticalPower(0);
             }
+            telemetry.addLine(String.valueOf(EgnitionSystem.getFlEncoderPosition()));
+            telemetry.update();
         }
-        else if (phase == 2) {
-
-        }
-
 
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();
@@ -59,15 +58,16 @@ public class AutonomousRedBack extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (spike_position == 0) {
-                run0();
-            }
-            else if (spike_position == 1) {
-                run1();
-            }
-            else {
-                run2();
-            }
+//            if (spike_position == 0) {
+//                run0();
+//            }
+//            else if (spike_position == 1) {
+//                run1();
+//            }
+//            else {
+//                run2();
+//            }
+            run1();
         }
 
     }
@@ -83,7 +83,8 @@ public class AutonomousRedBack extends LinearOpMode {
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        Arm.init(motor);
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }
     public void initEgnitionSystem() {

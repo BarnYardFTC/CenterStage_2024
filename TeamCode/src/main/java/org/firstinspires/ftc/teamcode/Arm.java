@@ -9,58 +9,92 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
 
-    static private DcMotor arm;
+    static private DcMotor arm1;
+    static private DcMotor arm2;
+
     static private final double POWER = 1;
+
     static private final int SPEED = 60;
+    static private final int SPEED2 = -SPEED;
+
     static private final int MAXIMAL_POSITION = 900;
     static private final int MINIMAL_HOLD_POSITION = 20;
     static private boolean got_position_to_hold = false;
-    static private int target_position = 0;
 
-    public static void init(DcMotor motor) {
-        arm = motor;
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    static private int target_position = 0;
+    static private int target_position2 = 0;
+
+    public static void init(DcMotor motor1, DcMotor motor2) {
+        arm1 = motor1;
+        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        arm2 = motor2;
+        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public static void moveUp() {
-        arm.setPower(POWER);
         got_position_to_hold = false;
-        target_position = arm.getCurrentPosition() + SPEED;
-        arm.setTargetPosition(target_position);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm1.setPower(POWER);
+        target_position = arm1.getCurrentPosition() + SPEED;
+        arm1.setTargetPosition(target_position);
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm2.setPower(POWER);
+        target_position2 = arm2.getCurrentPosition() + SPEED2;
+        arm2.setTargetPosition(target_position2);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
-        arm.setPower(POWER);
         got_position_to_hold = false;
-        target_position = arm.getCurrentPosition() - SPEED;
-        arm.setTargetPosition(target_position);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm1.setPower(POWER);
+        target_position = arm1.getCurrentPosition() - SPEED;
+        arm1.setTargetPosition(target_position);
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm2.setPower(POWER);
+        target_position2 = arm2.getCurrentPosition() - SPEED2;
+        arm2.setTargetPosition(target_position2);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
-        arm.setPower(POWER);
         if (!got_position_to_hold) {
             got_position_to_hold = true;
         }
-        arm.setTargetPosition(target_position);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm1.setPower(POWER);
+        arm1.setTargetPosition(target_position);
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm2.setPower(POWER);
+        arm2.setTargetPosition(target_position2);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static boolean passedMaximalPosition() {
-        return arm.getCurrentPosition() > MAXIMAL_POSITION;
+        return arm1.getCurrentPosition() > MAXIMAL_POSITION;
     }
     public static boolean passedMinimalHoldPosition() {
-        return arm.getCurrentPosition() < MINIMAL_HOLD_POSITION;
+        return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
     public static void returnToMaximalPosition() {
-        target_position = arm.getCurrentPosition() - SPEED;
-        arm.setTargetPosition(target_position);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        target_position = arm1.getCurrentPosition() - SPEED;
+        target_position2 = arm2.getCurrentPosition() - SPEED2;
+
+        arm1.setTargetPosition(target_position);
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        arm2.setTargetPosition(target_position2);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void stopMoving() {
-        arm.setPower(0);
+        arm1.setPower(0);
+        arm2.setPower(0);
     }
 
     public static void addDataToTelemetry(Telemetry telemetry) {
-        telemetry.addData("Arm position: ", arm.getCurrentPosition());
+        telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
     }
 
 
