@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Claws {
 
     static Servo left_claw;
-    static Servo right_claw;
+    static Servo right_claw; //
 
     static final double LEFT_CLAW_CLOSED_POSITION = 0.3;
     static final double LEFT_CLAW_OPENED_POSITION = 0.6;
