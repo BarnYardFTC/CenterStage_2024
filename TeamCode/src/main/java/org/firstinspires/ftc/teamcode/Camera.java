@@ -19,9 +19,15 @@ public class Camera {
         builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         builder.setCameraResolution(new Size(1280, 720));
         builder.enableLiveView(true);
-        builder.addProcessor(new PixelDetector(opMode));
+        builder.addProcessor(pixel_detector);
 
         camera = builder.build();
+    }
+    public static int getLeftRegion_avg() {
+        return pixel_detector.getLeftRegion_avg();
+    }
+    public static int getRightRegion_avg() {
+        return pixel_detector.getRightRegion_avg();
     }
     public static void close() {
         camera.setProcessorEnabled(pixel_detector,false);

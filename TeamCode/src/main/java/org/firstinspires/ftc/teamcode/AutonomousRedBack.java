@@ -16,6 +16,23 @@ public class AutonomousRedBack extends LinearOpMode {
 
     private int phase = 1;
 
+    public void run1() {
+
+        if (phase == 1) {
+            EgnitionSystem.setVerticalPower(0.5);
+            if (EgnitionSystem.getFlEncoderPosition() >= PHASE_ONE_ENCODER_FINISH_POSITION) {
+                phase++;
+            }
+        }
+        else if (phase == 2) {
+
+        }
+
+
+        EgnitionSystem.updateVariablesAutonomous();
+        EgnitionSystem.runAutonomous();
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -25,9 +42,16 @@ public class AutonomousRedBack extends LinearOpMode {
         initEgnitionSystem();
         initCamera();
 
+        Wrist.moveDown();
+
+        Claws.closeLeftClaw();
+        Claws.closeRightClaw();
+
         while (opModeInInit()) {
             spike_position = PixelDetector.getSpike_position();
             telemetry.addData("Spike position: ", spike_position);
+            telemetry.addData("Right region avg", Camera.getRightRegion_avg());
+            telemetry.addData("Left region avg", Camera.getLeftRegion_avg());
             telemetry.update();
         }
         Camera.close();
@@ -35,15 +59,15 @@ public class AutonomousRedBack extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-//            if (spike_position == 0) {
-//                run0();
-//            }
-//            else if (spike_position == 1) {
-//                run1();
-//            }
-//            else {
-//                run2();
-//            }
+            if (spike_position == 0) {
+                run0();
+            }
+            else if (spike_position == 1) {
+                run1();
+            }
+            else {
+                run2();
+            }
         }
 
     }
@@ -78,19 +102,6 @@ public class AutonomousRedBack extends LinearOpMode {
 
     public void run0() {
 
-    }
-    public void run1() {
-
-        if (phase == 1) {
-            EgnitionSystem.setVerticalPower(0.5);
-            if (EgnitionSystem.getFlEncoderPosition() >= PHASE_ONE_ENCODER_FINISH_POSITION) {
-                phase++;
-            }
-        }
-
-
-        EgnitionSystem.updateVariablesAutonomous();
-        EgnitionSystem.runAutonomous();
     }
     public void run2() {
 

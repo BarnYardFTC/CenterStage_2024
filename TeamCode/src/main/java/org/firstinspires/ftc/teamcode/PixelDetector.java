@@ -20,28 +20,30 @@ public class PixelDetector implements VisionProcessor {
     OpMode OpMode;
     Mat leftRegion = new Mat();
     Mat rightRegion = new Mat();
-    int leftRegion_avg, rightRegion_avg;
+    int leftRegion_avg = -1, rightRegion_avg = -1;
     Mat YCrCb = new Mat();
     Mat Y = new Mat();
 
     int frameWidth;
     int frameHeight;
 
-    private final int LEFT_REGION_START_X = 155;
+    private final int LEFT_REGION_START_X = 105;
     private final int LEFT_REGION_START_Y = 200;
 
-    // ToDo: Find the correct values
-
-    private final int RIGHT_REGION_START_X = 1030;
+    private final int RIGHT_REGION_START_X = 980;
     private final int RIGHT_REGION_START_Y = 200;
 
-    private final int REGIONS_WIDTH = 100;
+    private final int REGIONS_WIDTH = 200;
     private final int REGIONS_HEIGHT = 150;
 
-    // ToDo: Find the correct values
+    private final int BRIGHTNESS_DIFFERENCE = 10; // ToDo: Find the correct value
 
-    private final int BRIGHTNESS_DIFFERENCE = 100; // ToDo: Find the correct value
-
+    public int getLeftRegion_avg() {
+        return this.leftRegion_avg;
+    }
+    public int getRightRegion_avg() {
+        return this.rightRegion_avg;
+    }
     public PixelDetector(OpMode opMode){
         this.OpMode = opMode;
     }
@@ -54,20 +56,19 @@ public class PixelDetector implements VisionProcessor {
         frameWidth = frame.width();
         frameHeight = frame.height();
 
+        Imgproc.cvtColor(frame, YCrCb, Imgproc.COLOR_RGB2YCrCb);
+        Core.extractChannel(YCrCb, Y, 0);
+
+
+
         Imgproc.rectangle(frame, new Point(LEFT_REGION_START_X,LEFT_REGION_START_Y), new Point(LEFT_REGION_START_X+REGIONS_WIDTH,
                 LEFT_REGION_START_Y+REGIONS_HEIGHT), new Scalar(255, 0, 0)); // left
 
         Imgproc.rectangle(frame, new Point(RIGHT_REGION_START_X, RIGHT_REGION_START_Y),new Point(RIGHT_REGION_START_X+REGIONS_WIDTH
                 , RIGHT_REGION_START_Y +REGIONS_HEIGHT), new Scalar(255, 0, 0)); // right
 
-
-
-        leftRegion = frame.submat(new Rect(LEFT_REGION_START_X, LEFT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
-        rightRegion = frame.submat(new Rect(RIGHT_REGION_START_X, RIGHT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
-
-        Imgproc.cvtColor(frame, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-
-        Core.extractChannel(YCrCb, Y, 2);
+        leftRegion = Y.submat(new Rect(LEFT_REGION_START_X, LEFT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
+        rightRegion = Y.submat(new Rect(RIGHT_REGION_START_X, RIGHT_REGION_START_Y, REGIONS_WIDTH, REGIONS_HEIGHT));
 
         leftRegion_avg = (int) Core.mean(leftRegion).val[0];
         rightRegion_avg = (int) Core.mean(rightRegion).val[0];

@@ -11,6 +11,12 @@ public class Wrist {
     public static void init(Servo servo) {
         wrist = servo;
     }
+    public static void moveUp() {
+        wrist.setPosition(WRIST_UP_POSITION);
+    }
+    public static void moveDown() {
+        wrist.setPosition(WRIST_DOWN_POSITION);
+    }
     public static void moveToStartPosition() {
         wrist.setPosition(WRIST_DOWN_POSITION);
     }

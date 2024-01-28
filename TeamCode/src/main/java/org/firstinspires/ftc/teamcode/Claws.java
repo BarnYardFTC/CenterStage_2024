@@ -23,6 +23,18 @@ public class Claws {
         left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
         right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
     }
+    public static void closeRightClaw() {
+        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
+    }
+    public static void openRightClaw() {
+        right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
+    }
+    public static void closeLeftClaw() {
+        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
+    }
+    public static void openLeftClaw() {
+        left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
+    }
     public static void runClawsTeleop(boolean left_bumper_pressed, boolean right_bumper_pressed) {
         if (right_bumper_pressed && !was_right_bumper_pressed) {
             if (Math.abs(right_claw.getPosition() - RIGHT_CLAW_CLOSED_POSITION)
