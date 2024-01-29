@@ -12,24 +12,66 @@ public class AutonomousRedBack extends LinearOpMode {
 
     private int spike_position = -1;
 
-    private final int PHASE_ONE_ENCODER_FINISH_POSITION = 500;
+    private final int PHASE_1_ENCODER_FINISH_POSITION = 1200;
+    private final int PHASE_3_ENCODER_FINISH_POSITION = -300;
+    private final int PHASE_4_WHEEL_ENCODER_FINISH_POSITION2 = 800;
+    private final int PHASE_4_WHEEL_ENCODER_FINISH_POSITION1 = 500;
 
     private int phase = 1;
+
+    private boolean phase4_part1_completed = false;
+    private boolean phase4_part2_completed = false;
+    private boolean phase4_part3_completed = false;
 
     public void run1() {
 
         if (phase == 1) {
             EgnitionSystem.setVerticalPower(0.5);
-            if (EgnitionSystem.getFlEncoderPosition() >= PHASE_ONE_ENCODER_FINISH_POSITION) {
+            if (EgnitionSystem.getFlEncoderPosition() >= PHASE_1_ENCODER_FINISH_POSITION) {
                 phase ++;
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.resetEncoders();
             }
-            telemetry.addLine(String.valueOf(EgnitionSystem.getFlEncoderPosition()));
-            telemetry.update();
         }
+        else if (phase == 2) {
+            Claws.openRightClaw();
+            sleep(2000);
+            phase++;
+        }
+        else if (phase == 3) {
+            EgnitionSystem.setVerticalPower(-0.5);
+            if (EgnitionSystem.getFlEncoderPosition() <= PHASE_3_ENCODER_FINISH_POSITION) {
+                phase++;
+                EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.resetEncoders();
+            }
+        }
+//        else if (phase == 4) {
+//
+//            if (!phase4_part1_completed) {
+//                EgnitionSystem.setHorizontalPower(0.5);
+//                if (EgnitionSystem.getFlEncoderPosition() >= PHASE_4_WHEEL_ENCODER_FINISH_POSITION2) {
+//                    phase4_part1_completed = true;
+//                    EgnitionSystem.setHorizontalPower(0);
+//                }
+//            }
+//            if (!phase4_part2_completed) {
+//                EgnitionSystem.setRotPower(0.5);
+//                if (EgnitionSystem.getFlEncoderPosition() >= PHASE_4_WHEEL_ENCODER_FINISH_POSITION1) {
+//                    phase4_part2_completed = true;
+//                    EgnitionSystem.setRotPower(0);
+//                }
+//            }
+//
+//            if (phase4_part1_completed && phase4_part2_completed) {
+//                EgnitionSystem.resetEncoders();
+//                phase++;
+//            }
+//        }
 
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();
+        telemetry.addLine(String.valueOf(EgnitionSystem.getFlEncoderPosition()));
     }
 
     @Override
@@ -68,6 +110,7 @@ public class AutonomousRedBack extends LinearOpMode {
 //                run2();
 //            }
             run1();
+            telemetry.update();
         }
 
     }
