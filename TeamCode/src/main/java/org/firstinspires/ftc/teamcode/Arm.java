@@ -14,7 +14,7 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final int SPEED = 60;
+    static private final int SPEED = 30;
     static private final int SPEED2 = -SPEED;
 
     static private final int MAXIMAL_POSITION = 900;
@@ -23,6 +23,9 @@ public class Arm {
 
     static private int target_position = 0;
     static private int target_position2 = 0;
+
+    static private int hold_position1 = 0;
+    static private int hold_position2 = 0;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
@@ -62,14 +65,16 @@ public class Arm {
     public static void brake(){
         if (!got_position_to_hold) {
             got_position_to_hold = true;
+            hold_position1 = arm1.getCurrentPosition();
+            hold_position2 = arm2.getCurrentPosition();
         }
 
         arm1.setPower(POWER);
-        arm1.setTargetPosition(target_position);
+        arm1.setTargetPosition(hold_position1);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
-        arm2.setTargetPosition(target_position2);
+        arm2.setTargetPosition(hold_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static boolean passedMaximalPosition() {
@@ -95,6 +100,12 @@ public class Arm {
 
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
+    }
+    public static int getArm1Position() {
+        return arm1.getCurrentPosition();
+    }
+    public static int getArm2Position() {
+        return arm2.getCurrentPosition();
     }
 
 
