@@ -4,16 +4,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claws {
 
-    static Servo left_claw;
-    static Servo right_claw;
+    private static Servo left_claw;
+    private static Servo right_claw;
 
     static final double LEFT_CLAW_CLOSED_POSITION = 0.6;
     static final double LEFT_CLAW_OPENED_POSITION = 0.3;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0;
     static final double RIGHT_CLAW_OPENED_POSITION = 0.3;
 
-    static boolean was_right_bumper_pressed = false;
-    static boolean was_left_bumper_pressed = false;
+    private static boolean was_right_bumper_pressed = false;
+    private static boolean was_left_bumper_pressed = false;
     
     public static void init(Servo left_claw, Servo right_claw) {
         Claws.left_claw = left_claw;
@@ -63,5 +63,11 @@ public class Claws {
         if (!left_bumper_pressed) {
             was_left_bumper_pressed = false;
         }
+    }
+    public static double getLeftClawPosition() {
+        return left_claw.getPosition();
+    }
+    public static double getRightClawPosition() {
+        return right_claw.getPosition();
     }
 }

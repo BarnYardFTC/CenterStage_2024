@@ -14,11 +14,11 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final int SPEED = 30;
+    static private final int SPEED = 80;
     static private final int SPEED2 = -SPEED;
 
     static private final int MAXIMAL_POSITION = 900;
-    static private final int MINIMAL_HOLD_POSITION = 20;
+    static private final int MINIMAL_HOLD_POSITION = 200;
     static private boolean got_position_to_hold = false;
 
     static private int target_position = 0;
