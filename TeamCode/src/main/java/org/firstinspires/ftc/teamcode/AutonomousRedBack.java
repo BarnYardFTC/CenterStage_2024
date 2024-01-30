@@ -111,10 +111,43 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (run2.phase == 3) {
-            EgnitionSystem.setHorizontalPower(1);
-            if (EgnitionSystem.getFlEncoderPosition() >= run2.PHASE_3_COMPLETED_POSITION) {
-                EgnitionSystem.setHorizontalPower(0);
+            if (!run2.phase4_wheel_completed) {
+                EgnitionSystem.setHorizontalPower(1);
+                if (EgnitionSystem.getFlEncoderPosition() >= run2.PHASE_3_WHEEL_COMPLETED_POSITION) {
+                    EgnitionSystem.setHorizontalPower(0);
+                    run2.phase4_wheel_completed = true;
+                }
+            }
+            if (!run2.phase4_arm_completed) {
+                Arm.moveUp();
+                run2.arm_moving = true;
+                if (Arm.getArm1Position() >= run2.PHASE_3_ARM_COMPLETED_POSITION) {
+                    run2.phase4_arm_completed = true;
+                    Arm.brake();
+                    run2.arm_moving = false;
+                }
+            }
+            if (run2.phase4_wheel_completed && run2.phase4_arm_completed) {
+                EgnitionSystem.resetEncoders();
                 run2.phase++;
+                sleep(1000);
+            }
+        }
+        else if (run2.phase == 4) {
+            Claws.openLeftClaw();
+            if (Claws.getLeftClawPosition() <= Claws.LEFT_CLAW_OPENED_POSITION) {
+                run2.phase++;
+            }
+        }
+        else if (run2.phase == 5) {
+            Arm.moveDown();
+            run2.arm_moving = true;
+            if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
+                Arm.stopMoving();
+                run2.arm_moving = false;
+                run2.phase++;
+
+                Wrist.moveDown();
             }
         }
         if (!run2.arm_moving) {
@@ -202,7 +235,7 @@ public class AutonomousRedBack extends LinearOpMode {
         else if (run1.phase == 6) {
             Arm.moveDown();
             run1.arm_moving = true;
-            if (Arm.getArm1Position() <= 200) {
+            if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
                 Arm.stopMoving();
                 run1.arm_moving = false;
                 run1.phase++;
@@ -221,10 +254,46 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();
-        telemetry.addLine(String.valueOf(EgnitionSystem.getFlEncoderPosition()));
-        telemetry.addData("Arm (motor 1) Position", Arm.getArm1Position());
+        telemetry.addData("Fl wheel position: ",String.valueOf(EgnitionSystem.getFlEncoderPosition()));
+        telemetry.addData("Arm (motor 1) Position: ", Arm.getArm1Position());
     }
     public void run2() {
 
+        if (run3.phase == 1) {
+            if (!run3.phase1_part1_complete) {
+                EgnitionSystem.setVerticalPower(1);
+                if (EgnitionSystem.getFlEncoderPosition() >= run3.PHASE1_PART1_COMPLETE_POSITION) {
+                    EgnitionSystem.setVerticalPower(0);
+                    run3.phase1_part1_complete = true;
+                }
+            }
+            if (!run3.phase1_part2_complete) {
+                EgnitionSystem.setRotPower(1);
+                if (EgnitionSystem.getFlEncoderPosition() >= run3.PHASE1_PART2_COMPLETE_POSITION) {
+                    EgnitionSystem.setRotPower(0);
+                    run3.phase1_part2_complete = true;
+                }
+            }
+            if (run3.phase1_part1_complete && run3.phase1_part2_complete) {
+                EgnitionSystem.resetEncoders();
+                run3.phase ++;
+            }
+        }
+        else if (run3.phase == 2) {
+
+        }
+
+        if (!run3.arm_moving) {
+            if (Arm.passedMinimalHoldPosition()) {
+                Arm.stopMoving();
+            }
+            else {
+                Arm.brake();
+            }
+        }
+        EgnitionSystem.updateVariablesAutonomous();
+        EgnitionSystem.runAutonomous();
+        telemetry.addData("Fl wheel position: ",String.valueOf(EgnitionSystem.getFlEncoderPosition()));
+        telemetry.addData("Arm (motor 1) Position: ", Arm.getArm1Position());
     }
 }

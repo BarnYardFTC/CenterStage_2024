@@ -14,15 +14,16 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final int SPEED = 80;
-    static private final int SPEED2 = -SPEED;
+    static private final double SPEED = 80;
 
-    static private final int MAXIMAL_POSITION = 900;
-    static private final int MINIMAL_HOLD_POSITION = 200;
+    static private final double SPEED2 = -1 * SPEED;
+
+    static public final int MAXIMAL_POSITION = 900;
+    static public final int MINIMAL_HOLD_POSITION = 200;
     static private boolean got_position_to_hold = false;
 
-    static private int target_position = 0;
-    static private int target_position2 = 0;
+    static private double target_position = 0;
+    static private double target_position2 = 0;
 
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
@@ -41,12 +42,12 @@ public class Arm {
 
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() + SPEED;
-        arm1.setTargetPosition(target_position);
+        arm1.setTargetPosition((int) target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() + SPEED2;
-        arm2.setTargetPosition(target_position2);
+        arm2.setTargetPosition((int) target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
@@ -54,12 +55,12 @@ public class Arm {
 
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() - SPEED;
-        arm1.setTargetPosition(target_position);
+        arm1.setTargetPosition((int) target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() - SPEED2;
-        arm2.setTargetPosition(target_position2);
+        arm2.setTargetPosition((int) target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
@@ -87,10 +88,10 @@ public class Arm {
         target_position = arm1.getCurrentPosition() - SPEED;
         target_position2 = arm2.getCurrentPosition() - SPEED2;
 
-        arm1.setTargetPosition(target_position);
+        arm1.setTargetPosition((int) target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        arm2.setTargetPosition(target_position2);
+        arm2.setTargetPosition((int) target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void stopMoving() {
@@ -100,6 +101,7 @@ public class Arm {
 
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
+        telemetry.addData("arm2 position: ", arm2.getCurrentPosition());
     }
     public static int getArm1Position() {
         return arm1.getCurrentPosition();

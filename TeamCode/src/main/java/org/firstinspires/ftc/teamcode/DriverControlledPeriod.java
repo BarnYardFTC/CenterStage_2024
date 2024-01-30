@@ -13,6 +13,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
+    Servo servo;
+    private double LAUNCH_POSITION = 0;
+    private double HOLD_POSITION = 0.5;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -21,8 +25,12 @@ public class DriverControlledPeriod extends LinearOpMode {
         initWrist();
         initClaws();
 
+        servo = hardwareMap.get(Servo.class, "drone");
+        servo.setPosition(HOLD_POSITION);
+
         telemetry.update();
         waitForStart();
+        boolean wasXPressed = false;
 
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
@@ -33,6 +41,19 @@ public class DriverControlledPeriod extends LinearOpMode {
             runEgnitionSystem();
             runWrist();
             runClaws();
+
+            if (gamepad1.x && !wasXPressed) {
+                if (servo.getPosition() == HOLD_POSITION) {
+                    servo.setPosition(LAUNCH_POSITION);
+                }
+                else {
+                    servo.setPosition(HOLD_POSITION);
+                }
+                wasXPressed = true;
+            }
+            if (!gamepad1.x) {
+                wasXPressed = false;
+            }
 
             telemetry.update();
         }
@@ -101,4 +122,5 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
         EgnitionSystem.runTeleop();
     }
+
 }
