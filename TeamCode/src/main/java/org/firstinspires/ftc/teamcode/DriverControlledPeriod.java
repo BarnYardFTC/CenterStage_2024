@@ -87,24 +87,19 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
         if (gamepad1.dpad_up) {
-            if (Arm.passedMaximalPosition()) {
-                Arm.returnToMaximalPosition();
-            } else {
-                Arm.moveUp();
-            }
+            Arm.moveUp();
         } else if (gamepad1.dpad_down) {
             if (Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();
-            } else {
+            }
+            else {
                 Arm.moveDown();
             }
         } else {
             if (Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();
-            } else if (Arm.passedMaximalPosition()) {
-                Arm.returnToMaximalPosition();
             }
-            else{
+            else {
                 Arm.brake();
             }
         }

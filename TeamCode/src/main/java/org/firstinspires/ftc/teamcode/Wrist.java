@@ -5,8 +5,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Wrist {
 
     static Servo wrist;
-    static final double WRIST_UP_POSITION = 0.7;
-    static final double WRIST_DOWN_POSITION = 0.15;
+    static final double WRIST_UP_POSITION = 0.5;
+    static final double WRIST_DOWN_POSITION = 0.1
+
+            ;
     static boolean was_Y_pressed = false;
     public static void init(Servo servo) {
         wrist = servo;

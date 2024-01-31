@@ -14,16 +14,15 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final double SPEED = -80;
+    static private final int SPEED = -150;
 
-    static private final double SPEED2 = -1 * SPEED;
+    static private final int SPEED2 = -SPEED;
 
-    static public final int MAXIMAL_POSITION = 900;
-    static public final int MINIMAL_HOLD_POSITION = 200;
+    static public final int MINIMAL_HOLD_POSITION = -300;
     static private boolean got_position_to_hold = false;
 
-    static private double target_position = 0;
-    static private double target_position2 = 0;
+    static private int target_position = 0;
+    static private int target_position2 = 0;
 
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
@@ -42,12 +41,12 @@ public class Arm {
 
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() + SPEED;
-        arm1.setTargetPosition((int) target_position);
+        arm1.setTargetPosition(target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() + SPEED2;
-        arm2.setTargetPosition((int) target_position2);
+        arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
@@ -55,12 +54,12 @@ public class Arm {
 
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() - SPEED;
-        arm1.setTargetPosition((int) target_position);
+        arm1.setTargetPosition(target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() - SPEED2;
-        arm2.setTargetPosition((int) target_position2);
+        arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
@@ -70,29 +69,16 @@ public class Arm {
             hold_position2 = arm2.getCurrentPosition();
         }
 
-        arm1.setPower(POWER);
-        arm1.setTargetPosition(hold_position1);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        arm1.setPower(POWER);
+//        arm1.setTargetPosition(hold_position1);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         arm2.setTargetPosition(hold_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public static boolean passedMaximalPosition() {
-        return arm1.getCurrentPosition() > MAXIMAL_POSITION;
-    }
     public static boolean passedMinimalHoldPosition() {
-        return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
-    }
-    public static void returnToMaximalPosition() {
-        target_position = arm1.getCurrentPosition() - SPEED;
-        target_position2 = arm2.getCurrentPosition() - SPEED2;
-
-        arm1.setTargetPosition((int) target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setTargetPosition((int) target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        return arm1.getCurrentPosition() > MINIMAL_HOLD_POSITION;
     }
     public static void stopMoving() {
         arm1.setPower(0);

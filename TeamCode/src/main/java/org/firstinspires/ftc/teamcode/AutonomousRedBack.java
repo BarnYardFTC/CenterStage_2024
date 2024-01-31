@@ -279,8 +279,41 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (run3.phase == 2) {
-
+            Claws.openRightClaw();
+            if (Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_OPENED_POSITION) {
+                run3.phase++;
+            }
         }
+        else if (run3.phase == 3) {
+            Wrist.moveUp();
+            if (Wrist.getPosition() >= Wrist.WRIST_UP_POSITION) {
+                run3.phase++;
+            }
+        }
+        else if (run3.phase == 4) {
+            EgnitionSystem.setVerticalPower(1);
+            if (EgnitionSystem.getFlEncoderPosition() >= run3.PHASE4_COMPLETE_POSITION) {
+                EgnitionSystem.setVerticalPower(0);
+                run3.phase ++;
+            }
+        }
+        else if (run3.phase == 5) {
+            if (!run3.phase5_part1_completed) {
+                EgnitionSystem.setRotPower(-1);
+                if (EgnitionSystem.getFlEncoderPosition() >= run3.PHASE5_PART1_COMPLETE_POSITION) {
+                    EgnitionSystem.setRotPower(0);
+                    run3.phase5_part1_completed = true;
+                }
+            }
+            if (!run3.phase5_part2_completed) {
+                Arm.moveUp();
+                if (Arm.getArm1Position() <= run3.PHASE5_PART2_COMPLETED_POSITION) {
+                    Arm.brake();
+                    run3.phase5_part2_completed = true;
+                }
+            }
+        }
+
 
         if (!run3.arm_moving) {
             if (Arm.passedMinimalHoldPosition()) {
@@ -293,6 +326,7 @@ public class AutonomousRedBack extends LinearOpMode {
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();
         telemetry.addData("Fl wheel position: ",String.valueOf(EgnitionSystem.getFlEncoderPosition()));
-        telemetry.addData("Arm (motor 1) Position: ", Arm.getArm1Position());
+        Arm.addDataToTelemetry(telemetry);
+
     }
 }
