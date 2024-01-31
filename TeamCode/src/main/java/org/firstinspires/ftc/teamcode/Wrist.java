@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Wrist {
 
     static Servo wrist;
-    static final double WRIST_UP_POSITION = 0.45;
-    static final double WRIST_DOWN_POSITION = 0.1;
+    static final double WRIST_UP_POSITION = 0.7;
+    static final double WRIST_DOWN_POSITION = 0.15;
     static boolean was_Y_pressed = false;
     public static void init(Servo servo) {
         wrist = servo;
@@ -19,6 +19,12 @@ public class Wrist {
     }
     public static void moveToStartPosition() {
         wrist.setPosition(WRIST_DOWN_POSITION);
+    }
+    public static void setPosition(double position) {
+        wrist.setPosition(position);
+    }
+    public static double getPosition() {
+        return wrist.getPosition();
     }
     public static void runWrist(boolean Y_pressed){
         if (Y_pressed && !was_Y_pressed) {

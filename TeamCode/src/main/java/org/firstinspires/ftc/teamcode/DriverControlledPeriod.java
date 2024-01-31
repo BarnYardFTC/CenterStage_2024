@@ -14,8 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class DriverControlledPeriod extends LinearOpMode {
 
     Servo servo;
-    private double LAUNCH_POSITION = 0;
-    private double HOLD_POSITION = 0.5;
+    private double LAUNCH_POSITION = 0.5;
+    private double HOLD_POSITION = 1;
 
     @Override
     public void runOpMode() throws InterruptedException {

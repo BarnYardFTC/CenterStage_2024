@@ -58,7 +58,6 @@ public class AutonomousRedBack extends LinearOpMode {
         Claws.init(left_claw, right_claw);
     }
     public void initWrist() {
-        telemetry.addLine("Press Y to move the wrist Up & Down");
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
     }

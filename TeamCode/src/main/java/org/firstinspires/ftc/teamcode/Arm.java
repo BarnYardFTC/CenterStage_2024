@@ -14,7 +14,7 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final double SPEED = 80;
+    static private final double SPEED = -80;
 
     static private final double SPEED2 = -1 * SPEED;
 

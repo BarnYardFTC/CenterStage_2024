@@ -2,50 +2,36 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
 
-@Autonomous(name = "Hang test")
+@TeleOp(name = "Wrist test")
 public class Test extends LinearOpMode {
 
-    int TIME = 10000;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
-        Arm.init(motor, motor2);
-        Wrist.moveUp();
+        Servo servo = hardwareMap.get(Servo.class, "wrist");
+        Wrist.init(servo);
 
         waitForStart();
-
-        while (opModeIsActive() && TIME > 0) {
-            Arm.moveUp();
-            TIME --;
-            telemetry.addLine(String.valueOf(TIME));
+        while (opModeIsActive()) {
+            if (gamepad1.y && servo.getPosition() < 1) {
+                servo.setPosition(servo.getPosition() + 0.05);
+                sleep(1000);
+            }
+            if (gamepad1.a && servo.getPosition() > 0) {
+                servo.setPosition(servo.getPosition() - 0.05);
+                sleep(1000);
+            }
+            telemetry.addData("Wrist position: ", Wrist.getPosition());
             telemetry.update();
         }
-
-        TIME = 10000;
-        Arm.brake();
-        while (opModeIsActive() && TIME > 0) {
-            Arm.brake();
-            TIME --;
-            telemetry.addLine(String.valueOf(TIME));
-            telemetry.update();
-        }
-        TIME = 10000;
-        Arm.moveDown();
-        while (opModeIsActive() && TIME > 0) {
-            Arm.moveDown();
-            TIME --;
-            telemetry.addLine(String.valueOf(TIME));
-            telemetry.update();
-        }
-
     }
 }
