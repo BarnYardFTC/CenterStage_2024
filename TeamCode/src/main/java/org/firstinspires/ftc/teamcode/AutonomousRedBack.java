@@ -206,7 +206,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 }
             }
             if (!run1.phase4_part4_completed) {
-                EgnitionSystem.setVerticalPower(0.2);
+                EgnitionSystem.setVerticalPower(0.3);
                 if (EgnitionSystem.getFlEncoderPosition() <= run1.PHASE_4_WHEEL_ENCODER_FINISH_POSITION3) {
                     run1.phase4_part4_completed = true;
                     EgnitionSystem.setVerticalPower(0);
