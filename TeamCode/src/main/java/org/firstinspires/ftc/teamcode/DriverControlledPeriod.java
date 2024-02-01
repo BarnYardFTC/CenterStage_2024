@@ -60,22 +60,18 @@ public class DriverControlledPeriod extends LinearOpMode {
 
     }
     public void initClaws(){
-        telemetry.addLine("Press left/right bumpers to move the corresponding claws");
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
     }
     public void runClaws(){
-        telemetry.addLine("Press left/right bumpers to move the corresponding claws");
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
     }
     public void initWrist() {
-        telemetry.addLine("Press Y to move the wrist Up & Down");
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
     }
     public void runWrist() {
-        telemetry.addLine("Press Y to move the wrist Up & Down");
         Wrist.runWrist(gamepad1.y);
     }
     public void initArm() {
@@ -89,14 +85,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.dpad_up) {
             Arm.moveUp();
         } else if (gamepad1.dpad_down) {
-            if (Arm.passedMinimalHoldPosition()) {
-                Arm.stopMoving();
-            }
-            else {
-                Arm.moveDown();
-            }
+            Arm.moveDown();
         } else {
-            if (Arm.passedMinimalHoldPosition()) {
+            if (!Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();
             }
             else {

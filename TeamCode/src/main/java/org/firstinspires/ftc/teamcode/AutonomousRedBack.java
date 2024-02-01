@@ -165,7 +165,7 @@ public class AutonomousRedBack extends LinearOpMode {
     public void run1() {
 
         if (run1.phase == 1) {
-            EgnitionSystem.setVerticalPower(0.5);
+            EgnitionSystem.setVerticalPower(1);
             if (EgnitionSystem.getFlEncoderPosition() >= run1.PHASE_1_ENCODER_FINISH_POSITION) {
                 run1.phase ++;
                 EgnitionSystem.setVerticalPower(0);
@@ -173,30 +173,24 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (run1.phase == 2) {
-            Claws.openRightClaw();
+            Claws.openLeftClaw();
             run1.phase++;
         }
         else if (run1.phase == 3) {
-            EgnitionSystem.setVerticalPower(-0.5);
-            if (EgnitionSystem.getFlEncoderPosition() <= run1.PHASE_3_ENCODER_FINISH_POSITION) {
-                run1.phase++;
-                EgnitionSystem.setVerticalPower(0);
-                EgnitionSystem.resetEncoders();
-            }
+            Wrist.moveUp();
+            run1.phase++;
         }
         else if (run1.phase == 4) {
 
-            Wrist.moveUp();
-
             if (!run1.phase4_part1_completed) {
-                EgnitionSystem.setHorizontalPower(0.5);
+                EgnitionSystem.setHorizontalPower(1);
                 if (EgnitionSystem.getFlEncoderPosition() <= run1.PHASE_4_WHEEL_ENCODER_FINISH_POSITION2) {
                     run1.phase4_part1_completed = true;
                     EgnitionSystem.setHorizontalPower(0);
                 }
             }
             if (!run1.phase4_part2_completed) {
-                EgnitionSystem.setRotPower(-0.5);
+                EgnitionSystem.setRotPower(-1);
                 if (EgnitionSystem.getFlEncoderPosition() <= run1.PHASE_4_WHEEL_ENCODER_FINISH_POSITION1) {
                     run1.phase4_part2_completed = true;
                     EgnitionSystem.setRotPower(0);
@@ -225,26 +219,26 @@ public class AutonomousRedBack extends LinearOpMode {
                 sleep(1000);
             }
         }
-        else if (run1.phase == 5) {
-            Claws.openLeftClaw();
-            if (Claws.getLeftClawPosition() <= Claws.LEFT_CLAW_OPENED_POSITION) {
-                run1.phase ++;
-            }
-        }
-        else if (run1.phase == 6) {
-            Arm.moveDown();
-            run1.arm_moving = true;
-            if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
-                Arm.stopMoving();
-                run1.arm_moving = false;
-                run1.phase++;
-
-                Wrist.moveDown();
-            }
-        }
-
+//        else if (run1.phase == 5) {
+//            Claws.openLeftClaw();
+//            if (Claws.getLeftClawPosition() <= Claws.LEFT_CLAW_OPENED_POSITION) {
+//                run1.phase ++;
+//            }
+//        }
+//        else if (run1.phase == 6) {
+//            Arm.moveDown();
+//            run1.arm_moving = true;
+//            if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
+//                Arm.stopMoving();
+//                run1.arm_moving = false;
+//                run1.phase++;
+//
+//                Wrist.moveDown();
+//            }
+//        }
+//
         if (!run1.arm_moving) {
-            if (Arm.passedMinimalHoldPosition()) {
+            if (!Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();
             }
             else {
