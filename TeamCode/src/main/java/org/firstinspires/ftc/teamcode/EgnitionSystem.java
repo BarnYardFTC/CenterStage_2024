@@ -28,7 +28,7 @@ public class EgnitionSystem {
     static private double adjustedLy = 0;
     static private double power = 0;
 
-    static private final double AUTONOMOUS_MOVING_POWER = 0.3;
+    static private final double AUTONOMOUS_MOVING_POWER = 0.4;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {

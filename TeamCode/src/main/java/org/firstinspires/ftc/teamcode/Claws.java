@@ -7,8 +7,8 @@ public class Claws {
     private static Servo left_claw;
     private static Servo right_claw;
 
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.6;
-    static final double LEFT_CLAW_OPENED_POSITION = 0.3;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.3;
+    static final double LEFT_CLAW_OPENED_POSITION = 0         ;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0;
     static final double RIGHT_CLAW_OPENED_POSITION = 0.3;
 
