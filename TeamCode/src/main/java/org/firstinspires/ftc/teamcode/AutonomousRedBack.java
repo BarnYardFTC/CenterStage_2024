@@ -12,6 +12,9 @@ public class AutonomousRedBack extends LinearOpMode {
     private int spike_position = 0;
     private boolean arm_moving = false;
 
+    private int TIME = -1;
+    private boolean got_time = false;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -21,6 +24,8 @@ public class AutonomousRedBack extends LinearOpMode {
         initEgnitionSystem();
 
         Wrist.moveDown();
+
+        setVariables();
 
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
@@ -62,19 +67,26 @@ public class AutonomousRedBack extends LinearOpMode {
             EgnitionSystem.updateVariablesAutonomous();
             EgnitionSystem.runAutonomous();
 
-            telemetry.addData("Fl encoder: ", EgnitionSystem.getFlEncoderPosition());
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+            telemetry.addData("TIME: ", TIME);
             telemetry.update();
         }
 
     }
     public void run0() {
         if (RBrun1.phase == 1) {
-            EgnitionSystem.setVerticalPower(1);
-            if (EgnitionSystem.getFlEncoderPosition() >= RBrun1.PHASE_1_FINISH) {
+            if (!got_time) {
+                TIME = RBrun1.PHASE_1_FINISH;
+                got_time = true;
+            }
+            if (TIME > 0) {
+                EgnitionSystem.setVerticalPower(1);
+                TIME --;
+            }
+            else {
+                got_time = false;
                 EgnitionSystem.setVerticalPower(0);
-                EgnitionSystem.resetEncoders();
-                RBrun1.phase++;
+                RBrun1.phase ++;
             }
         }
         else if (RBrun1.phase == 2) {
@@ -82,48 +94,12 @@ public class AutonomousRedBack extends LinearOpMode {
             RBrun1.phase++;
         }
         else if (RBrun1.phase == 3) {
-            Wrist.moveUp();
+            Wrist.setPosition(0.3);
             RBrun1.phase++;
         }
         else if (RBrun1.phase == 4) {
-            if (!RBrun1.PHASE_4_WHEEL_FINISHED) {
-                EgnitionSystem.setRotPower(-0.5);
-                EgnitionSystem.setHorizontalPower(1);
-                if (EgnitionSystem.getFlEncoderPosition() <= RBrun1.PHASE_4_FINISH_WHEEL) {
-                    EgnitionSystem.setHorizontalPower(0);
-                    EgnitionSystem.setRotPower(0);
-                    EgnitionSystem.resetEncoders();
-                    RBrun1.PHASE_4_WHEEL_FINISHED = true;
-                }
-            }
-            if (!RBrun1.PHASE_4_ARM_COMPLETED) {
-                Arm.moveUp();
-                arm_moving = true;
-                if (Arm.getArm1Position() <= RBrun1.PHASE_4_FINISH_ARM) {
-                    arm_moving = false;
-                    RBrun1.PHASE_4_ARM_COMPLETED = true;
-                }
-            }
-            if (RBrun1.PHASE_4_ARM_COMPLETED && RBrun1.PHASE_4_WHEEL_FINISHED) {
-                RBrun1.phase++;
-            }
-        }
-        else if (RBrun1.phase == 5) {
-            Claws.openRightClaw();
-            RBrun1.phase++;
-        }
-        else if (RBrun1.phase == 6) {
-            Arm.moveDown();
-            arm_moving = true;
-            if (!Arm.passedMinimalHoldPosition()) {
-                Arm.stopMoving();
-                arm_moving = false;
-            }
-            RBrun1.phase++;
-        }
 
-
-
+        }
 
     }
     public void run1() {
@@ -159,6 +135,12 @@ public class AutonomousRedBack extends LinearOpMode {
     }
     public void initCamera() {
         Camera.init(this, hardwareMap);
+    }
+
+    public void setVariables() {
+        RBrun1.phase = 1;
+        RBrun1.PHASE_4_WHEEL_FINISHED = false;
+        RBrun1.PHASE_4_ARM_COMPLETED = false;
     }
 
 }
