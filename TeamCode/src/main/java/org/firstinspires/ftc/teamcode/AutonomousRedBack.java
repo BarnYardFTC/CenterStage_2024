@@ -251,23 +251,10 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun1.phase++;
             }
         }
-        else if (RBrun1.phase == 5) { // rotate
+        else if (RBrun1.phase == 5) { // move sideways (toward back board)
+
             if (!got_time) {
                 TIME = RBrun1.PHASE_5_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setRotPower(-1);
-                TIME--;
-            }
-            else {
-                EgnitionSystem.setRotPower(0);
-                RBrun1.phase++;
-            }
-        }
-        else if (RBrun1.phase == 6) { // move sideways (towards back bord)
-            if (!got_time) {
-                TIME = RBrun1.PHASE_6_FINISH;
                 got_time = true;
             }
             if (TIME > 0) {
@@ -277,6 +264,21 @@ public class AutonomousRedBack extends LinearOpMode {
             else {
                 got_time = false;
                 EgnitionSystem.setHorizontalPower(0);
+                RBrun1.phase++;
+            }
+        }
+        else if (RBrun1.phase == 6) { // rotate
+            if (!got_time) {
+                TIME = RBrun1.PHASE_6_FINISH;
+                got_time = true;
+            }
+            if (TIME > 0) {
+                EgnitionSystem.setRotPower(-1);
+                TIME--;
+            }
+            else {
+                got_time = false;
+                EgnitionSystem.setRotPower(0);
                 RBrun1.phase++;
             }
         }
@@ -318,7 +320,7 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun1.phase == 10) { // move the arm down
             if (!got_time) {
-                TIME = RBrun1.PHASE_8_FINISH;
+                TIME = RBrun1.PHASE_10_FINISH;
                 got_time = true;
             }
             if (TIME > 0) {
@@ -417,9 +419,24 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun2.phase ++;
             }
         }
-        else if (RBrun2.phase == 8) { // rotate in 180 degrees
+        else if (RBrun2.phase == 8) { // move a bit backward
             if (!got_time) {
                 TIME = RBrun2.PHASE_8_TIME;
+                got_time = true;
+            }
+            if (TIME > 0) {
+                EgnitionSystem.setVerticalPower(-1);
+                TIME --;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(0);
+                got_time = false;
+                RBrun2.phase ++;
+            }
+        }
+        else if (RBrun2.phase == 9) { // rotate in 180 degrees
+            if (!got_time) {
+                TIME = RBrun2.PHASE_9_TIME;
                 got_time = true;
             }
             if (TIME > 0) {
@@ -432,9 +449,9 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun2.phase ++;
             }
         }
-        else if (RBrun2.phase == 9) { // move Arm up
+        else if (RBrun2.phase == 10) { // move Arm up
             if (!got_time) {
-                TIME = RBrun2.PHASE_9_TIME;
+                TIME = RBrun2.PHASE_10_TIME;
                 got_time = true;
             }
             if (TIME > 0) {
@@ -448,14 +465,14 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun2.phase ++;
             }
         }
-        else if (RBrun2.phase == 10) { // open left claw (let go of the pixel)
+        else if (RBrun2.phase == 11) { // open left claw (let go of the pixel)
             Claws.openLeftClaw();
             RBrun2.phase ++;
             sleep(500);
         }
-        else if (RBrun2.phase == 11) { // move Arm down
+        else if (RBrun2.phase == 12) { // move Arm down
             if (!got_time) {
-                TIME = RBrun2.PHASE_11_TIME;
+                TIME = RBrun2.PHASE_12_TIME;
                 got_time = true;
             }
             if (TIME > 0) {
@@ -500,8 +517,12 @@ public class AutonomousRedBack extends LinearOpMode {
     }
 
     public void setVariables() {
-        RBrun1.phase = 1;
         RBrun0.phase = 1;
+        RBrun1.phase = 1;
+        RBrun2.phase = 1;
+
+        got_time = false;
+        TIME = -1;
     }
 
 }
