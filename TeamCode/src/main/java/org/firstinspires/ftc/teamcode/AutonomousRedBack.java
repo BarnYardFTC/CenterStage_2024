@@ -243,7 +243,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun1.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveUp();
                 arm_moving = true;
             }
         }

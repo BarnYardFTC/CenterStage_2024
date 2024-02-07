@@ -71,7 +71,7 @@ public class EgnitionSystem {
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
         if (gamepad1.right_trigger > 0) {
-            power = 1 - gamepad1.right_trigger;
+            power = (1 - gamepad1.right_trigger + 0.5) / 2;
         }
         else {
             power = 1;
