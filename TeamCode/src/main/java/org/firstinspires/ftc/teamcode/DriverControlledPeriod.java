@@ -102,6 +102,47 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
         }
     }
+    public void loadingMode() {
+        Arm.addDataToTelemetry(telemetry);
+        if (gamepad1.left_trigger > 0) {
+            Arm.loadingModeArm();
+            Claws.loadingModeClaws();
+            Wrist.loadingModeWrist();
+        }
+    }
+    public void unloadingModeMax() {
+        Arm.addDataToTelemetry(telemetry);
+        if (gamepad1.dpad_left) {
+            Arm.unloadingModeMaxArm();
+            Claws.unloadingModeMaxClaws();
+            Wrist.unloadingModeMaxWrist();
+        } else {
+            if (!Arm.passedMinimalHoldPosition()) {
+                Arm.stopMoving();
+            }
+            else {
+                Arm.brake();
+            }
+        }
+    }
+    public void unloadingModeMin() {
+        Arm.addDataToTelemetry(telemetry);
+        if (gamepad1.dpad_right) {
+            Arm.unloadingModeMinArm();
+            Claws.unloadingModeMinClaws();
+            Wrist.unloadingModeMinWrist();
+        } else {
+            if (!Arm.passedMinimalHoldPosition()) {
+                Arm.stopMoving();
+            }
+            else {
+                Arm.brake();
+            }
+        }
+    }
+    public void hangingMode() {
+        Arm.hangingModeArm();
+    }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
         DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");

@@ -41,6 +41,14 @@ public class Wrist {
         if (!Y_pressed) {
             was_Y_pressed = false;
         }
-
+    }
+    public static void loadingModeWrist(){
+        Wrist.setPosition(WRIST_DOWN_POSITION);
+    }
+    public static void unloadingModeMaxWrist(){
+        Wrist.setPosition(WRIST_UP_POSITION);
+    }
+    public static void unloadingModeMinWrist(){
+        Wrist.setPosition(0.3);
     }
 }
