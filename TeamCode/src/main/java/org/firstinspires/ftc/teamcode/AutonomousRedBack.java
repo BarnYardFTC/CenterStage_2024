@@ -12,9 +12,6 @@ public class AutonomousRedBack extends LinearOpMode {
     private int spike_position = 1;
     private boolean arm_moving = false;
 
-    private int TIME = -1;
-    private boolean got_time = false;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -68,70 +65,54 @@ public class AutonomousRedBack extends LinearOpMode {
             EgnitionSystem.runAutonomous();
 
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("TIME: ", TIME);
+            telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
             telemetry.update();
         }
 
     }
     public void run0() {
         if (RBrun0.phase == 1) { // move forward
-            if (!got_time) {
-                TIME = RBrun0.PHASE_1_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_1_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setVerticalPower(0);
-                RBrun0.phase ++;
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (RBrun0.phase == 2) { // move a bit sideways
-            if (!got_time) {
-                TIME = RBrun0.PHASE_2_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_2_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setHorizontalPower(0);
-                RBrun0.phase++;
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
         else if (RBrun0.phase == 3) { // rotate
-            if (!got_time) {
-                TIME = RBrun0.PHASE_3_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setRotPower(-1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_3_POSITION)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setRotPower(0);
-                RBrun0.phase++;
+                EgnitionSystem.setRotPower(-1);
             }
         }
         else if (RBrun0.phase == 4) { // move sideways
-            if (!got_time) {
-                TIME = RBrun0.PHASE_4_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(-1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_4_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setHorizontalPower(0);
-                RBrun0.phase++;
+                EgnitionSystem.setHorizontalPower(-1);
             }
         }
         else if (RBrun0.phase == 5) { // open the right claw
@@ -143,49 +124,35 @@ public class AutonomousRedBack extends LinearOpMode {
             RBrun0.phase++;
         }
         else if (RBrun0.phase == 7) { // move sideways (towards back board)
-            if (!got_time) {
-                TIME = RBrun0.PHASE_7_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_7_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
             }
             else {
-                EgnitionSystem.setHorizontalPower(0);
-                got_time = false;
-                RBrun0.phase ++;
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
         else if (RBrun0.phase == 8) { // move a bit forward
-            if (!got_time) {
-                TIME = RBrun0.PHASE_8_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_8_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase++;
             }
             else {
-                EgnitionSystem.setVerticalPower(0);
-                got_time = false;
-                RBrun0.phase ++;
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (RBrun0.phase == 9) { // move the arm up
-            if (!got_time) {
-                TIME = RBrun0.PHASE_9_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveUp();
-                arm_moving = true;
-                TIME --;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun0.PHASE_9_POSITION)) {
+                arm_moving = false;
+                RBrun0.phase ++;
             }
             else {
-                arm_moving = false;
-                got_time = false;
-                RBrun0.phase ++;
+                Arm.moveUp();
+                arm_moving = true;
             }
         }
         else if (RBrun0.phase == 10) { // open left claw (let go of the pixel)
@@ -194,19 +161,13 @@ public class AutonomousRedBack extends LinearOpMode {
             sleep(500);
         }
         else if (RBrun0.phase == 11) { // move the arm down
-            if (!got_time) {
-                TIME = RBrun0.PHASE_11_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveDown();
-                arm_moving = true;
-                TIME --;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun0.PHASE_11_POSITION)) {
+                arm_moving = false;
+                RBrun0.phase ++;
             }
             else {
-                arm_moving = false;
-                got_time = false;
-                RBrun0.phase ++;
+                Arm.moveDown();
+                arm_moving = true;
             }
         }
 
@@ -214,18 +175,14 @@ public class AutonomousRedBack extends LinearOpMode {
     public void run1() {
         
         if (RBrun1.phase == 1) { // move forward
-            if (!got_time) {
-                TIME = RBrun1.PHASE_1_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_1_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setVerticalPower(0);
-                RBrun1.phase ++;
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (RBrun1.phase == 2) { // open right claw
@@ -237,80 +194,57 @@ public class AutonomousRedBack extends LinearOpMode {
             RBrun1.phase ++;
         }
         else if (RBrun1.phase == 4) { // move backwards
-            if (!got_time) {
-                TIME = RBrun1.PHASE_4_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(-1);
-                TIME--;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setVerticalPower(0);
-                RBrun1.phase++;
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (RBrun1.phase == 5) { // move sideways (toward back board)
-
-            if (!got_time) {
-                TIME = RBrun1.PHASE_5_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(1);
-                TIME--;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_5_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setHorizontalPower(0);
-                RBrun1.phase++;
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
         else if (RBrun1.phase == 6) { // rotate
-            if (!got_time) {
-                TIME = RBrun1.PHASE_6_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setRotPower(-1);
-                TIME--;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_6_POSITION)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase++;
             }
             else {
-                got_time = false;
-                EgnitionSystem.setRotPower(0);
-                RBrun1.phase++;
+                EgnitionSystem.setRotPower(-1);
             }
         }
         else if (RBrun1.phase == 7) { // move a bit forward
-            if (!got_time) {
-                TIME = RBrun1.PHASE_7_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(1);
-                TIME--;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_7_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase++;
             }
             else {
-                EgnitionSystem.setVerticalPower(0);
-                got_time = false;
-                RBrun1.phase++;
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (RBrun1.phase == 8) { // move the arm up
-            if (!got_time) {
-                TIME = RBrun1.PHASE_8_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveUp();
-                arm_moving = true;
-                TIME --;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun1.PHASE_8_POSITION)) {
+                arm_moving = false;
+                RBrun1.phase ++;
             }
             else {
-                arm_moving = false;
-                got_time = false;
-                RBrun1.phase++;
+                Arm.moveDown();
+                arm_moving = true;
             }
         }
         else if (RBrun1.phase == 9) { // open left claw (let go of the pixel)
@@ -319,81 +253,59 @@ public class AutonomousRedBack extends LinearOpMode {
             sleep(500);
         }
         else if (RBrun1.phase == 10) { // move the arm down
-            if (!got_time) {
-                TIME = RBrun1.PHASE_10_FINISH;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveDown();
-                arm_moving = true;
-                TIME --;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun1.PHASE_10_POSITION)) {
+                arm_moving = false;
+                RBrun1.phase ++;
             }
             else {
-                arm_moving = false;
-                got_time = false;
-                RBrun1.phase ++;
+                Arm.moveDown();
+                arm_moving = true;
             }
         }
     }
     public void run2() {
         if (RBrun2.phase == 1) { // move forward
-            if (!got_time) {
-                TIME = RBrun2.PHASE_1_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_1_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(0);
-                got_time = false;
-                RBrun2.phase++;
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (RBrun2.phase == 2) { // move sideways
-            if (!got_time) {
-                TIME = RBrun2.PHASE_2_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(-1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_2_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase ++;
             }
             else {
-                EgnitionSystem.setHorizontalPower(0);
-                got_time = false;
-                RBrun2.phase ++;
+                EgnitionSystem.setHorizontalPower(-1);
             }
         }
         else if (RBrun2.phase == 3) { // rotate
-            if (!got_time) {
-                TIME = RBrun2.PHASE_3_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setRotPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_3_POSITION)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase++;
             }
             else {
-                EgnitionSystem.setRotPower(0);
-                got_time = false;
-                RBrun2.phase++;
+                EgnitionSystem.setRotPower(1);
             }
         }
         else if (RBrun2.phase == 4) { // move sideways
-            if (!got_time) {
-                TIME = RBrun2.PHASE_4_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_4_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase++;
             }
             else {
-                EgnitionSystem.setHorizontalPower(0);
-                got_time = false;
-                RBrun2.phase ++;
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
         else if (RBrun2.phase == 5) { // open right claw
@@ -405,64 +317,46 @@ public class AutonomousRedBack extends LinearOpMode {
             RBrun2.phase++;
         }
         else if (RBrun2.phase == 7) { // move sideways (towards back board)
-            if (!got_time) {
-                TIME = RBrun2.PHASE_7_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setHorizontalPower(1);
-                TIME--;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_7_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase ++;
             }
             else {
-                EgnitionSystem.setHorizontalPower(0);
-                got_time = false;
-                RBrun2.phase ++;
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
         else if (RBrun2.phase == 8) { // move a bit backward
-            if (!got_time) {
-                TIME = RBrun2.PHASE_8_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setVerticalPower(-1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_8_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase++;
             }
             else {
-                EgnitionSystem.setVerticalPower(0);
-                got_time = false;
-                RBrun2.phase ++;
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (RBrun2.phase == 9) { // rotate in 180 degrees
-            if (!got_time) {
-                TIME = RBrun2.PHASE_9_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                EgnitionSystem.setRotPower(-1);
-                TIME --;
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_9_POSITION)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase++;
             }
             else {
-                EgnitionSystem.setRotPower(0);
-                got_time = false;
-                RBrun2.phase ++;
+                EgnitionSystem.setRotPower(1);
             }
         }
         else if (RBrun2.phase == 10) { // move Arm up
-            if (!got_time) {
-                TIME = RBrun2.PHASE_10_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveUp();
-                arm_moving = true;
-                TIME --;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun2.PHASE_10_POSITION)) {
+                arm_moving = false;
+                RBrun2.phase ++;
             }
             else {
-                arm_moving = false;
-                got_time = false;
-                RBrun2.phase ++;
+                Arm.moveUp();
+                arm_moving = true;
             }
         }
         else if (RBrun2.phase == 11) { // open left claw (let go of the pixel)
@@ -471,19 +365,8 @@ public class AutonomousRedBack extends LinearOpMode {
             sleep(500);
         }
         else if (RBrun2.phase == 12) { // move Arm down
-            if (!got_time) {
-                TIME = RBrun2.PHASE_12_TIME;
-                got_time = true;
-            }
-            if (TIME > 0) {
-                Arm.moveDown();
-                arm_moving = true;
-                TIME --;
-            }
-            else {
-                arm_moving = false;
-                got_time = false;
-                RBrun2.phase ++;
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun2.PHASE_12_POSITION)) {
+
             }
         }
     }
@@ -520,9 +403,6 @@ public class AutonomousRedBack extends LinearOpMode {
         RBrun0.phase = 1;
         RBrun1.phase = 1;
         RBrun2.phase = 1;
-
-        got_time = false;
-        TIME = -1;
     }
 
 }

@@ -27,6 +27,8 @@ public class Arm {
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
 
+    static private int POSITION_EQUAL_DIFFERENCE = 30;
+
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -72,14 +74,13 @@ public class Arm {
             hold_position2 = arm2.getCurrentPosition();
         }
 
-        arm1.setPower(0);
-//        arm1.setPower(POWER);
-//        arm1.setTargetPosition(hold_position1);
-//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm1.setPower(POWER);
+        arm1.setTargetPosition(hold_position1);
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        arm2.setPower(POWER);
-        arm2.setTargetPosition(hold_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm2.setPower(0);
+//        arm2.setTargetPosition(hold_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
     public static boolean passedMinimalHoldPosition() {
@@ -99,6 +100,9 @@ public class Arm {
     }
     public static int getArm2Position() {
         return arm2.getCurrentPosition();
+    }
+    public static boolean arrivedPosition (int current_position, int finish_position) {
+        return Math.abs(current_position - finish_position) <= POSITION_EQUAL_DIFFERENCE;
     }
 
 
