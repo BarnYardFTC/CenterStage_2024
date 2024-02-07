@@ -26,7 +26,7 @@ public class EgnitionSystem {
     static private double heading = 0;
     static private double adjustedLx = 0;
     static private double adjustedLy = 0;
-    static private double power = 0;
+    static private double power = 1;
 
     static private final double AUTONOMOUS_MOVING_POWER = 0.4;
     static private final int ENCODER_CHANGING_SPEED = 1000;
@@ -70,7 +70,12 @@ public class EgnitionSystem {
         adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
-        power = 0.2 + (0.6 * gamepad1.right_trigger);
+        if (gamepad1.right_trigger > 0) {
+            power = 1 - gamepad1.right_trigger;
+        }
+        else {
+            power = 1;
+        }
 
         telemetry.addLine("Press B to reset robot's head direction");
         if (gamepad1.b) {

@@ -12,9 +12,6 @@ public class AutonomousRedFront extends LinearOpMode {
     private int spike_position = 1;
     private boolean arm_moving = false;
 
-    private int TIME = -1;
-    private boolean got_time = false;
-
     @Override
     public void runOpMode() throws InterruptedException {
         initArm();
@@ -65,72 +62,186 @@ public class AutonomousRedFront extends LinearOpMode {
             EgnitionSystem.runAutonomous();
 
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("TIME: ", TIME);
+            telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
             telemetry.update();
         }
     }
     public void run0() {
         if (RFrun0.phase == 1) { // move forward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_1_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RFrun0.phase == 2) { // rotate
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_2_FINISH)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
         }
         else if (RFrun0.phase == 3) { // open right claw
-
+            Claws.openLeftClaw();
+            RFrun0.phase ++;
         }
         else if (RFrun0.phase == 4) { // move wrist up
-
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            RFrun0.phase ++;
         }
         else if (RFrun0.phase == 5) { // move horizontally (toward back board)
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_5_FINISH)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (RFrun0.phase == 6) { // move a bit forward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_6_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RFrun0.phase == 7) { // move arm up
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_7_FINISH)) {
+                arm_moving = false;
+                RFrun0.phase ++;
+            }
+            else {
+                Arm.moveUp();
+                arm_moving = true;
+            }
         }
         else if (RFrun0.phase == 8) { // open left claw (let go of pixel)
-
+            Claws.openLeftClaw();
+            RFrun0.phase ++;
         }
         else if (RFrun1.phase == 9) { // move arm down
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_9_FINISH)) {
+                arm_moving = false;
+                RFrun0.phase ++;
+            }
+            else {
+                Arm.moveDown();
+                arm_moving = true;
+            }
         }
     }
     public void run1() {
         if (RFrun1.phase == 1) { // move forward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_1_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RFrun1.phase == 2) { // open right claw
-
+            Claws.openRightClaw();
+            RFrun1.phase ++;
         }
         else if (RFrun1.phase == 3) { // move wrist up
-
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            RFrun1.phase ++;
         }
         else if (RFrun1.phase == 4) { // move backward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_4_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RFrun1.phase == 5) { // rotate
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_5_FINISH)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
         }
         else if (RFrun1.phase == 6) { // move forward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_6_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RFrun1.phase == 7) { // move horizontally (towards the back board)
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_7_FINISH)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (RFrun1.phase == 8) { // move a bit backward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_8_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RFrun1.phase == 9) { // move arm up
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_9_FINISH)) {
+                arm_moving = false;
+                RFrun1.phase ++;
+            }
+            else {
+                Arm.moveUp();
+                arm_moving = true;
+            }
         }
         else if (RFrun1.phase == 10) { // open left claw (let go of the pixel)
-
+            Claws.openLeftClaw();
+            RFrun1.phase ++;
         }
         else if (RFrun1.phase == 11) { // move arm down
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun1.PHASE_11_FINISH)) {
+                arm_moving = false;
+                RFrun1.phase ++;
+            }
+            else {
+                Arm.moveDown();
+                arm_moving = true;
+            }
         }
     }
     public void run2() {

@@ -366,7 +366,12 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun2.phase == 12) { // move Arm down
             if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun2.PHASE_12_POSITION)) {
-
+                arm_moving = false;
+                RBrun2.phase ++;
+            }
+            else {
+                Arm.moveDown();
+                arm_moving = true;
             }
         }
     }
