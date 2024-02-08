@@ -78,9 +78,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
     }
-    public void runWrist() {
-        Wrist.runWrist(gamepad1.y);
-    }
+//    public void runWrist() {
+//        Wrist.runWrist(gamepad1.y);
+//    }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
         DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
@@ -141,7 +141,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void hangingMode() {
-        Arm.hangingModeArm();
+        if (gamepad1.y) {
+            Arm.hangingModeArm();
+        }
     }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
