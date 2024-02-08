@@ -28,7 +28,7 @@ public class EgnitionSystem {
     static private double adjustedLy = 0;
     static private double power = 1;
 
-    static private final double AUTONOMOUS_MOVING_POWER = 0.4;
+    static private final double AUTONOMOUS_MOVING_POWER = 0.5;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
     static private final int POSITION_EQUAL_DIFFERENCE = 30;

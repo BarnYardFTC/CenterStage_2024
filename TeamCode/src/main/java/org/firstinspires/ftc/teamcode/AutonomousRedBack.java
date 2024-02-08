@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red back")
 public class AutonomousRedBack extends LinearOpMode {
 
-    private int spike_position = 1;
+    private int spike_position = 0;
     private boolean arm_moving = false;
 
     @Override
@@ -135,15 +135,16 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun0.phase == 8) { // move a bit forward
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_8_POSITION)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                RBrun0.phase++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_8_POSITION)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RBrun0.phase++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+            RBrun0.phase ++;
         }
         else if (RBrun0.phase == 9) { // move the arm up
             if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun0.PHASE_9_POSITION)) {
@@ -155,12 +156,12 @@ public class AutonomousRedBack extends LinearOpMode {
                 arm_moving = true;
             }
         }
-        else if (RBrun0.phase == 10) { // open left claw (let go of the pixel)
+        else if (RBrun0.phase == 10) { // open left claw
             Claws.openLeftClaw();
-            RBrun0.phase++;
-            sleep(500);
+            sleep(300);
+            RBrun0.phase ++;
         }
-        else if (RBrun0.phase == 11) { // move the arm down
+        else if (RBrun0.phase == 11) {// move arm down
             if (Arm.arrivedPosition(Arm.getArm1Position(), RBrun0.PHASE_11_POSITION)) {
                 arm_moving = false;
                 RBrun0.phase ++;
@@ -170,7 +171,28 @@ public class AutonomousRedBack extends LinearOpMode {
                 arm_moving = true;
             }
         }
-
+        else if (RBrun0.phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_12_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (RBrun0.phase == 13) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_13_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
+        }
     }
     public void run1() {
         
@@ -260,6 +282,28 @@ public class AutonomousRedBack extends LinearOpMode {
             else {
                 Arm.moveDown();
                 arm_moving = true;
+            }
+        }
+        else if (RBrun1.phase == 11) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_11_POSITION)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (RBrun1.phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_12_POSITION)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
     }

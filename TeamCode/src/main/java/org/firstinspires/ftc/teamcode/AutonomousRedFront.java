@@ -133,7 +133,7 @@ public class AutonomousRedFront extends LinearOpMode {
             Claws.openLeftClaw();
             RFrun0.phase ++;
         }
-        else if (RFrun1.phase == 9) { // move arm down
+        else if (RFrun0.phase == 9) { // move arm down
             if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_9_FINISH)) {
                 arm_moving = false;
                 RFrun0.phase ++;
@@ -220,7 +220,7 @@ public class AutonomousRedFront extends LinearOpMode {
             }
         }
         else if (RFrun1.phase == 9) { // move arm up
-            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_9_FINISH)) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun1.PHASE_9_FINISH)) {
                 arm_moving = false;
                 RFrun1.phase ++;
             }
@@ -246,37 +246,102 @@ public class AutonomousRedFront extends LinearOpMode {
     }
     public void run2() {
         if (RFrun2.phase == 1) { // run forward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_1_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RFrun2.phase == 2) { // rotate
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_2_FINISH)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(1);
+            }
         }
         else if (RFrun2.phase == 3) { // open right claw
-
+            Claws.openRightClaw();
+            RFrun2.phase ++;
         }
         else if (RFrun2.phase == 4) { // move wrist up
-
+            Wrist.moveUp();
+            RFrun2.phase ++;
         }
         else if (RFrun2.phase == 5) { // move sideways
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_5_FINISH)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
         }
         else if (RFrun2.phase == 6) { // rotate
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_6_FINISH)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
         }
         else if (RFrun2.phase == 7) { // move sideways (toward back board)
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_7_FINISH)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (RFrun2.phase == 8) { // move a bit backward
-
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_8_FINISH)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun2.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RFrun2.phase == 9) { // move arm up
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun2.PHASE_9_FINISH)) {
+                arm_moving = false;
+                RFrun2.phase ++;
+            }
+            else {
+                Arm.moveUp();
+                arm_moving = true;
+            }
         }
         else if (RFrun2.phase == 10) { // open left claw (let go of pixel)
-
+            Claws.openLeftClaw();
+            RFrun2.phase ++;
         }
         else if (RFrun2.phase == 11) { // move arm down
-
+            if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun2.PHASE_11_FINISH)) {
+                arm_moving = false;
+                RFrun2.phase ++;
+            }
+            else {
+                Arm.moveDown();
+                arm_moving = true;
+            }
         }
     }
     public void initClaws(){
