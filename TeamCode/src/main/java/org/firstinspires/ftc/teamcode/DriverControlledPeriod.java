@@ -75,7 +75,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
         if (gamepad1.dpad_right){
             Claws.unloadingModeMinClaws();
-        } else if (gamepad1.dpad_right){
+        } else if (gamepad1.dpad_left){
             Claws.unloadingModeMaxClaws();
         } else if (gamepad1.left_trigger > 0){
             Claws.loadingModeClaws();
@@ -89,7 +89,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 //        Wrist.runWrist(gamepad1.y);
         if (gamepad1.dpad_right){
             Wrist.unloadingModeMinWrist();
-        } else if (gamepad1.dpad_right){
+        } else if (gamepad1.dpad_left){
             Wrist.unloadingModeMaxWrist();
         } else if (gamepad1.left_trigger > 0) {
             Wrist.loadingModeWrist();
