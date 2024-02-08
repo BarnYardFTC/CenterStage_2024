@@ -39,7 +39,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         while (opModeIsActive()) {
             runArm();
             runEgnitionSystem();
-            runWrist();
+//            runWrist();
             runClaws();
 
             if (gamepad1.x && !wasXPressed) {
