@@ -82,47 +82,47 @@ public class Arm {
 //        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
     }
-    public static void loadingModeArm() {
-        arm1.setPower(POWER);
-        target_position = MINIMAL_HOLD_POSITION;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = MINIMAL_HOLD_POSITION * -1;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void unloadingModeMinArm() {
-        arm1.setPower(POWER);
-        target_position = 100;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = -100;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void unloadingModeMaxArm() {
-        arm1.setPower(POWER);
-        target_position = 250;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = -250;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
+//    public static void loadingModeArm() {
+//        arm1.setPower(POWER);
+//        target_position = MINIMAL_HOLD_POSITION;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = MINIMAL_HOLD_POSITION * -1;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+//    public static void unloadingModeMinArm() {
+//        arm1.setPower(POWER);
+//        target_position = 100;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = -100;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+//    public static void unloadingModeMaxArm() {
+//        arm1.setPower(POWER);
+//        target_position = 250;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = -250;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
     public static void hangingModeArm() {
         arm1.setPower(POWER);
-        target_position = 0;
+        target_position = -2200;
         arm1.setTargetPosition(target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
-        target_position2 = 0;
+        target_position2 = 2200;
         arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
