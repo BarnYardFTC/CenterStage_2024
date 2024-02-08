@@ -64,22 +64,22 @@ public class Claws {
             was_left_bumper_pressed = false;
         }
     }
-//    public static void loadingModeClaws() {
-//        right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
-//        left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
-//    }
-//    public static void unloadingModeMaxClaws() {
-//        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
-//        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
-//    }
-//    public static void unloadingModeMinClaws() {
-//        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
-//        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
-//    }
-//    public static double getLeftClawPosition() {
-//        return left_claw.getPosition();
-//    }
-//    public static double getRightClawPosition() {
-//        return right_claw.getPosition();
-//    }
+    public static void loadingModeClaws() {
+        right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
+        left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
+    }
+    public static void unloadingModeMaxClaws() {
+        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
+        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
+    }
+    public static void unloadingModeMinClaws() {
+        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
+        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
+    }
+    public static double getLeftClawPosition() {
+        return left_claw.getPosition();
+    }
+    public static double getRightClawPosition() {
+        return right_claw.getPosition();
+    }
 }

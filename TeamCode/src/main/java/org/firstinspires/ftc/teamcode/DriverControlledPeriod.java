@@ -73,13 +73,27 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
+        if (gamepad1.dpad_right){
+            Claws.unloadingModeMinClaws();
+        } else if (gamepad1.dpad_right){
+            Claws.unloadingModeMaxClaws();
+        } else if (gamepad1.left_trigger > 0){
+            Claws.loadingModeClaws();
+        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
     }
     public void runWrist() {
-        Wrist.runWrist(gamepad1.y);
+//        Wrist.runWrist(gamepad1.y);
+        if (gamepad1.dpad_right){
+            Wrist.unloadingModeMinWrist();
+        } else if (gamepad1.dpad_right){
+            Wrist.unloadingModeMaxWrist();
+        } else if (gamepad1.left_trigger > 0) {
+            Wrist.loadingModeWrist();
+        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -93,7 +107,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.moveUp();
         } else if (gamepad1.dpad_down) {
             Arm.moveDown();
-        } else if (gamepad1.dpad_left || Arm.HANGING_MODE_ACTIVE) {
+        } else if (gamepad1.y || Arm.HANGING_MODE_ACTIVE) {
             Arm.hangingModeArm(Arm.HANGING_MODE_ACTIVE);
         } else {
             if (!Arm.passedMinimalHoldPosition()) {
@@ -104,44 +118,6 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
         }
     }
-//    public void loadingMode() {
-//        Arm.addDataToTelemetry(telemetry);
-//        if (gamepad1.left_trigger > 0) {
-//            Arm.loadingModeArm();
-//            Claws.loadingModeClaws();
-//            Wrist.loadingModeWrist();
-//        }
-//    }
-//    public void unloadingModeMax() {
-//        Arm.addDataToTelemetry(telemetry);
-//        if (gamepad1.dpad_left) {
-//            Arm.unloadingModeMaxArm();
-//            Claws.unloadingModeMaxClaws();
-//            Wrist.unloadingModeMaxWrist();
-//        } else {
-//            if (!Arm.passedMinimalHoldPosition()) {
-//                Arm.stopMoving();
-//            }
-//            else {
-//                Arm.brake();
-//            }
-//        }
-//    }
-//    public void unloadingModeMin() {
-//        Arm.addDataToTelemetry(telemetry);
-//        if (gamepad1.dpad_right) {
-//            Arm.unloadingModeMinArm();
-//            Claws.unloadingModeMinClaws();
-//            Wrist.unloadingModeMinWrist();
-//        } else {
-//            if (!Arm.passedMinimalHoldPosition()) {
-//                Arm.stopMoving();
-//            }
-//            else {
-//                Arm.brake();
-//            }
-//        }
-//    }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
         DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
