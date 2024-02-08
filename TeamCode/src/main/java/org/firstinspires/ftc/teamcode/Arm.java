@@ -29,6 +29,8 @@ public class Arm {
 
     static private int POSITION_EQUAL_DIFFERENCE = 30;
 
+    static public boolean HANGING_MODE_ACTIVE = false;
+
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -115,16 +117,18 @@ public class Arm {
 //        arm2.setTargetPosition(target_position2);
 //        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //    }
-    public static void hangingModeArm() {
-        arm1.setPower(POWER);
-        target_position = -2200;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = 2200;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
+        if ((HANGING_MODE_ACTIVE && getArm1Position() > -1180) || (HANGING_MODE_ACTIVE && getArm1Position() < -1200)){
+            moveUp();
+        } else if (getArm1Position() > -1180) {
+            moveUp();
+            HANGING_MODE_ACTIVE = true;
+        } else if (getArm1Position() < -1200) {
+            moveDown();
+            HANGING_MODE_ACTIVE = true;
+        } else {
+            brake();
+        }
     }
     public static boolean passedMinimalHoldPosition() {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
