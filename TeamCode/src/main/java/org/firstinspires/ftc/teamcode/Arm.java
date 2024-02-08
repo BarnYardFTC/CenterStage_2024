@@ -25,9 +25,10 @@ public class Arm {
     static private int target_position2 = 0;
 
     static private int hold_position1 = 0;
-    static private int hold_position2 = 0;
 
     static private int POSITION_EQUAL_DIFFERENCE = 30;
+
+    static public boolean HANGING_MODE_ACTIVE = true;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
@@ -70,7 +71,6 @@ public class Arm {
         if (!got_position_to_hold) {
             got_position_to_hold = true;
             hold_position1 = arm1.getCurrentPosition();
-            hold_position2 = arm2.getCurrentPosition();
         }
 
         arm1.setPower(POWER);
@@ -78,53 +78,54 @@ public class Arm {
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(0);
-//        arm2.setTargetPosition(hold_position2);
+    }
+//    public static void loadingModeArm() {
+//        arm1.setPower(POWER);
+//        target_position = MINIMAL_HOLD_POSITION;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = MINIMAL_HOLD_POSITION * -1;
+//        arm2.setTargetPosition(target_position2);
 //        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-    }
-    public static void loadingModeArm() {
-        arm1.setPower(POWER);
-        target_position = MINIMAL_HOLD_POSITION;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = MINIMAL_HOLD_POSITION * -1;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void unloadingModeMinArm() {
-        arm1.setPower(POWER);
-        target_position = 100;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = -100;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void unloadingModeMaxArm() {
-        arm1.setPower(POWER);
-        target_position = 250;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = -250;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void hangingModeArm() {
-        arm1.setPower(POWER);
-        target_position = 0;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        arm2.setPower(POWER);
-        target_position2 = 0;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+//    public static void unloadingModeMinArm() {
+//        arm1.setPower(POWER);
+//        target_position = 100;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = -100;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+//    public static void unloadingModeMaxArm() {
+//        arm1.setPower(POWER);
+//        target_position = 250;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        arm2.setPower(POWER);
+//        target_position2 = -250;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
+    public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
+        if (HANGING_MODE_ACTIVE && getArm1Position() > -1180){
+            moveUp();
+        } else if (HANGING_MODE_ACTIVE && getArm1Position() < -1200) {
+            moveDown();
+        } else if (getArm1Position() > -1180) {
+            moveUp();
+            HANGING_MODE_ACTIVE = true;
+        } else if (getArm1Position() < -1200) {
+            moveDown();
+            HANGING_MODE_ACTIVE = true;
+        } else {
+            brake();
+        }
     }
     public static boolean passedMinimalHoldPosition() {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
