@@ -71,7 +71,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
     }
-    public void runClaws(){
+    public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
     }
     public void initWrist() {
