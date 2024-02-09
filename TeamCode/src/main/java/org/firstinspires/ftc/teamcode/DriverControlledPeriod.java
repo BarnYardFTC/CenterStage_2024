@@ -87,7 +87,6 @@ public class DriverControlledPeriod extends LinearOpMode {
         Wrist.init(servo);
     }
     public void runWrist() {
-//        Wrist.runWrist(gamepad1.y);
         if (gamepad1.dpad_right){
             Wrist.unloadingModeMinWrist();
         } else if (gamepad1.dpad_left){
