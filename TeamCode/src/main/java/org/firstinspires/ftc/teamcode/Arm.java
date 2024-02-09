@@ -145,8 +145,13 @@ public class Arm {
     public static int getArm2Position() {
         return arm2.getCurrentPosition();
     }
-    public static boolean arrivedPosition (int current_position, int finish_position) {
-        return Math.abs(current_position - finish_position) <= POSITION_EQUAL_DIFFERENCE;
+    public static boolean arrivedPosition (int current_position, int finish_position, boolean finish_bigger_than_start) {
+        if (finish_bigger_than_start) {
+            return current_position >= finish_position;
+        }
+        else {
+            return current_position <= finish_position;
+        }
     }
 
 

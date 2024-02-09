@@ -28,10 +28,10 @@ public class EgnitionSystem {
     static private double adjustedLy = 0;
     static private double power = 1;
 
-    static private final double AUTONOMOUS_MOVING_POWER = 0.5;
+    static private double AUTONOMOUS_MOVING_POWER = 0.5;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
-    static private final int POSITION_EQUAL_DIFFERENCE = 30;
+    static private final int POSITION_EQUAL_DIFFERENCE = 5;
 
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {
         EgnitionSystem.fl_wheel = fl_wheel;
@@ -143,8 +143,16 @@ public class EgnitionSystem {
         return br_wheel.getCurrentPosition();
     }
 
-    public static boolean arrivedPosition(int current_position, int finish_position) {
-        return Math.abs(finish_position - current_position) <= POSITION_EQUAL_DIFFERENCE;
+    public static boolean arrivedPosition(int current_position, int finish_position, boolean finish_positive) {
+        if (finish_positive) {
+            return current_position >= finish_position;
+        }
+        else {
+            return current_position <= finish_position;
+        }
+    }
+    public static void setAutonomousMovingPower(double power){
+        AUTONOMOUS_MOVING_POWER = power;
     }
 
 }
