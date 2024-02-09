@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red back")
 public class AutonomousRedBack extends LinearOpMode {
 
-    private int spike_position = 2;
+    private int spike_position = -1;
     private boolean arm_moving = false;
 
     @Override
@@ -27,16 +27,16 @@ public class AutonomousRedBack extends LinearOpMode {
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
 
-        //initCamera();
-//
-//        while (opModeInInit()) {
-//            spike_position = PixelDetector.getSpike_position();
-//            telemetry.addData("Spike position: ", spike_position);
-//            telemetry.addData("Right region avg", Camera.getRightRegion_avg());
-//            telemetry.addData("Left region avg", Camera.getLeftRegion_avg());
-//            telemetry.update();
-//        }
-//        Camera.close();
+        initCamera();
+
+        while (opModeInInit()) {
+            spike_position = PixelDetector.getSpike_position();
+            telemetry.addData("Spike position: ", spike_position);
+            telemetry.addData("Right region avg", Camera.getRightRegion_avg());
+            telemetry.addData("Left region avg", Camera.getLeftRegion_avg());
+            telemetry.update();
+        }
+        Camera.close();
 
         waitForStart();
 
