@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "CenterStage TeleOp")
@@ -109,6 +110,8 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.moveDown();
         } else if (gamepad1.y || Arm.HANGING_MODE_ACTIVE) {
             Arm.hangingModeArm(true);
+        } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
+            Arm.loadingModeArm(true);
         } else {
             if (!Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();

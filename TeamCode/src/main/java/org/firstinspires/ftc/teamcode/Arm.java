@@ -30,6 +30,8 @@ public class Arm {
 
     static public boolean HANGING_MODE_ACTIVE = true;
 
+    static public boolean LOADING_MODE_ACTIVE = false;
+
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -80,12 +82,23 @@ public class Arm {
         arm2.setPower(0);
     }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        if (getArm1Position() > -1180){
-            moveUp();
-        } else if (getArm1Position() < -1220) {
-            moveDown();
-        } else {
-            brake();
+        while (HANGING_MODE_ACTIVE){
+            if (getArm1Position() > -1180){
+                moveUp();
+            } else if (getArm1Position() < -1220) {
+                moveDown();
+            } else {
+                brake();
+            }
+        }
+    }
+    public static void loadingModeArm(boolean LOADING_MODE_ACTIVE){
+        while (LOADING_MODE_ACTIVE) {
+            if (getArm1Position() < 0) {
+                moveDown();
+            } else {
+                Arm.stopMoving();
+            }
         }
     }
     public static boolean passedMinimalHoldPosition() {
