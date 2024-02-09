@@ -80,19 +80,10 @@ public class Arm {
         arm2.setPower(0);
     }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        if ((getArm1Position() < -1180 && HANGING_MODE_ACTIVE) || (getArm1Position() > -1200 && HANGING_MODE_ACTIVE)) {
-            HANGING_MODE_ACTIVE = false;
-            brake();
-        }else if (HANGING_MODE_ACTIVE && getArm1Position() > -1180){
+        if (getArm1Position() > -1180){
             moveUp();
-        } else if (HANGING_MODE_ACTIVE && getArm1Position() < -1220) {
-            moveDown();
-        } else if (getArm1Position() > -1180) {
-            moveUp();
-            HANGING_MODE_ACTIVE = true;
         } else if (getArm1Position() < -1220) {
             moveDown();
-            HANGING_MODE_ACTIVE = true;
         } else {
             brake();
         }
