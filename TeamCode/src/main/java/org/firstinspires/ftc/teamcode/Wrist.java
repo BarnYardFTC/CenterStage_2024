@@ -46,9 +46,9 @@ public class Wrist {
         Wrist.setPosition(WRIST_DOWN_POSITION);
     }
     public static void unloadingModeMinWrist(){
-        Wrist.setPosition(0.5);
+        Wrist.setPosition(0.65);
     }
     public static void unloadingModeMaxWrist(){
-        Wrist.setPosition(0.38);
+        Wrist.setPosition(0.58);
     }
 }
