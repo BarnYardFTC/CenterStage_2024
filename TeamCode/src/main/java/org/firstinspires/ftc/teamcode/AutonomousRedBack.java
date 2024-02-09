@@ -313,7 +313,7 @@ public class AutonomousRedBack extends LinearOpMode {
         if (RBrun2.phase == 1) { // move forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_1_POSITION, true)) {
                 EgnitionSystem.setVerticalPower(0);
-                sleep(1000);
+                sleep(500);
                 EgnitionSystem.resetEncoders();
                 RBrun2.phase ++;
             }
@@ -324,12 +324,14 @@ public class AutonomousRedBack extends LinearOpMode {
         else if (RBrun2.phase == 2) { // move sideways
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_2_POSITION, true)) {
                 EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.5);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RBrun2.phase ++;
             }
             else {
                 EgnitionSystem.setHorizontalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
         }
         else if (RBrun2.phase == 3) { // move forward
@@ -382,17 +384,17 @@ public class AutonomousRedBack extends LinearOpMode {
                 EgnitionSystem.setHorizontalPower(1);
             }
         }
-        else if (RBrun2.phase == 8) { // move a bit backward
-//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_8_POSITION, false)) {
-//                EgnitionSystem.setVerticalPower(0);
-//                sleep(500);
-//                EgnitionSystem.resetEncoders();
-//                RBrun2.phase++;
-//            }
-//            else {
-//                EgnitionSystem.setVerticalPower(-1);
-//            }
-            RBrun2.phase ++;
+        else if (RBrun2.phase == 8) { // move a bit forward
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_8_POSITION, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun2.phase++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+
         }
         else if (RBrun2.phase == 9) { // rotate in 180 degrees
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_9_POSITION, false)) {
