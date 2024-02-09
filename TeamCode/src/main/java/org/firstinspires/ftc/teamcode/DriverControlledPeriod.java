@@ -108,7 +108,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         } else if (gamepad1.dpad_down) {
             Arm.moveDown();
         } else if (gamepad1.y || Arm.HANGING_MODE_ACTIVE) {
-            Arm.hangingModeArm(Arm.HANGING_MODE_ACTIVE);
+            Arm.hangingModeArm(true);
         } else {
             if (!Arm.passedMinimalHoldPosition()) {
                 Arm.stopMoving();

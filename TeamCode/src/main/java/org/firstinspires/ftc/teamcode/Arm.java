@@ -79,48 +79,18 @@ public class Arm {
 
         arm2.setPower(0);
     }
-//    public static void loadingModeArm() {
-//        arm1.setPower(POWER);
-//        target_position = MINIMAL_HOLD_POSITION;
-//        arm1.setTargetPosition(target_position);
-//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        arm2.setPower(POWER);
-//        target_position2 = MINIMAL_HOLD_POSITION * -1;
-//        arm2.setTargetPosition(target_position2);
-//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//    }
-//    public static void unloadingModeMinArm() {
-//        arm1.setPower(POWER);
-//        target_position = 100;
-//        arm1.setTargetPosition(target_position);
-//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        arm2.setPower(POWER);
-//        target_position2 = -100;
-//        arm2.setTargetPosition(target_position2);
-//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//    }
-//    public static void unloadingModeMaxArm() {
-//        arm1.setPower(POWER);
-//        target_position = 250;
-//        arm1.setTargetPosition(target_position);
-//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//        arm2.setPower(POWER);
-//        target_position2 = -250;
-//        arm2.setTargetPosition(target_position2);
-//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//    }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        if (HANGING_MODE_ACTIVE && getArm1Position() > -1180){
+        if ((getArm1Position() < -1180 && HANGING_MODE_ACTIVE) || (getArm1Position() > -1200 && HANGING_MODE_ACTIVE)) {
+            HANGING_MODE_ACTIVE = false;
+            brake();
+        }else if (HANGING_MODE_ACTIVE && getArm1Position() > -1180){
             moveUp();
-        } else if (HANGING_MODE_ACTIVE && getArm1Position() < -1200) {
+        } else if (HANGING_MODE_ACTIVE && getArm1Position() < -1220) {
             moveDown();
         } else if (getArm1Position() > -1180) {
             moveUp();
             HANGING_MODE_ACTIVE = true;
-        } else if (getArm1Position() < -1200) {
+        } else if (getArm1Position() < -1220) {
             moveDown();
             HANGING_MODE_ACTIVE = true;
         } else {
