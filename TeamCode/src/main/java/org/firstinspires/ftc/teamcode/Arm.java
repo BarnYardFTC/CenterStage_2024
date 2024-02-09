@@ -28,9 +28,13 @@ public class Arm {
 
     static private int POSITION_EQUAL_DIFFERENCE = 30;
 
-    static public boolean HANGING_MODE_ACTIVE = true;
+    static public boolean HANGING_MODE_ACTIVE = false;
 
     static public boolean LOADING_MODE_ACTIVE = false;
+
+    static public boolean UNLOADING_MODE_MIN_ACTIVE = false;
+
+    static public boolean UNLOADING_MODE_MAX_ACTIVE = false;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
@@ -82,25 +86,65 @@ public class Arm {
         arm2.setPower(0);
     }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        while (HANGING_MODE_ACTIVE){
-            if (getArm1Position() > -1180){
-                moveUp();
-            } else if (getArm1Position() < -1220) {
-                moveDown();
-            } else {
-                brake();
-            }
+        if (arm1.getCurrentPosition() > -1180){
+            arm1.setPower(0.6);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(0.6);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (arm1.getCurrentPosition() < -1220) {
+            arm1.setPower(0.6);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(0.6);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            brake();
         }
     }
     public static void loadingModeArm(boolean LOADING_MODE_ACTIVE){
-        while (LOADING_MODE_ACTIVE) {
-            if (getArm1Position() < 0) {
-                moveDown();
-            } else {
-                Arm.stopMoving();
-            }
+        if (arm1.getCurrentPosition() < 0) {
+            arm1.setPower(1);
+            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(1);
+            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
+        } else {
+            Arm.stopMoving();
         }
     }
+//    public static void unloadingModeMinArm(boolean UNLOADING_MODE_MIN_ACTIVE){
+//        if (arm1.getCurrentPosition() < 0) {
+//            arm1.setPower(1);
+//            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+//            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            arm2.setPower(1);
+//            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+//            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
+//        } else {
+//            Arm.stopMoving();
+//        }
+//    }
+//    public static void unloadingModeMaxArm(boolean UNLOADING_MODE_MAX_ACTIVE){
+//        if (arm1.getCurrentPosition() < 0) {
+//            arm1.setPower(1);
+//            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+//            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            arm2.setPower(1);
+//            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
+//            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
+//        } else {
+//            Arm.stopMoving();
+//        }
+//    }
     public static boolean passedMinimalHoldPosition() {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
