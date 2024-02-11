@@ -30,13 +30,13 @@ public class AutonomousRedBack extends LinearOpMode {
         initCamera();
 
         while (opModeInInit()) {
-            spike_position = PixelDetector.getSpike_position();
+            spike_position = PixelDetectorRB.getSpike_position();
             telemetry.addData("Spike position: ", spike_position);
-            telemetry.addData("Right region avg", Camera.getRightRegion_avg());
-            telemetry.addData("Left region avg", Camera.getLeftRegion_avg());
+            telemetry.addData("Right region avg", Camera.getRightRegion_avg(1));
+            telemetry.addData("Left region avg", Camera.getLeftRegion_avg(1));
             telemetry.update();
         }
-        Camera.close();
+        Camera.close(1);
 
         waitForStart();
 
@@ -481,7 +481,7 @@ public class AutonomousRedBack extends LinearOpMode {
         EgnitionSystem.initEncoders();
     }
     public void initCamera() {
-        Camera.init(this, hardwareMap);
+        Camera.init(this, hardwareMap, 1);
     }
 
     public void setVariables() {

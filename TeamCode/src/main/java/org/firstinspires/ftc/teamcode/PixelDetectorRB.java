@@ -13,7 +13,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class PixelDetector implements VisionProcessor {
+public class PixelDetectorRB implements VisionProcessor {
     
     private static int spike_position = 0;
 
@@ -27,11 +27,11 @@ public class PixelDetector implements VisionProcessor {
     int frameWidth;
     int frameHeight;
 
-    private final int LEFT_REGION_START_X = 0;
-    private final int LEFT_REGION_START_Y = 250;
+    private final int LEFT_REGION_START_X = 50;
+    private final int LEFT_REGION_START_Y = 320;
 
-    private final int RIGHT_REGION_START_X = 1080;
-    private final int RIGHT_REGION_START_Y = 200;
+    private final int RIGHT_REGION_START_X = 1000;
+    private final int RIGHT_REGION_START_Y = 300;
 
     private final int REGIONS_WIDTH = 200;
     private final int REGIONS_HEIGHT = 150;
@@ -44,7 +44,7 @@ public class PixelDetector implements VisionProcessor {
     public int getRightRegion_avg() {
         return this.rightRegion_avg;
     }
-    public PixelDetector(OpMode opMode){
+    public PixelDetectorRB(OpMode opMode){
         this.OpMode = opMode;
     }
     public static int getSpike_position() {

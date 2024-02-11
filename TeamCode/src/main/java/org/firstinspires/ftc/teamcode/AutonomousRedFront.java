@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red Front")
 public class AutonomousRedFront extends LinearOpMode {
 
-    private int spike_position = 1;
+    private int spike_position = -1;
     private boolean arm_moving = false;
 
     @Override
@@ -21,16 +21,16 @@ public class AutonomousRedFront extends LinearOpMode {
 
         setVariables();
 
-        //initCamera();
-//
-//        while (opModeInInit()) {
-//            spike_position = PixelDetector.getSpike_position();
-//            telemetry.addData("Spike position: ", spike_position);
-//            telemetry.addData("Right region avg", Camera.getRightRegion_avg());
-//            telemetry.addData("Left region avg", Camera.getLeftRegion_avg());
-//            telemetry.update();
-//        }
-//        Camera.close();
+        initCamera();
+
+        while (opModeInInit()) {
+            spike_position = PixelDetectorRF.getSpike_position();
+            telemetry.addData("Spike position: ", spike_position);
+            telemetry.addData("Right region avg", Camera.getRightRegion_avg(2));
+            telemetry.addData("Left region avg", Camera.getLeftRegion_avg(2));
+            telemetry.update();
+        }
+        Camera.close(2);
 
         Wrist.moveDown();
 
@@ -370,7 +370,7 @@ public class AutonomousRedFront extends LinearOpMode {
         EgnitionSystem.initEncoders();
     }
     public void initCamera() {
-        Camera.init(this, hardwareMap);
+        Camera.init(this, hardwareMap, 2);
     }
     public void setVariables() {
         RFrun0.phase = 1;

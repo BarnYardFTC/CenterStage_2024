@@ -7,30 +7,57 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 
 public class Camera {
 
-    private static PixelDetector pixel_detector;
+    private static PixelDetectorRB pixel_detector_RB;
+    private static PixelDetectorRF pixel_detector_RF;
     private static VisionPortal camera;
 
-    public static void init(OpMode opMode, HardwareMap hardwareMap) {
-        pixel_detector = new PixelDetector(opMode);
+    public static void init(OpMode opMode, HardwareMap hardwareMap, int side) {
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
         builder.setCameraResolution(new Size(1280, 720));
         builder.enableLiveView(true);
-        builder.addProcessor(pixel_detector);
+
+        if (side == 1) { // RB
+            pixel_detector_RB = new PixelDetectorRB(opMode);
+            builder.addProcessor(pixel_detector_RB);
+        }
+        else if (side == 2) { // RF
+            pixel_detector_RF = new PixelDetectorRF(opMode);
+            builder.addProcessor(pixel_detector_RF);
+        }
 
         camera = builder.build();
     }
-    public static int getLeftRegion_avg() {
-        return pixel_detector.getLeftRegion_avg();
+    public static int getLeftRegion_avg(int side) {
+        if (side == 1) {
+            return pixel_detector_RB.getLeftRegion_avg();
+        }
+        else if (side == 2) {
+            return pixel_detector_RF.getLeftRegion_avg();
+        }
+        return -1;
     }
-    public static int getRightRegion_avg() {
-        return pixel_detector.getRightRegion_avg();
+    public static int getRightRegion_avg(int side) {
+        if (side == 1) {
+            return pixel_detector_RB.getRightRegion_avg();
+        }
+        else if (side == 2) {
+            return pixel_detector_RF.getRightRegion_avg();
+        }
+        return -1;
     }
-    public static void close() {
-        camera.setProcessorEnabled(pixel_detector,false);
+    public static void close(int side) {
+        if (side == 1) {
+            camera.setProcessorEnabled(pixel_detector_RB,false);
+        }
+        else if (side == 2) {
+            camera.setProcessorEnabled(pixel_detector_RF, false);
+        }
+
         camera.close();
     }
 
