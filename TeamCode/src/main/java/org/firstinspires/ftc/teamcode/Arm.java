@@ -54,29 +54,29 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(POWER);
-        STATIC_ENCODERS_ARM1 += SPEED1;
         target_position = arm1.getCurrentPosition() + SPEED1;
         arm1.setTargetPosition(target_position);
+        STATIC_ENCODERS_ARM1 += SPEED1;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
-        STATIC_ENCODERS_ARM2 += SPEED2;
         target_position2 = arm2.getCurrentPosition() + SPEED2;
         arm2.setTargetPosition(target_position2);
+        STATIC_ENCODERS_ARM2 += SPEED2;
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
         got_position_to_hold = false;
 
         arm1.setPower(POWER);
-        STATIC_ENCODERS_ARM1 -= SPEED1;
         target_position = arm1.getCurrentPosition() - SPEED1;
         arm1.setTargetPosition(target_position);
+        STATIC_ENCODERS_ARM1 -= SPEED1;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
-        STATIC_ENCODERS_ARM2 -= SPEED2;
         target_position2 = arm2.getCurrentPosition() - SPEED2;
+        STATIC_ENCODERS_ARM1 -= SPEED1;
         arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
