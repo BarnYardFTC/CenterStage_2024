@@ -21,6 +21,11 @@ public class AutonomousRedFront extends LinearOpMode {
 
         setVariables();
 
+        Wrist.moveDown();
+
+        Claws.closeLeftClaw();
+        Claws.closeRightClaw();
+
         initCamera();
 
         while (opModeInInit()) {
@@ -31,11 +36,6 @@ public class AutonomousRedFront extends LinearOpMode {
             telemetry.update();
         }
         Camera.close(2);
-
-        Wrist.moveDown();
-
-        Claws.closeLeftClaw();
-        Claws.closeRightClaw();
 
         waitForStart();
         while (opModeIsActive()) {
@@ -189,13 +189,16 @@ public class AutonomousRedFront extends LinearOpMode {
         else if (RFrun1.phase == 6) { // move forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_6_FINISH,true)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.5);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RFrun1.phase ++;
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.3);
             }
+
         }
         else if (RFrun1.phase == 7) { // move horizontally (towards the back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_7_FINISH, false)) {
@@ -209,7 +212,7 @@ public class AutonomousRedFront extends LinearOpMode {
             }
         }
         else if (RFrun1.phase == 8) { // move a bit backward
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_8_FINISH, true)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_8_FINISH, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
@@ -241,6 +244,28 @@ public class AutonomousRedFront extends LinearOpMode {
             else {
                 Arm.moveDown();
                 arm_moving = true;
+            }
+        }
+        else if (RFrun1.phase == 12) { // move backward
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_12_FINISH, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (RFrun1.phase == 13) { // move horizontally
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_13_FINISH, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
             }
         }
     }
@@ -376,5 +401,6 @@ public class AutonomousRedFront extends LinearOpMode {
         RFrun0.phase = 1;
         RFrun1.phase = 1;
         RFrun2.phase = 1;
+        EgnitionSystem.setAutonomousMovingPower(0.5);
     }
 }
