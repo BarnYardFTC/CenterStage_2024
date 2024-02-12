@@ -105,7 +105,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 //            }
         }
     }
-    public void runScoringModes(){
+    public void runScoringModes() {
          if (gamepad1.left_trigger > 0) {
             Claws.loadingModeClaws();
             Wrist.loadingModeWrist();
