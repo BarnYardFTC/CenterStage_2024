@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.checkerframework.checker.units.qual.A;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
@@ -42,6 +37,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             runEgnitionSystem();
             runWrist();
             runClaws();
+            runScoringModes();
 
             if (gamepad1.x && !wasXPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -85,13 +81,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         Wrist.init(servo);
     }
     public void runWrist() {
-        if (gamepad1.dpad_right){
-            Wrist.unloadingModeMinWrist();
-        } else if (gamepad1.dpad_left){
-            Wrist.unloadingModeMaxWrist();
-        } else if (gamepad1.left_trigger > 0) {
-            Wrist.loadingModeWrist();
-        }
+
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -117,6 +107,24 @@ public class DriverControlledPeriod extends LinearOpMode {
 //                Arm.brake();
 //            }
         }
+    }
+    public void runScoringModes(){
+         if (gamepad1.left_trigger > 0) {
+            Claws.loadingModeClaws();
+            Wrist.loadingModeWrist();
+        } else if (gamepad1.dpad_right){
+            Claws.unloadingModeClaws();
+            if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+                Wrist.unloadingModeMinWrist();
+                Arm.unloadingModeMinArm(true);
+            }
+        } else if (gamepad1.dpad_left){
+             Claws.unloadingModeClaws();
+             if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+                 Wrist.unloadingModeMaxWrist();
+                 Arm.unloadingModeMaxArm(true);
+             }
+         }
     }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");

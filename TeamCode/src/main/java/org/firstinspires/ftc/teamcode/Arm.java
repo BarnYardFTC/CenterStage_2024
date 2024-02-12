@@ -14,9 +14,9 @@ public class Arm {
 
     static private final double POWER = 1;
 
-    static private final int SPEED = -150;
+    static private final int SPEED1 = -150;
 
-    static private final int SPEED2 = -SPEED;
+    static private final int SPEED2 = -SPEED1;
 
     static public final int MINIMAL_HOLD_POSITION = -300;
     static private boolean got_position_to_hold = false;
@@ -36,6 +36,10 @@ public class Arm {
 
     static public boolean UNLOADING_MODE_MAX_ACTIVE = false;
 
+    static private int STATIC_ENCODERS_ARM1 = 0;
+
+    static private int STATIC_ENCODERS_ARM2 = 0;
+
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -50,11 +54,13 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(POWER);
-        target_position = arm1.getCurrentPosition() + SPEED;
+        STATIC_ENCODERS_ARM1 += SPEED1;
+        target_position = arm1.getCurrentPosition() + SPEED1;
         arm1.setTargetPosition(target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
+        STATIC_ENCODERS_ARM2 += SPEED2;
         target_position2 = arm2.getCurrentPosition() + SPEED2;
         arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -63,11 +69,13 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(POWER);
-        target_position = arm1.getCurrentPosition() - SPEED;
+        STATIC_ENCODERS_ARM1 -= SPEED1;
+        target_position = arm1.getCurrentPosition() - SPEED1;
         arm1.setTargetPosition(target_position);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
+        STATIC_ENCODERS_ARM2 -= SPEED2;
         target_position2 = arm2.getCurrentPosition() - SPEED2;
         arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -86,7 +94,7 @@ public class Arm {
         arm2.setPower(0);
     }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        if (arm1.getCurrentPosition() > -1180){
+        if (STATIC_ENCODERS_ARM1 > -1180){
             arm1.setPower(0.6);
             arm1.setTargetPosition(-1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -94,7 +102,7 @@ public class Arm {
             arm2.setPower(0.6);
             arm2.setTargetPosition(1200);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (arm1.getCurrentPosition() < -1220) {
+        } else if (STATIC_ENCODERS_ARM1 < -1220) {
             arm1.setPower(0.6);
             arm1.setTargetPosition(-1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -107,7 +115,7 @@ public class Arm {
         }
     }
     public static void loadingModeArm(boolean LOADING_MODE_ACTIVE){
-        if (arm1.getCurrentPosition() < 0) {
+        if (STATIC_ENCODERS_ARM1 < 0) {
             arm1.setPower(1);
             arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -119,32 +127,48 @@ public class Arm {
             Arm.stopMoving();
         }
     }
-//    public static void unloadingModeMinArm(boolean UNLOADING_MODE_MIN_ACTIVE){
-//        if (arm1.getCurrentPosition() < 0) {
-//            arm1.setPower(1);
-//            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-//            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            arm2.setPower(1);
-//            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-//            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
-//        } else {
-//            Arm.stopMoving();
-//        }
-//    }
-//    public static void unloadingModeMaxArm(boolean UNLOADING_MODE_MAX_ACTIVE){
-//        if (arm1.getCurrentPosition() < 0) {
-//            arm1.setPower(1);
-//            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-//            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//            arm2.setPower(1);
-//            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-//            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
-//        } else {
-//            Arm.stopMoving();
-//        }
-//    }
+    public static void unloadingModeMinArm(boolean UNLOADING_MODE_MIN_ACTIVE){
+        if (STATIC_ENCODERS_ARM1 > -1180){
+            arm1.setPower(POWER);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(POWER);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (STATIC_ENCODERS_ARM1 < -1220) {
+            arm1.setPower(POWER);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(POWER);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            brake();
+        }
+    }
+    public static void unloadingModeMaxArm(boolean UNLOADING_MODE_MAX_ACTIVE){
+        if (STATIC_ENCODERS_ARM1 > -1180){
+            arm1.setPower(POWER);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(POWER);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (STATIC_ENCODERS_ARM1 < -1220) {
+            arm1.setPower(POWER);
+            arm1.setTargetPosition(-1200);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            arm2.setPower(POWER);
+            arm2.setTargetPosition(1200);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            brake();
+        }
+    }
     public static boolean passedMinimalHoldPosition() {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
@@ -152,7 +176,6 @@ public class Arm {
         arm1.setPower(0);
         arm2.setPower(0);
     }
-
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
         telemetry.addData("arm2 position: ", arm2.getCurrentPosition());

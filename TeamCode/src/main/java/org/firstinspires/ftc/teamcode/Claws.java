@@ -40,27 +40,21 @@ public class Claws {
             if (Math.abs(right_claw.getPosition() - RIGHT_CLAW_CLOSED_POSITION)
                     < Math.abs(right_claw.getPosition() - RIGHT_CLAW_OPENED_POSITION)) {
                 right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
-            }
-            else {
+            } else {
                 right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
             }
             was_right_bumper_pressed = true;
-        }
-        if (!right_bumper_pressed) {
+        } else if (!right_bumper_pressed) {
             was_right_bumper_pressed = false;
-        }
-
-        if (left_bumper_pressed && !was_left_bumper_pressed) {
+        } else if (left_bumper_pressed && !was_left_bumper_pressed) {
             if (Math.abs(left_claw.getPosition() - LEFT_CLAW_CLOSED_POSITION)
                     < Math.abs(left_claw.getPosition() - LEFT_CLAW_OPENED_POSITION)) {
                 left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
-            }
-            else {
+            } else {
                 left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
             }
             was_left_bumper_pressed = true;
-        }
-        if (!left_bumper_pressed) {
+        } else if (!left_bumper_pressed) {
             was_left_bumper_pressed = false;
         }
     }
