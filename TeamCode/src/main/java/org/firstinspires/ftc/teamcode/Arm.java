@@ -31,15 +31,6 @@ public class Arm {
     static public boolean HANGING_MODE_ACTIVE = false;
 
     static public boolean LOADING_MODE_ACTIVE = false;
-
-    static public boolean UNLOADING_MODE_MIN_ACTIVE = false;
-
-    static public boolean UNLOADING_MODE_MAX_ACTIVE = false;
-
-    static private int STATIC_ENCODERS_ARM1 = 0;
-
-    static private int STATIC_ENCODERS_ARM2 = 0;
-
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -56,13 +47,11 @@ public class Arm {
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() + SPEED1;
         arm1.setTargetPosition(target_position);
-        STATIC_ENCODERS_ARM1 += SPEED1;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() + SPEED2;
         arm2.setTargetPosition(target_position2);
-        STATIC_ENCODERS_ARM2 += SPEED2;
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
@@ -71,12 +60,10 @@ public class Arm {
         arm1.setPower(POWER);
         target_position = arm1.getCurrentPosition() - SPEED1;
         arm1.setTargetPosition(target_position);
-        STATIC_ENCODERS_ARM1 -= SPEED1;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
         target_position2 = arm2.getCurrentPosition() - SPEED2;
-        STATIC_ENCODERS_ARM1 -= SPEED1;
         arm2.setTargetPosition(target_position2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -94,7 +81,7 @@ public class Arm {
         arm2.setPower(0);
     }
     public static void hangingModeArm(boolean HANGING_MODE_ACTIVE) {
-        if (STATIC_ENCODERS_ARM1 > -1180){
+        if (arm1.getCurrentPosition() > -1180){
             arm1.setPower(0.6);
             arm1.setTargetPosition(-1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -102,7 +89,7 @@ public class Arm {
             arm2.setPower(0.6);
             arm2.setTargetPosition(1200);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (STATIC_ENCODERS_ARM1 < -1220) {
+        } else if (arm1.getCurrentPosition() < -1220) {
             arm1.setPower(0.6);
             arm1.setTargetPosition(-1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -115,7 +102,7 @@ public class Arm {
         }
     }
     public static void loadingModeArm(boolean LOADING_MODE_ACTIVE){
-        if (STATIC_ENCODERS_ARM1 < 0) {
+        if (arm1.getCurrentPosition() < 0) {
             arm1.setPower(1);
             arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -125,48 +112,6 @@ public class Arm {
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
         } else {
             Arm.stopMoving();
-        }
-    }
-    public static void unloadingModeMinArm(boolean UNLOADING_MODE_MIN_ACTIVE){
-        if (STATIC_ENCODERS_ARM1 > -1180){
-            arm1.setPower(POWER);
-            arm1.setTargetPosition(-1200);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(POWER);
-            arm2.setTargetPosition(1200);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (STATIC_ENCODERS_ARM1 < -1220) {
-            arm1.setPower(POWER);
-            arm1.setTargetPosition(-1200);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(POWER);
-            arm2.setTargetPosition(1200);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else {
-            brake();
-        }
-    }
-    public static void unloadingModeMaxArm(boolean UNLOADING_MODE_MAX_ACTIVE){
-        if (STATIC_ENCODERS_ARM1 > -1180){
-            arm1.setPower(POWER);
-            arm1.setTargetPosition(-1200);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(POWER);
-            arm2.setTargetPosition(1200);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (STATIC_ENCODERS_ARM1 < -1220) {
-            arm1.setPower(POWER);
-            arm1.setTargetPosition(-1200);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(POWER);
-            arm2.setTargetPosition(1200);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else {
-            brake();
         }
     }
     public static boolean passedMinimalHoldPosition() {

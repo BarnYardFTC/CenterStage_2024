@@ -45,10 +45,4 @@ public class Wrist {
     public static void loadingModeWrist(){
         Wrist.setPosition(WRIST_DOWN_POSITION);
     }
-    public static void unloadingModeMinWrist(){
-        Wrist.setPosition(0.85);
-    }
-    public static void unloadingModeMaxWrist(){
-        Wrist.setPosition(0.59);
-    }
 }

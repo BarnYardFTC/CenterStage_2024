@@ -62,10 +62,6 @@ public class Claws {
         right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
         left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
     }
-    public static void unloadingModeClaws() {
-        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
-        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
-    }
     public static double getLeftClawPosition() {
         return left_claw.getPosition();
     }
