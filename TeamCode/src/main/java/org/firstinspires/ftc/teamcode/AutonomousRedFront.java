@@ -233,8 +233,10 @@ public class AutonomousRedFront extends LinearOpMode {
             }
         }
         else if (RFrun1.phase == 10) { // open left claw (let go of the pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RFrun1.phase ++;
+            sleep(500);
         }
         else if (RFrun1.phase == 11) { // move arm down
             if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun1.PHASE_11_FINISH, true)) {
@@ -401,6 +403,5 @@ public class AutonomousRedFront extends LinearOpMode {
         RFrun0.phase = 1;
         RFrun1.phase = 1;
         RFrun2.phase = 1;
-        EgnitionSystem.setAutonomousMovingPower(0.5);
     }
 }

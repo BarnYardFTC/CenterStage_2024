@@ -47,6 +47,16 @@ public class EgnitionSystem {
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
         EgnitionSystem.imu.resetYaw();
+
+        max = 1;
+        lx = 0;
+        ly = 0;
+        rx = 0;
+        heading = 0;
+        adjustedLx = 0;
+        adjustedLy = 0;
+        power = 1;
+        AUTONOMOUS_MOVING_POWER = 0.5;
     }
     public static void runTeleop() {
 
