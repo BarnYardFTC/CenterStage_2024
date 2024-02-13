@@ -6,7 +6,7 @@ public class Wrist {
 
     static Servo wrist;
     static final double WRIST_UP_POSITION = 0.6;
-    static final double WRIST_DOWN_POSITION = 0.32;
+    static final double WRIST_DOWN_POSITION = 0.320;
 
             ;
     static boolean was_Y_pressed = false;
