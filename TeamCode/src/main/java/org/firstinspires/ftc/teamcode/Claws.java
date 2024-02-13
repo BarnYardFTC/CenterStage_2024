@@ -46,7 +46,8 @@ public class Claws {
             was_right_bumper_pressed = true;
         } else if (!right_bumper_pressed) {
             was_right_bumper_pressed = false;
-        } else if (left_bumper_pressed && !was_left_bumper_pressed) {
+        }
+        if (left_bumper_pressed && !was_left_bumper_pressed) {
             if (Math.abs(left_claw.getPosition() - LEFT_CLAW_CLOSED_POSITION)
                     < Math.abs(left_claw.getPosition() - LEFT_CLAW_OPENED_POSITION)) {
                 left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);

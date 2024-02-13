@@ -37,7 +37,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             runArm();
             runWrist();
             runClaws();
-            runScoringModes();
+            runLoadingMode();
 
             if (gamepad1.x && !wasXPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -70,9 +70,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (gamepad1.left_trigger > 0){
-            Claws.loadingModeClaws();
-        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
@@ -89,19 +86,24 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
-        if (gamepad1.dpad_up) {
-            Arm.moveUp();
-        } else if (gamepad1.dpad_down) {
-            Arm.moveDown();
-        } else if (gamepad1.y || Arm.HANGING_MODE_ACTIVE) {
-            Arm.hangingModeArm(true);
+        if (gamepad1.dpad_up || Arm.MOVED_UP > 0) {
+            Arm.moveUp(Arm.MOVED_UP);
+            Arm.MOVED_UP --;
+        } else if (gamepad1.dpad_down || Arm.MOVED_DOWN > 0) {
+            Arm.moveDown(Arm.MOVED_DOWN);
+            Arm.MOVED_DOWN --;
+        } else if (gamepad1.dpad_left || Arm.HANGING_MODE_ACTIVE) {
+            Arm.hangingModeArm();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
-            Arm.loadingModeArm(true);
-       }
+        } else if (gamepad1.dpad_right || Arm.LOADING_MODE_ACTIVE) {
+            Arm.loadingModeArm();
+       } else {
+            Arm.MOVED_UP = 3;
+            Arm.MOVED_DOWN = 3;
+        }
     }
-    public void runScoringModes() {
-         if (gamepad1.left_trigger > 0) {
+    public void runLoadingMode() {
+         if (gamepad1.dpad_right) {
             Claws.loadingModeClaws();
             Wrist.loadingModeWrist();
         }
