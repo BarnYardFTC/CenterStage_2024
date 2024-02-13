@@ -16,8 +16,8 @@ public class DriverControlledPeriod extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initEgnitionSystem();
         initArm();
+        initEgnitionSystem();
         initWrist();
         initClaws();
 
@@ -33,9 +33,8 @@ public class DriverControlledPeriod extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            runEgnitionSystem();
             runArm();
-            runWrist();
+            runEgnitionSystem();
             runClaws();
             runScoringModes();
 
@@ -70,16 +69,15 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (gamepad1.left_trigger > 0){
+        if (gamepad1.dpad_right || gamepad1.dpad_left){
+            Claws.unloadingModeClaws();
+        } else if (gamepad1.left_trigger > 0){
             Claws.loadingModeClaws();
         }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
-    }
-    public void runWrist() {
-        Wrist.runWrist(gamepad1.y);
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -98,13 +96,32 @@ public class DriverControlledPeriod extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
             Arm.loadingModeArm(true);
-       }
+       } else{
+//            if (!Arm.passedMinimalHoldPosition()) {
+//                Arm.stopMoving();
+//            }
+//            else {
+//                Arm.brake();
+//            }
+        }
     }
     public void runScoringModes() {
-         if (gamepad1.left_trigger > 0) {
-            Claws.loadingModeClaws();
-            Wrist.loadingModeWrist();
-        }
+//         if (gamepad1.left_trigger > 0) {
+//            Claws.loadingModeClaws();
+//            Wrist.loadingModeWrist();
+//        } else if (gamepad1.dpad_right){
+//            Claws.unloadingModeClaws();
+//            if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+//                Wrist.unloadingModeMinWrist();
+//                Arm.unloadingModeMinArm(true);
+//            }
+//        } else if (gamepad1.dpad_left){
+//             Claws.unloadingModeClaws();
+//             if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+//                 Wrist.unloadingModeMaxWrist();
+//                 Arm.unloadingModeMaxArm(true);
+//             }
+//         }
     }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
