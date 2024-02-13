@@ -33,39 +33,38 @@ public class Arm {
     static public boolean LOADING_MODE_ACTIVE = false;
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
-        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         arm2 = motor2;
-        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public static void moveUp() {
-
         got_position_to_hold = false;
 
-        arm1.setPower(POWER);
-        target_position = arm1.getCurrentPosition() + SPEED1;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm1.setPower(-POWER);
+//        target_position = arm1.getCurrentPosition() + SPEED1;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(POWER);
-        target_position2 = arm2.getCurrentPosition() + SPEED2;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        target_position2 = arm2.getCurrentPosition() + SPEED2;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
         got_position_to_hold = false;
 
         arm1.setPower(POWER);
-        target_position = arm1.getCurrentPosition() - SPEED1;
-        arm1.setTargetPosition(target_position);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        target_position = arm1.getCurrentPosition() - SPEED1;
+//        arm1.setTargetPosition(target_position);
+//        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        arm2.setPower(POWER);
-        target_position2 = arm2.getCurrentPosition() - SPEED2;
-        arm2.setTargetPosition(target_position2);
-        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm2.setPower(-POWER);
+//        target_position2 = arm2.getCurrentPosition() - SPEED2;
+//        arm2.setTargetPosition(target_position2);
+//        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
 
