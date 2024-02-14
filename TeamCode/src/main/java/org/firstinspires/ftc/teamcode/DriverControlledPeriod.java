@@ -59,6 +59,9 @@ public class DriverControlledPeriod extends LinearOpMode {
 
             telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
+            telemetry.addData("Right claw", Claws.getRightClawPosition());
+            telemetry.addData("Wrist", Wrist.getPosition());
             telemetry.update();
         }
 

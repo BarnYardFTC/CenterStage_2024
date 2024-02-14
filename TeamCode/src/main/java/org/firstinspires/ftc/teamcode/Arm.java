@@ -37,15 +37,15 @@ public class Arm {
         got_position_to_hold = false;
         arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm1.setPower(-0.4);
-        arm2.setPower(0.4);
+        arm1.setPower(0.4);
+        arm2.setPower(-0.4);
     }
     public static void moveDown() {
         got_position_to_hold = false;
         arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm1.setPower(0.4);
-        arm2.setPower(-0.4);
+        arm1.setPower(-0.4);
+        arm2.setPower(0.4);
     }
     public static void brake(){
         if (!got_position_to_hold) {
