@@ -70,7 +70,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
         if (gamepad1.dpad_right || gamepad1.dpad_left){
-            Claws.unloadingModeClaws();
+            //Claws.unloadingModeClaws();
         } else if (gamepad1.left_trigger > 0){
             Claws.loadingModeClaws();
         }
