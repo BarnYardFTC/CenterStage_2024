@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wrist {
-
     static Servo wrist;
     static final double WRIST_UP_POSITION = 0.6;
     static final double WRIST_DOWN_POSITION = 0.32
