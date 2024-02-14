@@ -16,8 +16,8 @@ public class DriverControlledPeriod extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initArm();
         initEgnitionSystem();
+        initArm();
         initWrist();
         initClaws();
 
@@ -33,10 +33,11 @@ public class DriverControlledPeriod extends LinearOpMode {
 
 
         while (opModeIsActive()) {
-            runArm();
             runEgnitionSystem();
+            runArm();
+            runWrist();
             runClaws();
-            runScoringModes();
+            runLoadingMode();
 
             if (gamepad1.x && !wasXPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -69,15 +70,13 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (gamepad1.dpad_right || gamepad1.dpad_left){
-            //Claws.unloadingModeClaws();
-        } else if (gamepad1.left_trigger > 0){
-            Claws.loadingModeClaws();
-        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
+    }
+    public void runWrist() {
+        Wrist.runWrist(gamepad1.y);
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -87,41 +86,38 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
-        if (gamepad1.dpad_up) {
-            Arm.moveUp();
-        } else if (gamepad1.dpad_down) {
-            Arm.moveDown();
-        } else if (gamepad1.y || Arm.HANGING_MODE_ACTIVE) {
-            Arm.hangingModeArm(true);
+        if (gamepad1.dpad_up || Arm.MOVED_UP) {
+            if (Arm.MOVED_UP_DISTANCE > 0) {
+                Arm.MOVED_UP = true;
+                Arm.moveUp();
+                Arm.MOVED_UP_DISTANCE --;
+            } else {
+                Arm.brake();
+                Arm.MOVED_UP = false;
+                Arm.MOVED_UP_DISTANCE = 3;
+            }
+        } else if (gamepad1.dpad_down || Arm.MOVED_DOWN) {
+            if (Arm.MOVED_DOWN_DISTANCE > 0) {
+                Arm.MOVED_DOWN = true;
+                Arm.moveDown();
+                Arm.MOVED_DOWN_DISTANCE --;
+            } else {
+                Arm.brake();
+                Arm.MOVED_DOWN = false;
+                Arm.MOVED_DOWN_DISTANCE = 3;
+            }
+        } else if (gamepad1.dpad_left || Arm.HANGING_MODE_ACTIVE) {
+            Arm.hangingModeArm();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
-            Arm.loadingModeArm(true);
-       } else{
-//            if (!Arm.passedMinimalHoldPosition()) {
-//                Arm.stopMoving();
-//            }
-//            else {
-//                Arm.brake();
-//            }
-        }
+        } else if (gamepad1.dpad_right || Arm.LOADING_MODE_ACTIVE) {
+            Arm.loadingModeArm();
+       }
     }
-    public void runScoringModes() {
-//         if (gamepad1.left_trigger > 0) {
-//            Claws.loadingModeClaws();
-//            Wrist.loadingModeWrist();
-//        } else if (gamepad1.dpad_right){
-//            Claws.unloadingModeClaws();
-//            if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
-//                Wrist.unloadingModeMinWrist();
-//                Arm.unloadingModeMinArm(true);
-//            }
-//        } else if (gamepad1.dpad_left){
-//             Claws.unloadingModeClaws();
-//             if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
-//                 Wrist.unloadingModeMaxWrist();
-//                 Arm.unloadingModeMaxArm(true);
-//             }
-//         }
+    public void runLoadingMode() {
+         if (gamepad1.dpad_right) {
+            Claws.loadingModeClaws();
+            Wrist.loadingModeWrist();
+        }
     }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");

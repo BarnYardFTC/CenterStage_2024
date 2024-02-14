@@ -44,7 +44,10 @@ public class Claws {
                 right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
             }
             was_right_bumper_pressed = true;
-        } else if (left_bumper_pressed && !was_left_bumper_pressed) {
+        } else if (!right_bumper_pressed) {
+            was_right_bumper_pressed = false;
+        }
+        if (left_bumper_pressed && !was_left_bumper_pressed) {
             if (Math.abs(left_claw.getPosition() - LEFT_CLAW_CLOSED_POSITION)
                     < Math.abs(left_claw.getPosition() - LEFT_CLAW_OPENED_POSITION)) {
                 left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
@@ -52,12 +55,8 @@ public class Claws {
                 left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
             }
             was_left_bumper_pressed = true;
-        }
-        if (!left_bumper_pressed) {
+        } else if (!left_bumper_pressed) {
             was_left_bumper_pressed = false;
-        }
-        if (!right_bumper_pressed) {
-            was_right_bumper_pressed = false;
         }
     }
     public static void loadingModeClaws() {
