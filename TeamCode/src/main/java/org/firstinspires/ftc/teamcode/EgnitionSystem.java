@@ -26,9 +26,11 @@ public class EgnitionSystem {
     static private double heading = 0;
     static private double adjustedLx = 0;
     static private double adjustedLy = 0;
-    static private double power = 1;
+    static private double power = 0.3;
 
-    static private double AUTONOMOUS_MOVING_POWER = 0.5;
+    static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.5;
+
+    static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {
@@ -56,7 +58,7 @@ public class EgnitionSystem {
         adjustedLx = 0;
         adjustedLy = 0;
         power = 1;
-        AUTONOMOUS_MOVING_POWER = 0.5;
+        AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void runTeleop() {
 
