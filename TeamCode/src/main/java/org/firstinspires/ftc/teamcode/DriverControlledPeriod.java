@@ -86,21 +86,32 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
-        if (gamepad1.dpad_up || Arm.MOVED_UP > 0) {
-            Arm.moveUp(Arm.MOVED_UP);
-            Arm.MOVED_UP --;
-        } else if (gamepad1.dpad_down || Arm.MOVED_DOWN > 0) {
-            Arm.moveDown(Arm.MOVED_DOWN);
-            Arm.MOVED_DOWN --;
+        if (gamepad1.dpad_up || Arm.MOVED_UP) {
+            if (Arm.MOVED_UP_DISTANCE > 0) {
+                Arm.MOVED_UP = true;
+                Arm.moveUp();
+                Arm.MOVED_UP_DISTANCE --;
+            } else {
+                Arm.brake();
+                Arm.MOVED_UP = false;
+                Arm.MOVED_UP_DISTANCE = 3;
+            }
+        } else if (gamepad1.dpad_down || Arm.MOVED_DOWN) {
+            if (Arm.MOVED_DOWN_DISTANCE > 0) {
+                Arm.MOVED_DOWN = true;
+                Arm.moveDown();
+                Arm.MOVED_DOWN_DISTANCE --;
+            } else {
+                Arm.brake();
+                Arm.MOVED_DOWN = false;
+                Arm.MOVED_DOWN_DISTANCE = 3;
+            }
         } else if (gamepad1.dpad_left || Arm.HANGING_MODE_ACTIVE) {
             Arm.hangingModeArm();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         } else if (gamepad1.dpad_right || Arm.LOADING_MODE_ACTIVE) {
             Arm.loadingModeArm();
-       } else {
-            Arm.MOVED_UP = 3;
-            Arm.MOVED_DOWN = 3;
-        }
+       }
     }
     public void runLoadingMode() {
          if (gamepad1.dpad_right) {

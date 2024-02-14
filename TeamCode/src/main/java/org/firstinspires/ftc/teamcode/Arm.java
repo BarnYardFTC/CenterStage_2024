@@ -19,7 +19,9 @@ public class Arm {
 
     static public boolean LOADING_MODE_ACTIVE = false;
 
-    static public boolean
+    static public boolean MOVED_UP = false;
+
+    static public boolean MOVED_DOWN = false;
 
     static public int MOVED_UP_DISTANCE = 3;
 
@@ -31,25 +33,19 @@ public class Arm {
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public static void moveUp(int MOVED_UP) {
+    public static void moveUp() {
         got_position_to_hold = false;
         arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm1.setPower(-0.4);
         arm2.setPower(0.4);
-        if (MOVED_UP == 0) {
-            brake();
-        }
     }
-    public static void moveDown(int MOVED_DOWN) {
+    public static void moveDown() {
         got_position_to_hold = false;
         arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         arm1.setPower(0.4);
         arm2.setPower(-0.4);
-        if (MOVED_DOWN == 0) {
-            brake();
-        }
     }
     public static void brake(){
         if (!got_position_to_hold) {
