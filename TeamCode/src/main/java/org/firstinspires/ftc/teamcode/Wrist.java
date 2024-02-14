@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wrist {
-
+    private HardwareMap hardwaremap;
+    AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "myanaloginput");
+    double position = analogInput.getVoltage() / 3.3 * 360;
     static Servo wrist;
     static final double WRIST_UP_POSITION = 0.6;
     static final double WRIST_DOWN_POSITION = 0.32
