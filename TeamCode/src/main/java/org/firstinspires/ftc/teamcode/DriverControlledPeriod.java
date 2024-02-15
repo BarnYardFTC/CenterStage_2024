@@ -12,6 +12,8 @@ public class DriverControlledPeriod extends LinearOpMode {
     Servo servo;
     private double LAUNCH_POSITION = 0.5;
     private double HOLD_POSITION = 1;
+    boolean going_to_hang_position = false;
+    boolean going_to_load = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -88,6 +90,34 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {
+
+        if (!going_to_hang_position && !going_to_load) {
+            Arm.setSPEED(gamepad1.right_trigger, gamepad1.left_trigger);
+
+            if (gamepad1.right_trigger > 0) {
+                Arm.moveUp();
+            }
+            else if (gamepad1.left_trigger > 0) {
+                Arm.moveDown();
+            }
+            else if (gamepad1.x) {
+                going_to_hang_position = true;
+            }
+            else if (gamepad1.y) {
+                going_to_load = true;
+            }
+            else {
+                if (Arm.inStopPosition()) {
+                    Arm.stopMoving();
+                }
+                else {
+                    Arm.brake();
+                }
+            }
+        }
+        else {
+
+        }
 
     }
     public void runLoadingMode() {
