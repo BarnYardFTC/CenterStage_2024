@@ -13,12 +13,12 @@ public class Arm {
     private static DcMotor arm1;
     private static DcMotor arm2;
 
-    public static final int MINIMAL_HOLD_POSITION = 300;
+    public static final int MINIMAL_HOLD_POSITION = -300;
 
     public static final double POWER = 1;
 
-    public static int UP_SPEED = 50;
-    public static int DOWN_SPEED = -50;
+    public static int UP_SPEED = -50;
+    public static int DOWN_SPEED = 50;
 
     public static boolean HANGING_MODE = false;
     public static boolean LOADING_MODE = false;
@@ -59,7 +59,7 @@ public class Arm {
 
     public static void brake() {
         enableEncoders();
-        if (arm1.getCurrentPosition() > 1400) {
+        if (arm1.getCurrentPosition() > -1400) {
             arm1.setPower(0);
             arm2.setPower(0);
             arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -70,20 +70,20 @@ public class Arm {
     public static void hangingMode() {
         enableEncoders();
 
-        if (arm1.getCurrentPosition() > 1220) {
+        if (arm1.getCurrentPosition() < -1220) {
             HANGING_MODE = true;
             arm1.setPower(POWER);
             arm2.setPower(POWER);
-            arm1.setTargetPosition(1200);
-            arm2.setTargetPosition(-1200);
+            arm1.setTargetPosition(-1200);
+            arm2.setTargetPosition(1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (arm1.getCurrentPosition() < 1180) {
+        } else if (arm1.getCurrentPosition() > -1180) {
             HANGING_MODE = true;
             arm1.setPower(POWER);
             arm2.setPower(POWER);
-            arm1.setTargetPosition(1200);
-            arm2.setTargetPosition(-1200);
+            arm1.setTargetPosition(-1200);
+            arm2.setTargetPosition(1200);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
@@ -93,7 +93,7 @@ public class Arm {
     }
     public static void loadingMode(){
         enableEncoders();
-        if (arm1.getCurrentPosition() > 0) {
+        if (arm1.getCurrentPosition() < 0) {
             LOADING_MODE = true;
             arm1.setPower(POWER);
             arm2.setPower(POWER);
