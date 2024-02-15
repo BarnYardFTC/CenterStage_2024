@@ -19,6 +19,9 @@ public class EgnitionSystem {
     static private DcMotor br_wheel;
     static private IMU imu;
 
+    public static final double FAST_POWER = 1;
+    public static final double SLOW_POWER = 0.5;
+
     static private double max = 1;
     static private double lx = 0;
     static private double ly = 0;
@@ -26,7 +29,7 @@ public class EgnitionSystem {
     static private double heading = 0;
     static private double adjustedLx = 0;
     static private double adjustedLy = 0;
-    static private double power = 0.3;
+    static public double power = FAST_POWER;
 
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.2;
 
@@ -57,7 +60,7 @@ public class EgnitionSystem {
         heading = 0;
         adjustedLx = 0;
         adjustedLy = 0;
-        power = 1;
+        power = FAST_POWER;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void runTeleop() {
@@ -79,13 +82,6 @@ public class EgnitionSystem {
 
         adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-
-        if (gamepad1.right_trigger > 0) {
-            power = (1 - gamepad1.right_trigger + 0.5) / 2;
-        }
-        else {
-            power = 1;
-        }
 
         telemetry.addLine("Press B to reset robot's head direction");
         if (gamepad1.b) {
@@ -163,6 +159,12 @@ public class EgnitionSystem {
     }
     public static void setAutonomousMovingPower(double power){
         AUTONOMOUS_MOVING_POWER = power;
+    }
+    public static void slowMode() {
+        power = SLOW_POWER;
+    }
+    public static void fastMode() {
+        power = FAST_POWER;
     }
 
 }

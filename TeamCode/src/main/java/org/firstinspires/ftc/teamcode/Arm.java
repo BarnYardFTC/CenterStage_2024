@@ -1,98 +1,79 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
 
-    static private DcMotor arm1;
-    static private DcMotor arm2;
+    private static DcMotor arm1;
+    private static DcMotor arm2;
 
-    static public final int MINIMAL_HOLD_POSITION = -300;
+    public static final int MINIMAL_HOLD_POSITION = -300;
+    public static final int HANGING_MODE_POSITION = 1200;
 
-    static private boolean got_position_to_hold = false;
+    public static final double POWER = 0.3;
+    public static final double FAST_POWER = 0.7;
 
-    static private int hold_position1 = 0;
-
-    static public boolean HANGING_MODE_ACTIVE = false;
-
-    static public boolean LOADING_MODE_ACTIVE = false;
-
-    static public boolean MOVED_UP = false;
-
-    static public boolean MOVED_DOWN = false;
-
-    static public int MOVED_UP_DISTANCE = 3;
-
-    static public int MOVED_DOWN_DISTANCE = 3;
+    public static int SPEED = 30;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm2 = motor2;
-        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        arm1.setDirection(DcMotorSimple.Direction.REVERSE);
+        enableEncoders();
     }
     public static void moveUp() {
-        got_position_to_hold = false;
-        arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm1.setPower(0.4);
-        arm2.setPower(-0.4);
+
+        arm1.setPower(POWER);
+        arm2.setPower(POWER);
+
+        arm1.setTargetPosition(arm1.getCurrentPosition()+SPEED);
+        arm2.setTargetPosition(arm2.getCurrentPosition()+SPEED);
+
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
-        got_position_to_hold = false;
-        arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm1.setPower(-0.4);
-        arm2.setPower(0.4);
+
+        arm1.setPower(POWER);
+        arm2.setPower(POWER);
+
+        arm1.setTargetPosition(arm1.getCurrentPosition()-SPEED);
+        arm2.setTargetPosition(arm2.getCurrentPosition()-SPEED);
+
+        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
-        if (!got_position_to_hold) {
-            got_position_to_hold = true;
-            hold_position1 = arm1.getCurrentPosition();
-        }
 
-        arm1.setPower(1);
-        arm1.setTargetPosition(hold_position1);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm1.setPower(0);
         arm2.setPower(0);
+        arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public static void hangingModeArm() {
-        if (arm1.getCurrentPosition() > -1180){
-            arm1.setPower(0.6);
-            arm1.setTargetPosition(-1205);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public static void HangingMode() {
 
-            arm2.setPower(0.6);
-            arm2.setTargetPosition(1205);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (arm1.getCurrentPosition() < -1220) {
-            arm1.setPower(0.6);
-            arm1.setTargetPosition(-1205);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(0.6);
-            arm2.setTargetPosition(1205);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else {
-            brake();
+        if (arm1.getCurrentPosition() < HANGING_MODE_POSITION) {
+            moveUp();
+        }
+        else if (arm1.getCurrentPosition() > HANGING_MODE_POSITION) {
+            moveDown();
+        }
+        else {
+            arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
-    public static void loadingModeArm(){
-        if (arm1.getCurrentPosition() < 0) {
-            arm1.setPower(1);
-            arm1.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(1);
-            arm2.setTargetPosition(0 - (arm1.getCurrentPosition() + arm2.getCurrentPosition()));
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
-        } else {
-            Arm.stopMoving();
-        }
+    public static void loadingMode(){
+        arm1.setPower(-FAST_POWER);
+        arm2.setPower(-FAST_POWER);
     }
-    public static boolean passedMinimalHoldPosition() {
+    public static boolean inStopPosition() {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
     public static void stopMoving() {
@@ -102,8 +83,6 @@ public class Arm {
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
         telemetry.addData("arm2 position: ", arm2.getCurrentPosition());
-        telemetry.addData("up: ", Arm.MOVED_UP);
-        telemetry.addData("down: ", Arm.MOVED_DOWN);
     }
     public static int getArm1Position() {
         return arm1.getCurrentPosition();
@@ -119,6 +98,18 @@ public class Arm {
             return current_position <= finish_position;
         }
     }
+    public static void enableEncoders() {
+        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public static void disableEncoders() {
+        arm1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public static void setSPEED(double right_trigger, double left_trigger) {
 
+    }
 }

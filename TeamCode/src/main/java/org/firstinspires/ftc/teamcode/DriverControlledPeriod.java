@@ -88,33 +88,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {
-        Arm.addDataToTelemetry(telemetry);
-        if (gamepad1.dpad_up || Arm.MOVED_UP) {
-            if (Arm.MOVED_UP_DISTANCE > 0) {
-                Arm.MOVED_UP = true;
-                Arm.moveUp();
-                Arm.MOVED_UP_DISTANCE --;
-            } else {
-                Arm.brake();
-                Arm.MOVED_UP = false;
-                Arm.MOVED_UP_DISTANCE = 3;
-            }
-        } else if (gamepad1.dpad_down || Arm.MOVED_DOWN) {
-            if (Arm.MOVED_DOWN_DISTANCE > 0) {
-                Arm.MOVED_DOWN = true;
-                Arm.moveDown();
-                Arm.MOVED_DOWN_DISTANCE --;
-            } else {
-                Arm.brake();
-                Arm.MOVED_DOWN = false;
-                Arm.MOVED_DOWN_DISTANCE = 3;
-            }
-        } else if (gamepad1.dpad_left || Arm.HANGING_MODE_ACTIVE) {
-            Arm.hangingModeArm();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (gamepad1.dpad_right || Arm.LOADING_MODE_ACTIVE) {
-            Arm.loadingModeArm();
-       }
+
     }
     public void runLoadingMode() {
          if (gamepad1.dpad_right) {
@@ -132,6 +106,12 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
     }
     public void runEgnitionSystem() {
+        if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
+            EgnitionSystem.slowMode();
+        }
+        else {
+            EgnitionSystem.fastMode();
+        }
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
         EgnitionSystem.runTeleop();
     }
