@@ -105,6 +105,8 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
             else if (gamepad1.a) {
                 going_to_hang_position = true;
+                Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+
             }
             else if (gamepad1.x) {
                 going_to_load = true;
@@ -135,7 +137,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 
     }
     public void runLoadingMode() {
-         if (gamepad1.dpad_right) {
+         if (gamepad1.y) {
             Claws.loadingModeClaws();
             Wrist.loadingModeWrist();
         }
