@@ -79,11 +79,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         Wrist.init(servo);
     }
     public void runWrist() {
-        if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Arm.ENCODER1 == 0) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else {
-            Wrist.setPosition();
-        }
+
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");

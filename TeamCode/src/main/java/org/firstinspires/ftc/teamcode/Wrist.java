@@ -29,4 +29,18 @@ public class Wrist {
     public static double getPosition() {
         return wrist.getPosition();
     }
+    public static void runWrist(boolean Y_pressed){
+        if (Y_pressed && !was_Y_pressed) {
+            if (Math.abs(wrist.getPosition() - WRIST_DOWN_POSITION) < Math.abs(wrist.getPosition() - WRIST_UP_POSITION)) {
+                wrist.setPosition(WRIST_UP_POSITION);
+            }
+            else {
+                wrist.setPosition(WRIST_DOWN_POSITION);
+            }
+            was_Y_pressed = true;
+        }
+        if (!Y_pressed) {
+            was_Y_pressed = false;
+        }
+    }
 }

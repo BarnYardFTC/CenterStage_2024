@@ -8,3 +8,4 @@ public class HardwareLocal {
     AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "myanaloginput");
     double position = analogInput.getVoltage() / 3.3 * 360;
 }
+
