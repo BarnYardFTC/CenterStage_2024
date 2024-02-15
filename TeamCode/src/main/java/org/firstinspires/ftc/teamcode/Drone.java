@@ -13,20 +13,20 @@ public class Drone extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         servo = hardwareMap.get(Servo.class, "drone");
         waitForStart();
-        boolean wasXPressed = false;
+        boolean wasDpadDownPressed = false;
         servo.setPosition(HOLD_POSITION);
         while (opModeIsActive()) {
-            if (gamepad1.x && !wasXPressed) {
+            if (gamepad1.x && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
                     servo.setPosition(LAUNCH_POSITION);
                 }
                 else {
                     servo.setPosition(HOLD_POSITION);
                 }
-                wasXPressed = true;
+                wasDpadDownPressed = true;
             }
             if (!gamepad1.x) {
-                wasXPressed = false;
+                wasDpadDownPressed = false;
             }
         }
     }

@@ -14,8 +14,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     private double HOLD_POSITION = 1;
     boolean going_to_hang_position = false;
     boolean going_to_load = false;
-    int LOAD_TIME = 20;
-    int time = LOAD_TIME;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,7 +28,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 
         telemetry.update();
         waitForStart();
-        boolean wasXPressed = false;
+        boolean wasDpadDownPressed = false;
 
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
@@ -41,31 +39,22 @@ public class DriverControlledPeriod extends LinearOpMode {
             runArm();
             runWrist();
             runClaws();
-            runLoadingMode();
 
-            if (gamepad1.x && !wasXPressed) {
+            if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
                     servo.setPosition(LAUNCH_POSITION);
                 }
                 else {
                     servo.setPosition(HOLD_POSITION);
                 }
-                wasXPressed = true;
+                wasDpadDownPressed = true;
             }
-            if (!gamepad1.x) {
-                wasXPressed = false;
-            }
-
-
-            if (gamepad1.a){
-                EgnitionSystem.resetEncoders();
+            if (!gamepad1.dpad_down) {
+                wasDpadDownPressed = false;
             }
 
-            telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
-            telemetry.addData("Right claw", Claws.getRightClawPosition());
-            telemetry.addData("Wrist", Wrist.getPosition());
+            telemetry.addData("arm(1) encoder: ", Arm.getArm1Position());
+            telemetry.addData("arm(2) encoder: ", Arm.getArm2Position());
             telemetry.update();
         }
 
@@ -92,54 +81,20 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {
-
-        if (!going_to_hang_position && !going_to_load) {
-            Arm.setSPEED(gamepad1.right_trigger, gamepad1.left_trigger);
-
-            if (gamepad1.right_trigger > 0) {
-                Arm.enableEncoders();
-                Arm.moveUp();
-            }
-            else if (gamepad1.left_trigger > 0) {
-                Arm.moveDown();
-            }
-            else if (gamepad1.a) {
-                going_to_hang_position = true;
-                Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-
-            }
-            else if (gamepad1.x) {
-                going_to_load = true;
-            }
-            else {
-                if (Arm.inStopPosition()) {
-                    Arm.stopMoving();
-                }
-                else {
-                    Arm.brake();
-                }
-            }
-        }
-        else {
-            if (going_to_load) {
-                if (time > 0) {
-                    time --;
-                    Arm.loadingMode();
-                }
-                else {
-                    Arm.stopMoving();
-                }
-            }
-            else if (going_to_hang_position) {
-
-            }
-        }
-
-    }
-    public void runLoadingMode() {
-         if (gamepad1.y) {
-            Claws.loadingModeClaws();
-            Wrist.loadingModeWrist();
+        if (gamepad1.right_trigger > 0) {
+            Arm.moveUp();
+        } else if (gamepad1.left_trigger > 0) {
+            Arm.moveDown();
+        } else if (gamepad1.a || Arm.HANGING_MODE) {
+            Arm.hangingMode();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+        } else if (gamepad1.x || Arm.LOADING_MODE) {
+            Arm.loadingMode();
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            Claws.openLeftClaw();
+            Claws.openRightClaw();
+        } else {
+            Arm.brake();
         }
     }
     public void initEgnitionSystem() {

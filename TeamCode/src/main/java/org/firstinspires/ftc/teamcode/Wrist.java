@@ -43,7 +43,4 @@ public class Wrist {
             was_Y_pressed = false;
         }
     }
-    public static void loadingModeWrist(){
-        Wrist.setPosition(WRIST_DOWN_POSITION);
-    }
 }
