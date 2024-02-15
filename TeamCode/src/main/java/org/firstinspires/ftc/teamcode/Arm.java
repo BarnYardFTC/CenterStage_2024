@@ -18,7 +18,10 @@ public class Arm {
     public static final double POWER = 0.3;
     public static final double FAST_POWER = 0.7;
 
-    public static int SPEED = 30;
+    public static final int MULTIPLY = 30;
+
+    public static int UP_SPEED = 0;
+    public static int DOWN_SPEED = 0;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
@@ -32,8 +35,8 @@ public class Arm {
         arm1.setPower(POWER);
         arm2.setPower(POWER);
 
-        arm1.setTargetPosition(arm1.getCurrentPosition()+SPEED);
-        arm2.setTargetPosition(arm2.getCurrentPosition()+SPEED);
+        arm1.setTargetPosition(arm1.getCurrentPosition()+UP_SPEED);
+        arm2.setTargetPosition(arm2.getCurrentPosition()+UP_SPEED);
 
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -43,14 +46,13 @@ public class Arm {
         arm1.setPower(POWER);
         arm2.setPower(POWER);
 
-        arm1.setTargetPosition(arm1.getCurrentPosition()-SPEED);
-        arm2.setTargetPosition(arm2.getCurrentPosition()-SPEED);
+        arm1.setTargetPosition(arm1.getCurrentPosition()-DOWN_SPEED);
+        arm2.setTargetPosition(arm2.getCurrentPosition()-DOWN_SPEED);
 
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
-
         arm1.setPower(0);
         arm2.setPower(0);
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -65,11 +67,15 @@ public class Arm {
             moveDown();
         }
         else {
+            arm1.setPower(0);
+            arm2.setPower(0);
+
             arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
     public static void loadingMode(){
+        disableEncoders();
         arm1.setPower(-FAST_POWER);
         arm2.setPower(-FAST_POWER);
     }
@@ -77,6 +83,7 @@ public class Arm {
         return arm1.getCurrentPosition() < MINIMAL_HOLD_POSITION;
     }
     public static void stopMoving() {
+        disableEncoders();
         arm1.setPower(0);
         arm2.setPower(0);
     }
@@ -110,6 +117,7 @@ public class Arm {
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public static void setSPEED(double right_trigger, double left_trigger) {
-
+        UP_SPEED = (int) right_trigger * MULTIPLY;
+        DOWN_SPEED = (int) left_trigger * MULTIPLY;
     }
 }
