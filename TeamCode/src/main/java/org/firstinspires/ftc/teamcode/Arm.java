@@ -32,6 +32,8 @@ public class Arm {
     }
     public static void moveUp() {
 
+        enableEncoders();
+
         arm1.setPower(POWER);
         arm2.setPower(POWER);
 
@@ -43,6 +45,8 @@ public class Arm {
     }
     public static void moveDown() {
 
+        enableEncoders();
+
         arm1.setPower(POWER);
         arm2.setPower(POWER);
 
@@ -53,12 +57,15 @@ public class Arm {
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
+        enableEncoders();
+
         arm1.setPower(0);
         arm2.setPower(0);
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public static void HangingMode() {
+        enableEncoders();
 
         if (arm1.getCurrentPosition() < HANGING_MODE_POSITION) {
             moveUp();

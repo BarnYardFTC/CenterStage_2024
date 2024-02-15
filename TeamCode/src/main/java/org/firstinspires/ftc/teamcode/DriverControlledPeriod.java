@@ -14,6 +14,8 @@ public class DriverControlledPeriod extends LinearOpMode {
     private double HOLD_POSITION = 1;
     boolean going_to_hang_position = false;
     boolean going_to_load = false;
+    int LOAD_TIME = 20;
+    int time = LOAD_TIME;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -95,15 +97,16 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.setSPEED(gamepad1.right_trigger, gamepad1.left_trigger);
 
             if (gamepad1.right_trigger > 0) {
+                Arm.enableEncoders();
                 Arm.moveUp();
             }
             else if (gamepad1.left_trigger > 0) {
                 Arm.moveDown();
             }
-            else if (gamepad1.x) {
+            else if (gamepad1.a) {
                 going_to_hang_position = true;
             }
-            else if (gamepad1.y) {
+            else if (gamepad1.x) {
                 going_to_load = true;
             }
             else {
@@ -116,7 +119,18 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
         }
         else {
+            if (going_to_load) {
+                if (time > 0) {
+                    time --;
+                    Arm.loadingMode();
+                }
+                else {
+                    Arm.stopMoving();
+                }
+            }
+            else if (going_to_hang_position) {
 
+            }
         }
 
     }
