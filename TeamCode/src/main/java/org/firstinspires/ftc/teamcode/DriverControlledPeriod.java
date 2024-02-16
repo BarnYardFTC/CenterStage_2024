@@ -79,9 +79,9 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-        if (HardwareLocal.position > 10 && HardwareLocal.position < 115 && Wrist.getPosition() == Wrist.WRIST_UP_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        }
+//        if (HardwareLocal.position > 10 && Wrist.getPosition() == Wrist.WRIST_UP_POSITION) {
+//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+//        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -125,10 +125,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void runHangingMode() {
-        if (gamepad1.y) {
+        if (gamepad1.right_trigger > 0) {
             Claws.closeLeftClaw();
             Claws.closeRightClaw();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void initEgnitionSystem() {
