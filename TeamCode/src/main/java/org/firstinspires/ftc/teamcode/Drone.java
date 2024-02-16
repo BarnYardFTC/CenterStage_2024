@@ -16,7 +16,7 @@ public class Drone extends LinearOpMode {
         boolean wasDpadDownPressed = false;
         servo.setPosition(HOLD_POSITION);
         while (opModeIsActive()) {
-            if (gamepad1.x && !wasDpadDownPressed) {
+            if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
                     servo.setPosition(LAUNCH_POSITION);
                 }
@@ -25,7 +25,7 @@ public class Drone extends LinearOpMode {
                 }
                 wasDpadDownPressed = true;
             }
-            if (!gamepad1.x) {
+            if (!gamepad1.dpad_down) {
                 wasDpadDownPressed = false;
             }
         }

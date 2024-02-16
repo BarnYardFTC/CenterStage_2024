@@ -26,7 +26,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 
         telemetry.update();
         waitForStart();
-        boolean wasXPressed = false;
+        boolean wasDpadDownPressed = false;
 
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
@@ -38,17 +38,17 @@ public class DriverControlledPeriod extends LinearOpMode {
             runClaws();
             runWrist();
 
-            if (gamepad1.x && !wasXPressed) {
+            if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
                     servo.setPosition(LAUNCH_POSITION);
                 }
                 else {
                     servo.setPosition(HOLD_POSITION);
                 }
-                wasXPressed = true;
+                wasDpadDownPressed = true;
             }
-            if (!gamepad1.x) {
-                wasXPressed = false;
+            if (!gamepad1.dpad_down) {
+                wasDpadDownPressed = false;
             }
 
 
@@ -95,19 +95,19 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.addDataToTelemetry(telemetry);
 
         if (Arm.HANGING_MODE_ACTIVE2) {
-          if (gamepad1.dpad_up) {
+          if (gamepad1.right_trigger > 0) {
               Arm.hangingModeArm2();
-          } else if (gamepad1.dpad_down){
+          } else if (gamepad1.left_trigger > 0){
               Arm.hangingModeArm3();
           }
-        } else if (gamepad1.dpad_up) {
+        } else if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.right_trigger > 0 || Arm.HANGING_MODE_ACTIVE1) {
+        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE1) {
             runHangingMode();
             Arm.hangingModeArm1();
-        } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
+        } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -121,13 +121,13 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void runLoadingMode() {
-        if (gamepad1.left_trigger > 0) {
+        if (gamepad1.x) {
             Claws.loadingModeClaws();
             Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
         }
     }
     public void runHangingMode() {
-        if (gamepad1.right_trigger > 0) {
+        if (gamepad1.dpad_up) {
             Claws.closeLeftClaw();
             Claws.closeRightClaw();
         }
