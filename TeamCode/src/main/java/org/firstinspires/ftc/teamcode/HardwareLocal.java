@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HardwareLocal {
@@ -16,6 +17,31 @@ public class HardwareLocal {
         HardwareLocal.position = position;
     }
 //    color sensor claws
-
+    private ColorSensor colorSensorLeft;
+    private ColorSensor colorSensorRight;
+    private double redValueLeft;
+    private double greenValueLeft;
+    private double blueValueLeft;
+    private double alphaValueLeft;
+    private double redValueRight;
+    private double greenValueRight;
+    private double blueValueRight;
+    private double alphaValueRight;
+    public static void init() {
+        ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "ColorSensorR");
+        ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "ColorSensorL");
+    }
+    public  void getColorRight() {
+        redValueRight = colorSensorRight.red();
+        greenValueRight = colorSensorRight.green();
+        blueValueRight = colorSensorRight.blue();
+        alphaValueRight = colorSensorRight.alpha();
+    }
+    public  void getColorLeft() {
+        redValueLeft = colorSensorLeft.red();
+        greenValueLeft = colorSensorLeft.green();
+        blueValueLeft = colorSensorLeft.blue();
+        alphaValueLeft = colorSensorLeft.alpha();
+    }
 }
 

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -20,6 +21,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initArm();
         initWrist();
         initClaws();
+        HardwareLocal.init();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
@@ -145,5 +147,4 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
         EgnitionSystem.runTeleop();
     }
-
 }
