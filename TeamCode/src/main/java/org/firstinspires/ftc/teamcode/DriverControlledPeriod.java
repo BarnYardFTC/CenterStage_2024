@@ -14,7 +14,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     private double HOLD_POSITION = 1;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         initEgnitionSystem();
         initArm();
@@ -79,9 +79,11 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-//        if (HardwareLocal.position > 10 && Wrist.getPosition() == Wrist.WRIST_UP_POSITION) {
-//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-//        }
+        if (HardwareLocal.getPosition() > 10 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.getPosition() < 180) {
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+        } else {
+            Wrist.setPosition((HardwareLocal.getPosition() - 180) * 0.01);
+        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
