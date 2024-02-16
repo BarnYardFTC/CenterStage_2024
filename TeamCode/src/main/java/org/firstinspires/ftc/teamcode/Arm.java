@@ -160,4 +160,12 @@ public class Arm {
     public static boolean passedMinimalHoldPosition() {
         return  ENCODER1 >= MINIMAL_HOLD_POSITION;
     }
+    public static boolean arrivedPosition (int current_position, int finish_position, boolean finish_bigger_than_start) {
+        if (finish_bigger_than_start) {
+            return current_position >= finish_position;
+        }
+        else {
+            return current_position <= finish_position;
+        }
+    }
 }
