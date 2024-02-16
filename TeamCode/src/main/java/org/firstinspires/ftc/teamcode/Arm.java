@@ -157,4 +157,7 @@ public class Arm {
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+    public static boolean passedMinimalHoldPosition() {
+        return  ENCODER1 >= MINIMAL_HOLD_POSITION;
+    }
 }
