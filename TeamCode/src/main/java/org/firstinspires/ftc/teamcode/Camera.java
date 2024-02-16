@@ -39,6 +39,12 @@ public class Camera {
         else if (side == 2) {
             return pixel_detector_RF.getLeftRegion_avg();
         }
+        else if (side == 3) {
+            return pixel_detector_RB.getLeftRegion_avg();
+        }
+        else if (side == 4) {
+            return pixel_detector_RF.getLeftRegion_avg();
+        }
         return -1;
     }
     public static int getRightRegion_avg(int side) {
@@ -48,6 +54,12 @@ public class Camera {
         else if (side == 2) {
             return pixel_detector_RF.getRightRegion_avg();
         }
+        else if (side == 3) {
+            return pixel_detector_RB.getRightRegion_avg();
+        }
+        else if (side == 4) {
+            return pixel_detector_RF.getRightRegion_avg();
+        }
         return -1;
     }
     public static void close(int side) {
@@ -55,6 +67,12 @@ public class Camera {
             camera.setProcessorEnabled(pixel_detector_RB,false);
         }
         else if (side == 2) {
+            camera.setProcessorEnabled(pixel_detector_RF, false);
+        }
+        else if (side == 3) {
+            camera.setProcessorEnabled(pixel_detector_RB,false);
+        }
+        else if (side == 4) {
             camera.setProcessorEnabled(pixel_detector_RF, false);
         }
 
