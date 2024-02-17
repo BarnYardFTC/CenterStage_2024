@@ -27,7 +27,7 @@ public class HardwareLocal {
     private double greenValueRight;
     private double blueValueRight;
     private double alphaValueRight;
-    public static void init() {
+    public static void initColorSensor() {
         ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "ColorSensorR");
         ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "ColorSensorL");
     }

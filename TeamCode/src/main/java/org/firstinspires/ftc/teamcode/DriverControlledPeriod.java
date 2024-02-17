@@ -21,7 +21,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initArm();
         initWrist();
         initClaws();
-        HardwareLocal.init();
+        HardwareLocal.initColorSensor();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
