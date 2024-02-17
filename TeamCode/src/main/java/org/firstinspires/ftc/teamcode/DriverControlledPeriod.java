@@ -53,16 +53,12 @@ public class DriverControlledPeriod extends LinearOpMode {
                 wasDpadDownPressed = false;
             }
 
-
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
 
             telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
-            telemetry.addData("Right claw", Claws.getRightClawPosition());
-            telemetry.addData("Wrist", Wrist.getPosition());
+            telemetry.addData("Arm1 encoder: ", Arm.ENCODER1);
             telemetry.update();
         }
 

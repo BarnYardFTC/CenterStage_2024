@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -31,17 +33,23 @@ public class HardwareLocal {
         ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "ColorSensorR");
         ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "ColorSensorL");
     }
-    public  void getColorRight() {
+    public void getColorRight() {
         redValueRight = colorSensorRight.red();
         greenValueRight = colorSensorRight.green();
         blueValueRight = colorSensorRight.blue();
         alphaValueRight = colorSensorRight.alpha();
     }
-    public  void getColorLeft() {
+    public void getColorLeft() {
         redValueLeft = colorSensorLeft.red();
         greenValueLeft = colorSensorLeft.green();
         blueValueLeft = colorSensorLeft.blue();
         alphaValueLeft = colorSensorLeft.alpha();
+    }
+    public void addTelemetryColor() {
+        telemetry.addData("color red right: ", redValueRight);
+        telemetry.addData("color green right: ", greenValueRight);
+        telemetry.addData("color blue right: ", blueValueRight);
+        telemetry.addData("color alpha right: ", alphaValueRight);
     }
 }
 
