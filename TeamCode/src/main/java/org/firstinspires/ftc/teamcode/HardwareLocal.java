@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class HardwareLocal {
 //    analog input
     public static HardwareMap hardwaremap;
-    public static AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "myanaloginput");
+    public static AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "localAnalogInput");
     public static double position = analogInput.getVoltage() / 3.3 * 360;
 
     public static double getPosition() {
