@@ -71,11 +71,10 @@ public class HardwareLocal {
         alphaValueLeft = colorSensorLeft.alpha();
     }
     public static boolean pixelLeft() {
-        return redValueLeft == 50 && greenValueLeft == 45 && blueValueLeft == 140 && alphaValueLeft == 0.5 || redValueLeft == 30 && greenValueLeft == 185 && blueValueLeft == 50 && alphaValueLeft == 0.95 || redValueLeft == 255 && greenValueLeft == 195 && blueValueLeft == 0 && alphaValueLeft == 0.85 || redValueLeft == 0 && greenValueLeft == 0 && blueValueLeft == 0 && alphaValueLeft == 0.05;
+        return redValueLeft == 190 && greenValueLeft == 170 && blueValueLeft == 235 && alphaValueLeft == 1 || redValueLeft == 110 && greenValueLeft == 200 && blueValueLeft == 45 && alphaValueLeft == 1 || redValueLeft == 255 && greenValueLeft == 210 && blueValueLeft == 20 && alphaValueLeft == 1 || redValueLeft == 235 && greenValueLeft == 235 && blueValueLeft == 240 && alphaValueLeft == 1;
     }
     public static boolean pixelRight() {
-        return redValueRight == 50 && greenValueRight == 45 && blueValueRight == 140 && alphaValueRight == 0.5 || redValueRight == 30 && greenValueRight == 185 && blueValueRight == 50 && alphaValueRight == 0.95 || redValueRight == 255 && greenValueRight == 195 && blueValueRight == 0 && alphaValueRight == 0.85 || redValueRight == 0 && greenValueRight == 0 && blueValueRight == 0 && alphaValueRight == 0.05;
-
+        return redValueRight == 190 && greenValueRight == 170 && blueValueRight == 235 && alphaValueRight == 1 || redValueRight == 110 && greenValueRight == 200 && blueValueRight == 45 && alphaValueRight == 1 || redValueRight == 255 && greenValueRight == 210 && blueValueRight == 20 && alphaValueRight == 1 || redValueRight == 235 && greenValueRight == 235 && blueValueRight == 240 && alphaValueRight == 1;
     }
     public void addTelemetryColor() {
         telemetry.addData("color red right: ", redValueRight);
