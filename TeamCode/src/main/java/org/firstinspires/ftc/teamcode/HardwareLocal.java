@@ -21,14 +21,39 @@ public class HardwareLocal {
 //    color sensor claws
     private ColorSensor colorSensorLeft;
     private ColorSensor colorSensorRight;
-    private double redValueLeft;
-    private double greenValueLeft;
-    private double blueValueLeft;
-    private double alphaValueLeft;
-    private double redValueRight;
-    private double greenValueRight;
-    private double blueValueRight;
-    private double alphaValueRight;
+    private static double redValueLeft;
+    private static double greenValueLeft;
+    private static double blueValueLeft;
+    private static double alphaValueLeft;
+    private static double redValueRight;
+    private static double greenValueRight;
+    private static double blueValueRight;
+    private static double alphaValueRight;
+
+    public static double getRedValueLeft() {
+        return redValueLeft;
+    }
+    public static double getGreenValueLeft() {
+        return greenValueLeft;
+    }
+    public static double getBlueValueLeft() {
+        return blueValueLeft;
+    }
+    public static double getAlphaValueLeft() {
+        return alphaValueLeft;
+    }
+    public static double getRedValueRight() {
+        return redValueRight;
+    }
+    public static double getGreenValueRight() {
+        return greenValueRight;
+    }
+    public static double getBlueValueRight() {
+        return blueValueRight;
+    }
+    public static double getAlphaValueRight() {
+        return alphaValueRight;
+    }
     public static void initColorSensor() {
         ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "ColorSensorR");
         ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "ColorSensorL");
@@ -44,6 +69,13 @@ public class HardwareLocal {
         greenValueLeft = colorSensorLeft.green();
         blueValueLeft = colorSensorLeft.blue();
         alphaValueLeft = colorSensorLeft.alpha();
+    }
+    public static boolean pixelLeft() {
+        return redValueLeft == 50 && greenValueLeft == 45 && blueValueLeft == 140 && alphaValueLeft == 0.5 || redValueLeft == 30 && greenValueLeft == 185 && blueValueLeft == 50 && alphaValueLeft == 0.95 || redValueLeft == 255 && greenValueLeft == 195 && blueValueLeft == 0 && alphaValueLeft == 0.85 || redValueLeft == 0 && greenValueLeft == 0 && blueValueLeft == 0 && alphaValueLeft == 0.05;
+    }
+    public static boolean pixelRight() {
+        return redValueRight == 50 && greenValueRight == 45 && blueValueRight == 140 && alphaValueRight == 0.5 || redValueRight == 30 && greenValueRight == 185 && blueValueRight == 50 && alphaValueRight == 0.95 || redValueRight == 255 && greenValueRight == 195 && blueValueRight == 0 && alphaValueRight == 0.85 || redValueRight == 0 && greenValueRight == 0 && blueValueRight == 0 && alphaValueRight == 0.05;
+
     }
     public void addTelemetryColor() {
         telemetry.addData("color red right: ", redValueRight);
