@@ -33,6 +33,16 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (HardwareLocal.getPosition() > 10 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.getPosition() < 180) {
+                    Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+                } else {
+                    Wrist.setPosition((HardwareLocal.getPosition() - 180) * 0.03);
+                }
+            }
+        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
@@ -78,11 +88,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-        if (HardwareLocal.getPosition() > 10 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.getPosition() < 180) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else {
-            Wrist.setPosition((HardwareLocal.getPosition() - 180) * 0.03);
-        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
