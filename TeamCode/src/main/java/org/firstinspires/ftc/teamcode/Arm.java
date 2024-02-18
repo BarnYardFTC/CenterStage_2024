@@ -37,12 +37,12 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() - 200);
+        arm1.setTargetPosition(ENCODER1 - 200);
         ENCODER1 -= 200;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() + 200);
+        arm2.setTargetPosition(ENCODER2 + 200);
         ENCODER2 += 200;
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -50,12 +50,12 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() + 200);
+        arm1.setTargetPosition(ENCODER1 + 200);
         ENCODER1 += 200;
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() - 200);
+        arm2.setTargetPosition(ENCODER2 - 200);
         ENCODER2 -= 200;
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
@@ -133,7 +133,7 @@ public class Arm {
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public static boolean passedMinimalHoldPosition() {
-        return  ENCODER1 >= MINIMAL_HOLD_POSITION;
+        return arm1.getCurrentPosition() >= MINIMAL_HOLD_POSITION;
     }
     public static boolean arrivedPosition (int current_position, int finish_position, boolean finish_bigger_than_start) {
         if (finish_bigger_than_start) {
