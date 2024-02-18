@@ -21,7 +21,6 @@ public class DriverControlledPeriod extends LinearOpMode {
         initArm();
         initWrist();
         initClaws();
-        HardwareLocal.initColorSensor();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
@@ -43,16 +42,16 @@ public class DriverControlledPeriod extends LinearOpMode {
                 }
             }
         }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-                    Claws.closeLeftClaw();
-                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-                    Claws.closeRightClaw();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//                    Claws.closeLeftClaw();
+//                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//                    Claws.closeRightClaw();
+//                }
+//            }
+//        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
@@ -77,11 +76,9 @@ public class DriverControlledPeriod extends LinearOpMode {
                 EgnitionSystem.resetEncoders();
             }
 
-            telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
             telemetry.addData("Arm1 encoder: ", Arm.ENCODER1);
             telemetry.update();
         }
-
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
