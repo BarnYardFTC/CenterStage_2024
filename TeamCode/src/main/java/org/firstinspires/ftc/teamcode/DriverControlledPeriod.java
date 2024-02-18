@@ -59,8 +59,6 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
 
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
-            telemetry.addData("Right claw", Claws.getRightClawPosition());
 //            HardwareLocal.addTelemetryColor();
 //            HardwareLocal.addTelemetryAnalogInput();
             telemetry.update();
@@ -100,10 +98,10 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.moveUp();
         } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE) {
+        } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             runHangingMode();
             Arm.hangingModeArm();
-        } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
+        } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
             Arm.loadingModeArm();
             runLoadingMode();
         } else {
@@ -112,7 +110,7 @@ public class DriverControlledPeriod extends LinearOpMode {
 
     }
     public void runLoadingMode() {
-        if (gamepad1.x) {
+        if (Arm.LOADING_MODE_ACTIVE && (Arm.getArm1Position() >= 0 || Arm.getArm2Position() <= 0)) {
             Claws.loadingModeClaws();
             Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
         }

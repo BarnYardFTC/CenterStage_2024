@@ -50,20 +50,6 @@ public class Arm {
         arm2.setTargetPosition(arm2.getCurrentPosition() - 300);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public static void brake(){
-        if (!got_position_to_hold) {
-            got_position_to_hold = true;
-            hold_position1 = arm1.getCurrentPosition();
-        }
-        if (hold_position1 < -300) {
-            arm1.setPower(1);
-            arm1.setTargetPosition(hold_position1);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            arm2.setPower(0);
-        } else {
-            stopMoving();
-        }
-    }
     public static void hangingModeArm() {
         HANGING_MODE_ACTIVE = true;
         if (arm1.getCurrentPosition() > -1180 || arm1.getCurrentPosition() < -1220){
@@ -75,7 +61,6 @@ public class Arm {
             arm2.setTargetPosition(1196);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
-            brake();
             HANGING_MODE_ACTIVE = false;
         }
     }
@@ -93,13 +78,23 @@ public class Arm {
         } else {
             arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            Arm.stopMoving();
             LOADING_MODE_ACTIVE = false;
         }
     }
-    public static void stopMoving() {
-        arm1.setPower(0);
-        arm2.setPower(0);
+    public static void brake(){
+        if (!got_position_to_hold) {
+            got_position_to_hold = true;
+            hold_position1 = arm1.getCurrentPosition();
+        }
+        if (hold_position1 < -300) {
+            arm1.setPower(1);
+            arm1.setTargetPosition(hold_position1);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm2.setPower(0);
+        } else {
+            arm1.setPower(0);
+            arm2.setPower(0);
+        }
     }
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());

@@ -18,10 +18,6 @@ public class EgnitionSystem {
     static private DcMotor bl_wheel;
     static private DcMotor br_wheel;
     static private IMU imu;
-
-    public static final double FAST_POWER = 1;
-    public static final double SLOW_POWER = 0.5;
-
     static private double max = 1;
     static private double lx = 0;
     static private double ly = 0;
@@ -29,7 +25,7 @@ public class EgnitionSystem {
     static private double heading = 0;
     static private double adjustedLx = 0;
     static private double adjustedLy = 0;
-    static public double power = FAST_POWER;
+    static public double power = 1;
 
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.5;
 
@@ -60,7 +56,7 @@ public class EgnitionSystem {
         heading = 0;
         adjustedLx = 0;
         adjustedLy = 0;
-        power = FAST_POWER;
+        power = 1;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void runTeleop1() {
@@ -70,10 +66,10 @@ public class EgnitionSystem {
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * SLOW_POWER);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * SLOW_POWER);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * SLOW_POWER);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_POWER);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.5 * power);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.5 * power);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.5 * power);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.5 * power);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;
@@ -165,10 +161,10 @@ public class EgnitionSystem {
         AUTONOMOUS_MOVING_POWER = power;
     }
     public static void slowMode() {
-        power = SLOW_POWER;
+        power = 0.5;
     }
     public static void fastMode() {
-        power = FAST_POWER;
+        power = 1;
     }
 
 }
