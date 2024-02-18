@@ -49,8 +49,8 @@ public class HardwareLocal {
         return alphaValueRight;
     }
     public static void initColorSensor() {
-        ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "ColorSensorR");
-        ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "ColorSensorL");
+        ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "color_sensor_right");
+        ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "color_sensor_left");
     }
     public void getColorRight() {
         redValueRight = colorSensorRight.red();

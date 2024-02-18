@@ -20,6 +20,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initArm();
         initWrist();
         initClaws();
+//        HardwareLocal.initColorSensor();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
@@ -31,22 +32,12 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-//                    Claws.closeLeftClaw();
-//                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-//                    Claws.closeRightClaw();
-//                }
-//            }
-//        }).start();
-
         while (opModeIsActive()) {
             runEgnitionSystem();
             runArm();
             runClaws();
             runWrist();
+//            touchAndGo();
 
             if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -135,6 +126,13 @@ public class DriverControlledPeriod extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
+//    public void touchAndGo() {
+//        if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//            Claws.closeLeftClaw();
+//        } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//            Claws.closeRightClaw();
+//        }
+//    }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
         DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
