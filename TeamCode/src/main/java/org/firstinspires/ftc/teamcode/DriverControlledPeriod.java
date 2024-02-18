@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -32,23 +31,12 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-//                    Claws.closeLeftClaw();
-//                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-//                    Claws.closeRightClaw();
-//                }
-//            }
-//        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
             runArm();
             runClaws();
             runWrist();
-            unLoadingMode();
 
             if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -63,13 +51,17 @@ public class DriverControlledPeriod extends LinearOpMode {
                 wasDpadDownPressed = false;
             }
 
+
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
 
-            telemetry.addData("Arm1 encoder: ", Arm.ENCODER1);
+            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
+            telemetry.addData("Right claw", Claws.getRightClawPosition());
             telemetry.update();
         }
+
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
@@ -95,20 +87,20 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
 
-        if (Arm.HANGING_MODE_ACTIVE) {
-          if (gamepad1.right_trigger > 0) {
-              Arm.hangingModeArm2();
-          } else if (gamepad1.left_trigger > 0){
-              Arm.hangingModeArm3();
-          }
+        if (Arm.HANGING_MODE_ACTIVE2) {
+            if (gamepad1.right_trigger > 0) {
+                Arm.hangingModeArm2();
+            } else if (gamepad1.left_trigger > 0){
+                Arm.hangingModeArm3();
+            }
         } else if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
         } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.dpad_up) {
+        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE1) {
             runHangingMode();
             Arm.hangingModeArm1();
-        } else if (gamepad1.x) {
+        } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
             Arm.loadingModeArm();
             sleep(500);
             runLoadingMode();
@@ -128,13 +120,6 @@ public class DriverControlledPeriod extends LinearOpMode {
             Claws.closeRightClaw();
         }
     }
-    public void unLoadingMode() {
-        if (Arm.ENCODER1 < -300 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.ENCODER1 > -2000) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (Arm.ENCODER1 <= -2000){
-            Wrist.setPosition((Arm.ENCODER1 - 2000) / 1000);
-        }
-    }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
         DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
@@ -148,4 +133,5 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
         EgnitionSystem.runTeleop();
     }
+
 }
