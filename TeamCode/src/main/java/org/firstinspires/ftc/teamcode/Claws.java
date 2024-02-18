@@ -7,17 +7,17 @@ public class Claws {
     private static Servo left_claw;
     private static Servo right_claw;
 
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.382;
-    static final double LEFT_CLAW_OPENED_POSITION = 0.1;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.07;
-    static final double RIGHT_CLAW_OPENED_POSITION = 0.4;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.5;
+    static final double LEFT_CLAW_OPENED_POSITION = 0.03;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.1;
+    static final double RIGHT_CLAW_OPENED_POSITION = 0.58;
 
     private static boolean was_right_bumper_pressed = false;
     private static boolean was_left_bumper_pressed = false;
     
     public static void init(Servo left_claw, Servo right_claw) {
-        Claws.left_claw = left_claw;
-        Claws.right_claw = right_claw;
+        Claws.left_claw = right_claw;
+        Claws.right_claw = left_claw;
     }
     public static void moveToStartPosition() {
         left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
