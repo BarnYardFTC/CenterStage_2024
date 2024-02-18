@@ -32,16 +32,6 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (Arm.ENCODER1 < -300 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.ENCODER1 > -2000) {
-                    Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-                } else if (Arm.ENCODER1 <= -2000){
-                    Wrist.setPosition((Arm.ENCODER1 - 2000) / 1000);
-                }
-            }
-        }).start();
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -58,6 +48,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             runArm();
             runClaws();
             runWrist();
+            unLoadingMode();
 
             if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -104,7 +95,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
 
-        if (Arm.HANGING_MODE_ACTIVE2) {
+        if (Arm.HANGING_MODE_ACTIVE) {
           if (gamepad1.right_trigger > 0) {
               Arm.hangingModeArm2();
           } else if (gamepad1.left_trigger > 0){
@@ -114,18 +105,13 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.moveUp();
         } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE1) {
+        } else if (gamepad1.dpad_up) {
             runHangingMode();
             Arm.hangingModeArm1();
-        } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Arm.loadingModeArm();
-                    sleep(500);
-                    runLoadingMode();
-                }
-            }).start();
+        } else if (gamepad1.x) {
+            Arm.loadingModeArm();
+            sleep(500);
+            runLoadingMode();
         } else {
             Arm.brake();
         }
@@ -140,6 +126,13 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.dpad_up) {
             Claws.closeLeftClaw();
             Claws.closeRightClaw();
+        }
+    }
+    public void unLoadingMode() {
+        if (Arm.ENCODER1 < -300 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.ENCODER1 > -2000) {
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+        } else if (Arm.ENCODER1 <= -2000){
+            Wrist.setPosition((Arm.ENCODER1 - 2000) / 1000);
         }
     }
     public void initEgnitionSystem() {

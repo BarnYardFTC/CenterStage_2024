@@ -15,12 +15,7 @@ public class Arm {
     static private boolean got_position_to_hold = false;
 
     static private int hold_position1 = 0;
-
-    static public boolean HANGING_MODE_ACTIVE1 = false;
-
-    static public boolean HANGING_MODE_ACTIVE2 = false;
-
-    static public boolean LOADING_MODE_ACTIVE = false;
+    static public boolean HANGING_MODE_ACTIVE = false;
 
     static public int ENCODER1 = 0;
     static public int ENCODER2 = 0;
@@ -64,7 +59,6 @@ public class Arm {
             got_position_to_hold = true;
             hold_position1 = arm1.getCurrentPosition();
         }
-
         if (ENCODER1 < -300 && ENCODER1 / 100 == arm1.getCurrentPosition() / 100) {
             arm1.setPower(1);
             arm1.setTargetPosition(hold_position1);
@@ -93,7 +87,7 @@ public class Arm {
             brake();
             ENCODER1 = -1200;
             ENCODER2 = 1200;
-            HANGING_MODE_ACTIVE2 = true;
+            HANGING_MODE_ACTIVE = true;
         }
     }
     public static void hangingModeArm2() {
