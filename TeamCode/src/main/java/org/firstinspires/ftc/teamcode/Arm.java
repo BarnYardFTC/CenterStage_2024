@@ -15,7 +15,11 @@ public class Arm {
     static private boolean got_position_to_hold = false;
 
     static private int hold_position1 = 0;
-    static public boolean HANGING_MODE_ACTIVE = false;
+
+    static public boolean HANGING_MODE_ACTIVE1 = false;
+    static public boolean HANGING_MODE_ACTIVE2 = false;
+
+    static public boolean LOADING_MODE = false;
 
     static public int ENCODER1 = 0;
     static public int ENCODER2 = 0;
@@ -64,6 +68,9 @@ public class Arm {
             arm1.setTargetPosition(hold_position1);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm2.setPower(0);
+        } else {
+            arm1.setPower(0);
+            arm2.setPower(0);
         }
     }
     public static void hangingModeArm1() {
@@ -87,7 +94,7 @@ public class Arm {
             brake();
             ENCODER1 = -1200;
             ENCODER2 = 1200;
-            HANGING_MODE_ACTIVE = true;
+            HANGING_MODE_ACTIVE2 = true;
         }
     }
     public static void hangingModeArm2() {
