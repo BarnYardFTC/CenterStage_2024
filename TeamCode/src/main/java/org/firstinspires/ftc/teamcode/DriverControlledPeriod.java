@@ -31,6 +31,16 @@ public class DriverControlledPeriod extends LinearOpMode {
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//                    Claws.closeLeftClaw();
+//                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//                    Claws.closeRightClaw();
+//                }
+//            }
+//        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
@@ -59,6 +69,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
             telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
             telemetry.addData("Right claw", Claws.getRightClawPosition());
+//            HardwareLocal.addTelemetryColor();
             telemetry.update();
         }
 
@@ -77,10 +88,10 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-        if (Arm.ENCODER1 < -300 && Arm.ENCODER1 > -2000 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+        if (Arm.getArm1Position() < -300 && Arm.getArm1Position() > -2000 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (Arm.ENCODER1 < -2000) {
-            Wrist.setPosition((Arm.ENCODER1 - 2000) / 1500);
+        } else if (Arm.getArm1Position() < -2000) {
+            Wrist.setPosition((double) (Arm.getArm1Position() - 2000) / 1500);
         }
     }
     public void initArm() {
@@ -92,30 +103,24 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runArm() {
         Arm.addDataToTelemetry(telemetry);
 
-        if (Arm.HANGING_MODE_ACTIVE2) {
-            if (gamepad1.right_trigger > 0) {
-                Arm.hangingModeArm2();
-            } else if (gamepad1.left_trigger > 0){
-                Arm.hangingModeArm3();
-            } else if (gamepad1.dpad_up) {
-                Arm.HANGING_MODE_ACTIVE2 = false;
-                runHangingMode();
-                Arm.hangingModeArm1();
-            }
-        } else if (gamepad1.right_trigger > 0) {
+        if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
         } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE1) {
+        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE) {
             runHangingMode();
-            Arm.hangingModeArm1();
+            Arm.hangingModeArm();
         } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
             Arm.loadingModeArm();
-            sleep(500);
             runLoadingMode();
         } else {
-            Arm.brake();
+            if (Arm.getArm1Position() > -300) {
+                Arm.stopMoving();
+            } else {
+                Arm.brake();
+            }
         }
+
     }
     public void runLoadingMode() {
         if (gamepad1.x) {
@@ -127,6 +132,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.dpad_up) {
             Claws.closeLeftClaw();
             Claws.closeRightClaw();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void initEgnitionSystem() {
