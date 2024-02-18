@@ -74,6 +74,7 @@ public class Arm {
         }
     }
     public static void hangingModeArm1() {
+        HANGING_MODE_ACTIVE1 = true;
         if (ENCODER1 > -1180){
             arm1.setPower(1);
             arm1.setTargetPosition(-1196);
@@ -94,6 +95,7 @@ public class Arm {
             brake();
             ENCODER1 = -1200;
             ENCODER2 = 1200;
+            HANGING_MODE_ACTIVE1 = false;
             HANGING_MODE_ACTIVE2 = true;
         }
     }
@@ -131,13 +133,16 @@ public class Arm {
 
             arm2.setPower(1);
             arm2.setTargetPosition(0);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);;
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            LOADING_MODE_ACTIVE = true;
         } else {
             arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             Arm.stopMoving();
             ENCODER1 = 0;
             ENCODER2 = 0;
+            LOADING_MODE_ACTIVE = false;
         }
     }
     public static void stopMoving() {

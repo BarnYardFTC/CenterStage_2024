@@ -92,6 +92,10 @@ public class DriverControlledPeriod extends LinearOpMode {
                 Arm.hangingModeArm2();
             } else if (gamepad1.left_trigger > 0){
                 Arm.hangingModeArm3();
+            } else if (gamepad1.dpad_up) {
+                Arm.HANGING_MODE_ACTIVE2 = false;
+                runHangingMode();
+                Arm.hangingModeArm1();
             }
         } else if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
@@ -131,7 +135,11 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
-        EgnitionSystem.runTeleop();
+        if (gamepad1.left_stick_button) {
+            EgnitionSystem.runTeleop2();
+        } else {
+            EgnitionSystem.runTeleop1();
+        }
     }
 
 }
