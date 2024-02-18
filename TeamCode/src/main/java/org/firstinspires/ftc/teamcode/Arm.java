@@ -19,7 +19,7 @@ public class Arm {
     static public boolean HANGING_MODE_ACTIVE1 = false;
     static public boolean HANGING_MODE_ACTIVE2 = false;
 
-    static public boolean LOADING_MODE = false;
+    static public boolean LOADING_MODE_ACTIVE = false;
 
     static public int ENCODER1 = 0;
     static public int ENCODER2 = 0;
