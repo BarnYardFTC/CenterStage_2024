@@ -20,9 +20,6 @@ public class Arm {
 
     static public boolean LOADING_MODE_ACTIVE = false;
 
-    static public int ENCODER1 = 0;
-    static public int ENCODER2 = 0;
-
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm2 = motor2;
@@ -30,33 +27,27 @@ public class Arm {
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ENCODER1 = 0;
-        ENCODER2 = 0;
     }
     public static void moveUp() {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(ENCODER1 - 200);
-        ENCODER1 -= 200;
+        arm1.setTargetPosition(arm1.getCurrentPosition() - 300);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(ENCODER2 + 200);
-        ENCODER2 += 200;
+        arm2.setTargetPosition(arm2.getCurrentPosition() + 300);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(ENCODER1 + 200);
-        ENCODER1 += 200;
+        arm1.setTargetPosition(arm1.getCurrentPosition() + 300);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(ENCODER2 - 200);
-        ENCODER2 -= 200;
+        arm2.setTargetPosition(arm2.getCurrentPosition() - 300);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
@@ -64,22 +55,18 @@ public class Arm {
             got_position_to_hold = true;
             hold_position1 = arm1.getCurrentPosition();
         }
-        arm1.setPower(1);
-        arm1.setTargetPosition(hold_position1);
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        arm2.setPower(0);
+        if (hold_position1 < -300) {
+            arm1.setPower(1);
+            arm1.setTargetPosition(hold_position1);
+            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            arm2.setPower(0);
+        } else {
+            stopMoving();
+        }
     }
     public static void hangingModeArm() {
         HANGING_MODE_ACTIVE = true;
-        if (ENCODER1 > -1180){
-            arm1.setPower(1);
-            arm1.setTargetPosition(-1196);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            arm2.setPower(1);
-            arm2.setTargetPosition(1196);
-            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        } else if (ENCODER1 < -1220) {
+        if (arm1.getCurrentPosition() > -1180 || arm1.getCurrentPosition() < -1220){
             arm1.setPower(1);
             arm1.setTargetPosition(-1196);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -89,8 +76,6 @@ public class Arm {
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
             brake();
-            ENCODER1 = -1200;
-            ENCODER2 = 1200;
             HANGING_MODE_ACTIVE = false;
         }
     }
@@ -109,8 +94,6 @@ public class Arm {
             arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             Arm.stopMoving();
-            ENCODER1 = 0;
-            ENCODER2 = 0;
             LOADING_MODE_ACTIVE = false;
         }
     }

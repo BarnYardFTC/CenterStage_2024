@@ -21,6 +21,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initWrist();
         initClaws();
 //        HardwareLocal.initColorSensor();
+//        HardwareLocal.initAnalogInput();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
@@ -61,6 +62,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
             telemetry.addData("Right claw", Claws.getRightClawPosition());
 //            HardwareLocal.addTelemetryColor();
+//            HardwareLocal.addTelemetryAnalogInput();
             telemetry.update();
         }
 
@@ -105,11 +107,7 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.loadingModeArm();
             runLoadingMode();
         } else {
-            if (Arm.getArm1Position() > -300) {
-                Arm.stopMoving();
-            } else {
-                Arm.brake();
-            }
+            Arm.brake();
         }
 
     }

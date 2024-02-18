@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class HardwareLocal {
 //    analog input
     public static HardwareMap hardwaremap;
-//    public static AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "localAnalogInput");
-//    public static double position = analogInput.getVoltage() / 3.3 * 360;
+    private static AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "localAnalogInput");
+    private static double position = analogInput.getVoltage() / 3.3 * 360;
 
 //    color sensor claws
     private ColorSensor colorSensorLeft;
@@ -48,6 +48,9 @@ public class HardwareLocal {
     public static double getAlphaValueRight() {
         return alphaValueRight;
     }
+    public static void initAnalogInput() {
+        AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "local_analog_input");
+    }
     public static void initColorSensor() {
         ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "color_sensor_right");
         ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "color_sensor_left");
@@ -75,6 +78,9 @@ public class HardwareLocal {
         telemetry.addData("color green right: ", greenValueRight);
         telemetry.addData("color blue right: ", blueValueRight);
         telemetry.addData("color alpha right: ", alphaValueRight);
+    }
+    public static void addTelemetryAnalogInput() {
+        telemetry.addData("analog angel: ", HardwareLocal.position);
     }
 }
 
