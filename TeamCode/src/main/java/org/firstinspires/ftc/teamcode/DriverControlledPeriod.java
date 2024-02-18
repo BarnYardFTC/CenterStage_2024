@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,23 +15,44 @@ public class DriverControlledPeriod extends LinearOpMode {
     private double HOLD_POSITION = 1;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
 
         initEgnitionSystem();
         initArm();
         initWrist();
         initClaws();
+        HardwareLocal.initColorSensor();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
 
         telemetry.update();
         waitForStart();
-        boolean wasXPressed = false;
+        boolean wasDpadDownPressed = false;
 
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (HardwareLocal.getPosition() > 10 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.getPosition() < 180) {
+                    Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+                } else if (HardwareLocal.getPosition() >= 180){
+                    Wrist.setPosition((HardwareLocal.getPosition() - 180) * 0.03);
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+                    Claws.closeLeftClaw();
+                } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+                    Claws.closeRightClaw();
+                }
+            }
+        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
@@ -38,29 +60,25 @@ public class DriverControlledPeriod extends LinearOpMode {
             runClaws();
             runWrist();
 
-            if (gamepad1.x && !wasXPressed) {
+            if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
                     servo.setPosition(LAUNCH_POSITION);
                 }
                 else {
                     servo.setPosition(HOLD_POSITION);
                 }
-                wasXPressed = true;
+                wasDpadDownPressed = true;
             }
-            if (!gamepad1.x) {
-                wasXPressed = false;
+            if (!gamepad1.dpad_down) {
+                wasDpadDownPressed = false;
             }
-
 
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
 
             telemetry.addData("FL encoder: ", EgnitionSystem.getFlEncoderPosition());
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("Left claw: ", Claws.getLeftClawPosition());
-            telemetry.addData("Right claw", Claws.getRightClawPosition());
-            telemetry.addData("Wrist", Wrist.getPosition());
+            telemetry.addData("Arm1 encoder: ", Arm.ENCODER1);
             telemetry.update();
         }
 
@@ -79,9 +97,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-//        if (HardwareLocal.position > 10 && Wrist.getPosition() == Wrist.WRIST_UP_POSITION) {
-//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-//        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -93,19 +108,19 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.addDataToTelemetry(telemetry);
 
         if (Arm.HANGING_MODE_ACTIVE2) {
-          if (gamepad1.dpad_up) {
+          if (gamepad1.right_trigger > 0) {
               Arm.hangingModeArm2();
-          } else if (gamepad1.dpad_down){
+          } else if (gamepad1.left_trigger > 0){
               Arm.hangingModeArm3();
           }
-        } else if (gamepad1.dpad_up) {
+        } else if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
-        } else if (gamepad1.right_trigger > 0 || Arm.HANGING_MODE_ACTIVE1) {
+        } else if (gamepad1.dpad_up || Arm.HANGING_MODE_ACTIVE1) {
             runHangingMode();
             Arm.hangingModeArm1();
-        } else if (gamepad1.left_trigger > 0 || Arm.LOADING_MODE_ACTIVE) {
+        } else if (gamepad1.x || Arm.LOADING_MODE_ACTIVE) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -119,13 +134,13 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void runLoadingMode() {
-        if (gamepad1.left_trigger > 0) {
+        if (gamepad1.x) {
             Claws.loadingModeClaws();
             Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
         }
     }
     public void runHangingMode() {
-        if (gamepad1.right_trigger > 0) {
+        if (gamepad1.dpad_up) {
             Claws.closeLeftClaw();
             Claws.closeRightClaw();
         }
@@ -143,5 +158,4 @@ public class DriverControlledPeriod extends LinearOpMode {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
         EgnitionSystem.runTeleop();
     }
-
 }

@@ -321,7 +321,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(1);
             }
         }
-        else if (RBrun2.phase == 2) { // move sideways
+        else if (RBrun2.phase == 2) { // move right
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_2_POSITION, true)) {
                 EgnitionSystem.setHorizontalPower(0);
                 EgnitionSystem.setAutonomousMovingPower(0.5);
@@ -345,7 +345,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(1);
             }
         }
-        else if (RBrun2.phase == 4) { // move sideways
+        else if (RBrun2.phase == 4) { // move left
 //            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_4_POSITION, true)) {
 //                EgnitionSystem.setHorizontalPower(0);
 //                sleep(500);
@@ -361,7 +361,7 @@ public class AutonomousRedBack extends LinearOpMode {
             Claws.openRightClaw();
             RBrun2.phase ++;
         }
-        else if (RBrun2.phase == 6) { // move wrist up
+        else if (RBrun2.phase == 6) { // move wrist up && move backward
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_6_POSITION, false)){
                 EgnitionSystem.setVerticalPower(0);
@@ -373,7 +373,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(-1);
             }
         }
-        else if (RBrun2.phase == 7) { // move sideways (towards back board)
+        else if (RBrun2.phase == 7) { // move right (towards backdrop)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_7_POSITION, true)) {
                 EgnitionSystem.setHorizontalPower(0);
                 sleep(500);
@@ -396,7 +396,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
 
         }
-        else if (RBrun2.phase == 9) { // rotate in 180 degrees
+        else if (RBrun2.phase == 9) { // rotate left in 90 degrees
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_9_POSITION, false)) {
                 EgnitionSystem.setRotPower(0);
                 sleep(500);
@@ -443,7 +443,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(-1);
             }
         }
-        else if (RBrun2.phase == 14) { // move horizontally
+        else if (RBrun2.phase == 14) { // move right
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_14_POSITION, false)) {
                 EgnitionSystem.setHorizontalPower(0);
                 sleep(500);
