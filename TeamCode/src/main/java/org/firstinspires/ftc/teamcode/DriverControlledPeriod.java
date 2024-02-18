@@ -36,10 +36,10 @@ public class DriverControlledPeriod extends LinearOpMode {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (HardwareLocal.getPosition() > 10 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.getPosition() < 180) {
+                if (Arm.ENCODER1 < -300 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.ENCODER1 > -2000) {
                     Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-                } else if (HardwareLocal.getPosition() >= 180){
-                    Wrist.setPosition((HardwareLocal.getPosition() - 180) * 0.03);
+                } else if (Arm.ENCODER1 <= -2000){
+                    Wrist.setPosition((Arm.ENCODER1 - 2000) / 1000);
                 }
             }
         }).start();
