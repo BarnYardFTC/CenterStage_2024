@@ -49,21 +49,31 @@ public class AutonomousRedFront extends LinearOpMode {
         Camera.close(2);
 
         while (opModeIsActive()) {
-            if (spike_position == 0) {
-                run0();
-            }
-            else if (spike_position == 1) {
-                run1();
+
+            if (!gamepad1.y) {
+                if (spike_position == 0) {
+                    run0();
+                } else if (spike_position == 1) {
+                    run1();
+                } else {
+                    run2();
+                }
+
+                if (!arm_moving) {
+                    if (!Arm.passedMinimalHoldPosition()) {
+                        Arm.stopMoving();
+                    } else {
+                        Arm.brake();
+                    }
+                }
             }
             else {
-                run2();
-            }
-
-            if (!arm_moving) {
+                EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setRotPower(0);
                 if (!Arm.passedMinimalHoldPosition()) {
                     Arm.stopMoving();
-                }
-                else {
+                } else {
                     Arm.brake();
                 }
             }
@@ -156,15 +166,15 @@ public class AutonomousRedFront extends LinearOpMode {
                 EgnitionSystem.setHorizontalPower(1);
             }
         }
-        else if (RFrun0.phase == 9) { // move a bit forward
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_9_FINISH,true)) {
+        else if (RFrun0.phase == 9) { // move a bit backward
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_9_FINISH,false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RFrun0.phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (RFrun0.phase == 10) { // move arm up
