@@ -57,7 +57,7 @@ public class PixelDetectorRB implements VisionProcessor {
         frameHeight = frame.height();
 
         Imgproc.cvtColor(frame, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(YCrCb, Y, 0);
+        Core.extractChannel(YCrCb, Y, 1); // 0 - white | 1 - red
 
 
 

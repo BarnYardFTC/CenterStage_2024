@@ -11,7 +11,7 @@ public class AutonomousRedFront extends LinearOpMode {
 
     int spike_position ;
     boolean arm_moving;
-    final int TIME = 150000;
+    final int TIME = 100000;
     int time;
 
 
@@ -34,19 +34,20 @@ public class AutonomousRedFront extends LinearOpMode {
 
         waitForStart();
 
-        Wrist.moveDown();
+        Wrist.setPosition(0.85);
 
-        initCamera();
-        while (time > 0 && opModeIsActive()) {
-            spike_position = PixelDetectorRF.getSpike_position();
-            telemetry.addData("Spike position: ", spike_position);
-            telemetry.addData("Right region avg", Camera.getRightRegion_avg(2));
-            telemetry.addData("Left region avg", Camera.getLeftRegion_avg(2));
-            telemetry.addData("Time: ", time);
-            telemetry.update();
-            time --;
-        }
-        Camera.close(2);
+        spike_position = 2;
+//        initCamera();
+//        while (time > 0 && opModeIsActive()) {
+//            spike_position = PixelDetectorRF.getSpike_position();
+//            telemetry.addData("Spike position: ", spike_position);
+//            telemetry.addData("Right region avg", Camera.getRightRegion_avg(2));
+//            telemetry.addData("Left region avg", Camera.getLeftRegion_avg(2));
+//            telemetry.addData("Time: ", time);
+//            telemetry.update();
+//            time --;
+//        }
+//        Camera.close(2);
 
         while (opModeIsActive()) {
             if (spike_position == 0) {
@@ -60,13 +61,19 @@ public class AutonomousRedFront extends LinearOpMode {
             }
 
             if (!arm_moving) {
-                if (!Arm.passedMinimalHoldPosition()) {
+                if (Arm.getArm1Position() >= Arm.MINIMAL_HOLD_POSITION) {
                     Arm.stopMoving();
                 }
                 else {
                     Arm.brake();
                 }
             }
+
+
+            if (Arm.getArm1Position() <= -1000) {
+                Wrist.setPosition((double) Arm.getArm1Position() / -6500);
+            }
+
 
             EgnitionSystem.updateVariablesAutonomous();
             EgnitionSystem.runAutonomous();
@@ -80,12 +87,14 @@ public class AutonomousRedFront extends LinearOpMode {
         if (RFrun0.phase == 1) { // move forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_1_FINISH, true)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.5);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RFrun0.phase ++;
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
         }
         else if (RFrun0.phase == 2) { // move sideways
@@ -108,31 +117,47 @@ public class AutonomousRedFront extends LinearOpMode {
                 RFrun0.phase ++;
             }
             else {
-                EgnitionSystem.setAutonomousMovingPower(0.2);
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
         }
         else if (RFrun0.phase == 4) { // open right claw
             Claws.openRightClaw();
-            RFrun0.phase ++;
             sleep(500);
-        }
-        else if (RFrun0.phase == 5) { // move wrist up
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            RFrun0.phase ++;
-        }
-        else if (RFrun0.phase == 6) { // move forward
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_6_FINISH, true)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_4_FINISH, false)) {
                 EgnitionSystem.setVerticalPower(0);
-                EgnitionSystem.setAutonomousMovingPower(0.5);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RFrun0.phase ++;
             }
             else {
-                EgnitionSystem.setAutonomousMovingPower(0.2);
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (RFrun0.phase == 5) { // move wrist up
+            Wrist.setPosition(0.3);
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_5_FINISH, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun0.phase ++;
+            }
+            else {
                 EgnitionSystem.setVerticalPower(1);
             }
+        }
+        else if (RFrun0.phase == 6) { // move forward
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_6_FINISH, true)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RFrun0.phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(1);
+//            }
+            RFrun0.phase ++;
         }
         else if (RFrun0.phase == 7) { // rotate
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_7_FINISH, false)) {
@@ -159,12 +184,14 @@ public class AutonomousRedFront extends LinearOpMode {
         else if (RFrun0.phase == 9) { // move a bit forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun0.PHASE_9_FINISH,true)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.5);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RFrun0.phase ++;
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
         }
         else if (RFrun0.phase == 10) { // move arm up
@@ -178,8 +205,10 @@ public class AutonomousRedFront extends LinearOpMode {
             }
         }
         else if (RFrun0.phase == 11) { // open left claw (let go of pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RFrun0.phase ++;
+            sleep(500);
         }
         else if (RFrun0.phase == 12) { // move arm down
             if (Arm.arrivedPosition(Arm.getArm1Position(), RFrun0.PHASE_12_FINISH, true)) {
@@ -228,11 +257,26 @@ public class AutonomousRedFront extends LinearOpMode {
         }
         else if (RFrun1.phase == 2) { // open right claw
             Claws.openRightClaw();
-            RFrun1.phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_2_FINISH, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RFrun1.phase == 3) { // move wrist up
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            RFrun1.phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_3_FINISH, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RFrun1.phase ++;
+            }
         }
         else if (RFrun1.phase == 4) { // move backward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun1.PHASE_4_FINISH,false)) {
@@ -395,10 +439,20 @@ public class AutonomousRedFront extends LinearOpMode {
         else if (phase == 6){ // move wrist down
             Wrist.moveDown();
             phase ++;
+            sleep(500);
         }
         else if (phase == 7) { // open right claw
             Claws.openRightClaw();
-            phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RFrun2.PHASE_7_FINISH, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (phase == 8) { // move wrist up
             Wrist.moveUp();

@@ -9,9 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
 
-    Servo servo;
-    private double LAUNCH_POSITION = 0.5;
-    private double HOLD_POSITION = 1;
+    Servo drone;
 
     @Override
     public void runOpMode() {
@@ -24,17 +22,23 @@ public class DriverControlledPeriod extends LinearOpMode {
 //        HardwareLocal.initAnalogInput();
 //        HardwareLocal.initDistanceSensor();
 
-        servo = hardwareMap.get(Servo.class, "drone");
-        servo.setPosition(HOLD_POSITION);
+        drone = hardwareMap.get(Servo.class, "drone");
 
         telemetry.update();
         waitForStart();
-        boolean wasDpadDownPressed = false;
 
+        drone.setPosition(drone.getPosition());
         Claws.moveToStartPosition();
-        Wrist.moveToStartPosition();
+
+        Wrist.moveUp();
+
 
         while (opModeIsActive()) {
+
+            if (gamepad1.dpad_down) {
+                drone.setPosition(0.5);
+            }
+
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -42,25 +46,15 @@ public class DriverControlledPeriod extends LinearOpMode {
 //            touchAndGoColor();
 //            touchAndGoDistance();
 
-            if (gamepad1.dpad_down && !wasDpadDownPressed) {
-                if (servo.getPosition() == HOLD_POSITION) {
-                    servo.setPosition(LAUNCH_POSITION);
-                }
-                else {
-                    servo.setPosition(HOLD_POSITION);
-                }
-                wasDpadDownPressed = true;
-            }
-            if (!gamepad1.dpad_down) {
-                wasDpadDownPressed = false;
-            }
+
 
 
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
 
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+            telemetry.addData("Encoder1: ", Arm.ENCODER1);
+            telemetry.addData("Wrist" , Wrist.getPosition());
 //            HardwareLocal.addTelemetryColorSensor();
 //            HardwareLocal.addTelemetryAnalogInput();
 //            HardwareLocal.addTelemetryDistanceSensor();
@@ -81,10 +75,12 @@ public class DriverControlledPeriod extends LinearOpMode {
         Wrist.init(servo);
     }
     public void runWrist() {
-        Wrist.runWrist(gamepad1.y);
-//       if (Arm.getArm1Position() < 180) {
-//            Wrist.setPosition((HardwareLocal.position + 20) / 100);
-//        }
+        if (Arm.getArm1Position() <= -1700) {
+            Wrist.setPosition((double) Arm.getArm1Position() / -6500);
+        }
+        else {
+            Wrist.runWrist(gamepad1.y);
+        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -113,7 +109,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void runLoadingMode() {
         if (Arm.LOADING_MODE_ACTIVE) {
             Claws.loadingModeClaws();
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void runHangingMode() {
@@ -148,7 +144,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
-        if (gamepad1.left_stick_button) {
+        if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
             EgnitionSystem.runTeleop2();
         } else {
             EgnitionSystem.runTeleop1();

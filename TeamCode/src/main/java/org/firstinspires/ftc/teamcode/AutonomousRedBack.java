@@ -11,7 +11,7 @@ public class AutonomousRedBack extends LinearOpMode {
 
     int spike_position;
     boolean arm_moving;
-    final int TIME = 150000;
+    final int TIME = 100000;
     int time;
 
     @Override
@@ -130,10 +130,28 @@ public class AutonomousRedBack extends LinearOpMode {
             Claws.openRightClaw();
             RBrun0.phase++;
             sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_5_POSITION, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (RBrun0.phase == 6) { // move wrist up
             Wrist.moveUp();
-            RBrun0.phase++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_6_POSITION, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
         }
         else if (RBrun0.phase == 7) { // move sideways (towards back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_7_POSITION, false)) {
@@ -220,11 +238,29 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun1.phase == 2) { // open right claw
             Claws.openRightClaw();
-            RBrun1.phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_2_POSITION, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RBrun1.phase == 3) { // move wrist up
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            RBrun1.phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_3_POSITION, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
         }
         else if (RBrun1.phase == 4) { // move backwards
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION, false)) {
@@ -368,19 +404,20 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun2.phase == 5) { // open right claw
             Claws.openRightClaw();
-            RBrun2.phase ++;
-        }
-        else if (RBrun2.phase == 6) { // move wrist up && move backward
-            Wrist.setPosition(0.3);
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_6_POSITION, false)){
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_5_POSITION, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
-                RBrun2.phase ++;
+                RBrun2.phase++;
             }
             else {
                 EgnitionSystem.setVerticalPower(-1);
             }
+        }
+        else if (RBrun2.phase == 6) { // move wrist up && move backward
+            Wrist.moveUp();
+            RBrun2.phase ++;
         }
         else if (RBrun2.phase == 7) { // move right (towards backdrop)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_7_POSITION, true)) {

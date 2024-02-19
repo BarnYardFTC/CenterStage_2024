@@ -5,6 +5,8 @@ public class RBrun1 {
     static int phase = 1;
 
     static final int PHASE_1_POSITION = 650;
+    static final int PHASE_2_POSITION = -100;
+    static final int PHASE_3_POSITION = 100;
     static final int PHASE_4_POSITION = -50;
     static final int PHASE_5_POSITION = 1000;
     static final int PHASE_6_POSITION = -620;
