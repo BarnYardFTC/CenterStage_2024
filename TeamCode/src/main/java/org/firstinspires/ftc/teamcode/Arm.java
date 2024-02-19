@@ -12,15 +12,15 @@ public class Arm {
 
     static public final int MINIMAL_HOLD_POSITION = -300;
 
-    static private boolean got_position_to_hold = false;
+    static private boolean got_position_to_hold;
 
-    static private int hold_position1 = 0;
+    static private int hold_position1;
 
-    static public int ENCODER1 = 0;
+    static public int ENCODER1;
 
-    static public boolean HANGING_MODE_ACTIVE = false;
+    static public boolean HANGING_MODE_ACTIVE;
 
-    static public boolean LOADING_MODE_ACTIVE = false;
+    static public boolean LOADING_MODE_ACTIVE;
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
@@ -30,6 +30,11 @@ public class Arm {
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ENCODER1 = 0;
+        hold_position1 = 0;
+
+        got_position_to_hold = false;
+        HANGING_MODE_ACTIVE = false;
+        LOADING_MODE_ACTIVE = false;
     }
     public static void moveUp() {
         got_position_to_hold = false;

@@ -10,9 +10,10 @@ public class Wrist {
     static final double WRIST_DOWN_POSITION = 0.94;
 
             ;
-    static boolean was_Y_pressed = false;
+    static boolean was_Y_pressed;
     public static void init(Servo servo) {
         wrist = servo;
+        was_Y_pressed = false;
     }
     public static void moveUp() {
         wrist.setPosition(WRIST_UP_POSITION);

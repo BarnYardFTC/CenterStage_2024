@@ -18,14 +18,14 @@ public class EgnitionSystem {
     static private DcMotor bl_wheel;
     static private DcMotor br_wheel;
     static private IMU imu;
-    static private double max = 1;
-    static private double lx = 0;
-    static private double ly = 0;
-    static private double rx = 0;
-    static private double heading = 0;
-    static private double adjustedLx = 0;
-    static private double adjustedLy = 0;
-    static public double power = 1;
+    static private double max;
+    static private double lx;
+    static private double ly;
+    static private double rx;
+    static private double heading;
+    static private double adjustedLx;
+    static private double adjustedLy;
+    static public double power;
 
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.5;
 

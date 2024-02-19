@@ -10,11 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class DriverControlledPeriod extends LinearOpMode {
 
     Servo servo;
-    private double LAUNCH_POSITION = 0.5;
-    private double HOLD_POSITION = 1;
+    private double LAUNCH_POSITION;
+    private double HOLD_POSITION;
 
     @Override
     public void runOpMode() {
+
+        LAUNCH_POSITION = 0.5;
+        HOLD_POSITION = 1;
 
         initEgnitionSystem();
         initArm();
