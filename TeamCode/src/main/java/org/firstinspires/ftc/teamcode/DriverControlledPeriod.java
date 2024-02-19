@@ -81,11 +81,11 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-        if (Arm.getArm1Position() < -300 && Arm.getArm1Position() > -2200 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        } else if (Arm.getArm1Position() < -2200) {
-            Wrist.setPosition((double) (Arm.getArm1Position() - 2200) / 2500);
-        }
+//        if (HardwareLocal.position > 20 && Arm.getArm1Position() < 180 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+//        } else if (Arm.getArm1Position() < 180) {
+//            Wrist.setPosition((HardwareLocal.position - 180) / 100);
+//        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
