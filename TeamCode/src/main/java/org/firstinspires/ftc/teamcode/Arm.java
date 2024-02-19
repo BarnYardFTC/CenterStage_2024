@@ -95,7 +95,7 @@ public class Arm {
     public static void brake(){
         if (!got_position_to_hold) {
             got_position_to_hold = true;
-            hold_position1 = ENCODER1;
+            hold_position1 = arm1.getCurrentPosition();
         }
         if (hold_position1 < -300) {
             arm1.setPower(1);
