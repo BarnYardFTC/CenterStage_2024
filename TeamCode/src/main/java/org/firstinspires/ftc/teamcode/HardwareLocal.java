@@ -8,50 +8,43 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class HardwareLocal {
 //    analog input
     static AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "myanaloginput");
     static double position = analogInput.getVoltage() / 3.3 * 360;
 
 //  distance sensor claws
-    private DistanceSensor distanceSensorLeft;
-    private DistanceSensor distanceSensorRight;
+    private static DistanceSensor distanceSensorLeft;
+    private static DistanceSensor distanceSensorRight;
 
 //    color sensor claws
-    private ColorSensor colorSensorLeft;
-    private ColorSensor colorSensorRight;
-    private static double redValueLeft;
-    private static double greenValueLeft;
-    private static double blueValueLeft;
-    private static double alphaValueLeft;
-    private static double redValueRight;
-    private static double greenValueRight;
-    private static double blueValueRight;
-    private static double alphaValueRight;
-
+    private static ColorSensor colorSensorLeft;
+    private static ColorSensor colorSensorRight;
     public static double getRedValueLeft() {
-        return redValueLeft;
+        return colorSensorLeft.red();
     }
     public static double getGreenValueLeft() {
-        return greenValueLeft;
+        return colorSensorLeft.green();
     }
     public static double getBlueValueLeft() {
-        return blueValueLeft;
+        return colorSensorLeft.blue();
     }
     public static double getAlphaValueLeft() {
-        return alphaValueLeft;
+        return colorSensorLeft.alpha();
     }
     public static double getRedValueRight() {
-        return redValueRight;
+        return colorSensorRight.red();
     }
     public static double getGreenValueRight() {
-        return greenValueRight;
+        return colorSensorRight.green();
     }
     public static double getBlueValueRight() {
-        return blueValueRight;
+        return colorSensorRight.blue();
     }
     public static double getAlphaValueRight() {
-        return alphaValueRight;
+        return colorSensorRight.alpha();
     }
     public static void initAnalogInput() {
         AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "local_analog_input");
@@ -64,32 +57,34 @@ public class HardwareLocal {
         ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_sensor_right");
         ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_sensor_left");
     }
-    public void getColorRight() {
-        redValueRight = colorSensorRight.red();
-        greenValueRight = colorSensorRight.green();
-        blueValueRight = colorSensorRight.blue();
-        alphaValueRight = colorSensorRight.alpha();
+    public static boolean pixelLeftColor() {
+        return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;
     }
-    public void getColorLeft() {
-        redValueLeft = colorSensorLeft.red();
-        greenValueLeft = colorSensorLeft.green();
-        blueValueLeft = colorSensorLeft.blue();
-        alphaValueLeft = colorSensorLeft.alpha();
+    public static boolean pixelRightColor() {
+        return colorSensorRight.red() == 190 && colorSensorRight.green() == 170 && colorSensorRight.blue() == 235 || colorSensorRight.red() == 110 && colorSensorRight.green() == 200 && colorSensorRight.blue() == 45 || colorSensorRight.red() == 255 && colorSensorRight.green() == 210 && colorSensorRight.blue() == 20 || colorSensorRight.red() == 235 && colorSensorRight.green() == 235 && colorSensorRight.blue() == 240;
     }
-    public static boolean pixelLeft() {
-        return redValueLeft == 190 && greenValueLeft == 170 && blueValueLeft == 235 && alphaValueLeft == 1 || redValueLeft == 110 && greenValueLeft == 200 && blueValueLeft == 45 && alphaValueLeft == 1 || redValueLeft == 255 && greenValueLeft == 210 && blueValueLeft == 20 && alphaValueLeft == 1 || redValueLeft == 235 && greenValueLeft == 235 && blueValueLeft == 240 && alphaValueLeft == 1;
+    public static boolean pixelLeftDistance() {
+        return distanceSensorLeft.getDistance(DistanceUnit.INCH) >= 0 && distanceSensorLeft.getDistance(DistanceUnit.INCH) <= 2.5;
     }
-    public static boolean pixelRight() {
-        return redValueRight == 190 && greenValueRight == 170 && blueValueRight == 235 && alphaValueRight == 1 || redValueRight == 110 && greenValueRight == 200 && blueValueRight == 45 && alphaValueRight == 1 || redValueRight == 255 && greenValueRight == 210 && blueValueRight == 20 && alphaValueRight == 1 || redValueRight == 235 && greenValueRight == 235 && blueValueRight == 240 && alphaValueRight == 1;
+    public static boolean pixelRightDistance() {
+        return distanceSensorRight.getDistance(DistanceUnit.INCH) >= 0 && distanceSensorRight.getDistance(DistanceUnit.INCH) <= 2.5;
     }
-    public static void addTelemetryColor() {
-        telemetry.addData("color red right: ", redValueRight);
-        telemetry.addData("color green right: ", greenValueRight);
-        telemetry.addData("color blue right: ", blueValueRight);
-        telemetry.addData("color alpha right: ", alphaValueRight);
+    public static void addTelemetryColorSensor() {
+        telemetry.addData("color red right: ", colorSensorRight.red());
+        telemetry.addData("color green right: ", colorSensorRight.green());
+        telemetry.addData("color blue right: ", colorSensorRight.blue());
+        telemetry.addData("color alpha right: ", colorSensorRight.alpha());
+        telemetry.addData("color red left: ", colorSensorLeft.red());
+        telemetry.addData("color green left: ", colorSensorLeft.green());
+        telemetry.addData("color blue left: ", colorSensorLeft.blue());
+        telemetry.addData("color alpha left: ", colorSensorLeft.alpha());
     }
     public static void addTelemetryAnalogInput() {
         telemetry.addData("analog angel: ", position);
+    }
+    public static void addTelemetryDistanceSensor() {
+        telemetry.addData("distance right: ", distanceSensorRight.getDistance(DistanceUnit.INCH));
+        telemetry.addData("distance left: ", distanceSensorLeft.getDistance(DistanceUnit.INCH));
     }
 }
 

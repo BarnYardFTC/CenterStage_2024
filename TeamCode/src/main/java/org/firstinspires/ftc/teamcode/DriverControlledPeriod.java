@@ -22,6 +22,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initClaws();
 //        HardwareLocal.initColorSensor();
 //        HardwareLocal.initAnalogInput();
+//        HardwareLocal.initDistanceSensor();
 
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
@@ -59,8 +60,9 @@ public class DriverControlledPeriod extends LinearOpMode {
             }
 
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-//            HardwareLocal.addTelemetryColor();
+//            HardwareLocal.addTelemetryColorSensor();
 //            HardwareLocal.addTelemetryAnalogInput();
+//            HardwareLocal.addTelemetryDistanceSensor();
             telemetry.update();
         }
 
@@ -123,9 +125,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
 //    public void touchAndGo() {
-//        if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
 //            Claws.closeLeftClaw();
-//        } else if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//        } else if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
 //            Claws.closeRightClaw();
 //        }
 //    }
