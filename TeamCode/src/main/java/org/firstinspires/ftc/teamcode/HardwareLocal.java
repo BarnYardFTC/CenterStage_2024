@@ -64,10 +64,10 @@ public class HardwareLocal {
         return colorSensorRight.red() == 190 && colorSensorRight.green() == 170 && colorSensorRight.blue() == 235 || colorSensorRight.red() == 110 && colorSensorRight.green() == 200 && colorSensorRight.blue() == 45 || colorSensorRight.red() == 255 && colorSensorRight.green() == 210 && colorSensorRight.blue() == 20 || colorSensorRight.red() == 235 && colorSensorRight.green() == 235 && colorSensorRight.blue() == 240;
     }
     public static boolean pixelLeftDistance() {
-        return distanceSensorLeft.getDistance(DistanceUnit.INCH) >= 0 && distanceSensorLeft.getDistance(DistanceUnit.INCH) <= 2.5;
+        return distanceSensorLeft.getDistance(DistanceUnit.INCH) >= 0.5 && distanceSensorLeft.getDistance(DistanceUnit.INCH) <= 2.5;
     }
     public static boolean pixelRightDistance() {
-        return distanceSensorRight.getDistance(DistanceUnit.INCH) >= 0 && distanceSensorRight.getDistance(DistanceUnit.INCH) <= 2.5;
+        return distanceSensorRight.getDistance(DistanceUnit.INCH) >= 0.5 && distanceSensorRight.getDistance(DistanceUnit.INCH) <= 2.5;
     }
     public static void addTelemetryColorSensor() {
         telemetry.addData("color red right: ", colorSensorRight.red());

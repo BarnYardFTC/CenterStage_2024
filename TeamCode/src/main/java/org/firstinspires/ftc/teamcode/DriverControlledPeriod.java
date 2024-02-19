@@ -39,7 +39,8 @@ public class DriverControlledPeriod extends LinearOpMode {
             runArm();
             runClaws();
             runWrist();
-//            touchAndGo();
+//            touchAndGoColor();
+//            touchAndGoDistance();
 
             if (gamepad1.dpad_down && !wasDpadDownPressed) {
                 if (servo.getPosition() == HOLD_POSITION) {
@@ -124,10 +125,17 @@ public class DriverControlledPeriod extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
-//    public void touchAndGo() {
+//    public void touchAndGoColor() {
 //        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
 //            Claws.closeLeftClaw();
 //        } else if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//            Claws.closeRightClaw();
+//        }
+//    }
+//    public void touchAndGoColor() {
+//        if (HardwareLocal.pixelLeftDistance() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//            Claws.closeLeftClaw();
+//        } else if (HardwareLocal.pixelRightDistance() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
 //            Claws.closeRightClaw();
 //        }
 //    }
