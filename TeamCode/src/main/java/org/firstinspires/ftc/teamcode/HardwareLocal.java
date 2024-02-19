@@ -1,16 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class HardwareLocal {
 //    analog input
-    public static HardwareMap hardwaremap;
-    private static AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "localAnalogInput");
-    private static double position = analogInput.getVoltage() / 3.3 * 360;
+    static AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "myanaloginput");
+    static double position = analogInput.getVoltage() / 3.3 * 360;
+
+//  distance sensor claws
+    private DistanceSensor distanceSensorLeft;
+    private DistanceSensor distanceSensorRight;
 
 //    color sensor claws
     private ColorSensor colorSensorLeft;
@@ -49,11 +54,15 @@ public class HardwareLocal {
         return alphaValueRight;
     }
     public static void initAnalogInput() {
-        AnalogInput analogInput = hardwaremap.get(AnalogInput.class, "local_analog_input");
+        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "local_analog_input");
+    }
+    public static void initDistanceSensor() {
+        DistanceSensor distanceSensorLeft = hardwareMap.get(DistanceSensor.class, "distance_sensor_left");
+        DistanceSensor distanceSensorRight = hardwareMap.get(DistanceSensor.class, "distance_sensor_right");
     }
     public static void initColorSensor() {
-        ColorSensor colorSensorRight = hardwaremap.get(ColorSensor.class, "color_sensor_right");
-        ColorSensor colorSensorLeft = hardwaremap.get(ColorSensor.class, "color_sensor_left");
+        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_sensor_right");
+        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_sensor_left");
     }
     public void getColorRight() {
         redValueRight = colorSensorRight.red();
@@ -80,7 +89,7 @@ public class HardwareLocal {
         telemetry.addData("color alpha right: ", alphaValueRight);
     }
     public static void addTelemetryAnalogInput() {
-        telemetry.addData("analog angel: ", HardwareLocal.position);
+        telemetry.addData("analog angel: ", position);
     }
 }
 
