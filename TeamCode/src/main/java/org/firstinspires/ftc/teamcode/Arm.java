@@ -64,7 +64,6 @@ public class Arm {
         got_position_to_hold = false;
 
         HANGING_MODE_ACTIVE = true;
-        DPAD_PRESSED = false;
         if (arm1.getCurrentPosition() > -1180 || arm1.getCurrentPosition() < -1220){
             arm1.setPower(1);
             arm1.setTargetPosition(-1196);
@@ -75,8 +74,12 @@ public class Arm {
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
             ENCODER1 = 1196;
-            DPAD_PRESSED = true;
             HANGING_MODE_ACTIVE = false;
+            if (DPAD_PRESSED) {
+                DPAD_PRESSED = false;
+            } else {
+                DPAD_PRESSED = true;
+            }
         }
     }
     public static void loadingModeArm(){
