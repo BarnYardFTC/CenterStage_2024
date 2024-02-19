@@ -12,12 +12,15 @@ public class Claws {
     static final double RIGHT_CLAW_CLOSED_POSITION = 0.05;
     static final double RIGHT_CLAW_OPENED_POSITION = 0.55;
 
-    private static boolean was_right_bumper_pressed = false;
-    private static boolean was_left_bumper_pressed = false;
+    private static boolean was_right_bumper_pressed;
+    private static boolean was_left_bumper_pressed;
     
     public static void init(Servo left_claw, Servo right_claw) {
         Claws.left_claw = right_claw;
         Claws.right_claw = left_claw;
+
+        was_right_bumper_pressed = false;
+        was_left_bumper_pressed = false;
     }
     public static void moveToStartPosition() {
         left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
