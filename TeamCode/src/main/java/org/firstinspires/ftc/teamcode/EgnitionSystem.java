@@ -66,10 +66,10 @@ public class EgnitionSystem {
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.5 * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.5 * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.5 * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.5 * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.3 * power);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.3 * power);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.3 * power);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.3 * power);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;

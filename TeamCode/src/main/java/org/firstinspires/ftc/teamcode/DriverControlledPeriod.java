@@ -106,15 +106,15 @@ public class DriverControlledPeriod extends LinearOpMode {
             runHangingMode();
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
-            Arm.loadingModeArm();
             runLoadingMode();
+            Arm.loadingModeArm();
         } else {
             Arm.brake();
         }
 
     }
     public void runLoadingMode() {
-        if (Arm.LOADING_MODE_ACTIVE && (Arm.getArm1Position() >= 0 || Arm.getArm2Position() <= 0)) {
+        if (Arm.LOADING_MODE_ACTIVE) {
             Claws.loadingModeClaws();
             Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
         }
