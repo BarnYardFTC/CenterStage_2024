@@ -9,11 +9,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red Front")
 public class AutonomousRedFront extends LinearOpMode {
 
-    private int spike_position = -1;
-    private boolean arm_moving = false;
+    int spike_position ;
+    boolean arm_moving;
+    final int TIME = 150000;
+    int time;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        spike_position = -1;
+        arm_moving = false;
+        time = TIME;
+
         initArm();
         initClaws();
         initWrist();
@@ -21,23 +29,25 @@ public class AutonomousRedFront extends LinearOpMode {
 
         setVariables();
 
-        Wrist.moveDown();
-
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
 
-        initCamera();
+        waitForStart();
 
-        while (opModeInInit()) {
+        Wrist.moveDown();
+
+        initCamera();
+        while (time > 0 && opModeIsActive()) {
             spike_position = PixelDetectorRF.getSpike_position();
             telemetry.addData("Spike position: ", spike_position);
             telemetry.addData("Right region avg", Camera.getRightRegion_avg(2));
             telemetry.addData("Left region avg", Camera.getLeftRegion_avg(2));
+            telemetry.addData("Time: ", time);
             telemetry.update();
+            time --;
         }
         Camera.close(2);
 
-        waitForStart();
         while (opModeIsActive()) {
             if (spike_position == 0) {
                 run0();
@@ -105,6 +115,7 @@ public class AutonomousRedFront extends LinearOpMode {
         else if (RFrun0.phase == 4) { // open right claw
             Claws.openRightClaw();
             RFrun0.phase ++;
+            sleep(500);
         }
         else if (RFrun0.phase == 5) { // move wrist up
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);

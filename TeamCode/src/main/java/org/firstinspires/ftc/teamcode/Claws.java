@@ -9,7 +9,7 @@ public class Claws {
 
     static final double LEFT_CLAW_CLOSED_POSITION = 0.48;
     static final double LEFT_CLAW_OPENED_POSITION = 0.03;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.5;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.05;
     static final double RIGHT_CLAW_OPENED_POSITION = 0.55;
 
     private static boolean was_right_bumper_pressed = false;

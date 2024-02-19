@@ -96,6 +96,10 @@ public class Arm {
             arm2.setPower(0);
         }
     }
+    public static void stopMoving() {
+        arm1.setPower(0);
+        arm2.setPower(0);
+    }
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
         telemetry.addData("arm2 position: ", arm2.getCurrentPosition());

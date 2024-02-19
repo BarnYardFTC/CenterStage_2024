@@ -82,9 +82,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         Wrist.runWrist(gamepad1.y);
-//        if (HardwareLocal.position > 20 && Arm.getArm1Position() < 180 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
-//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-//        } else if (Arm.getArm1Position() < 180) {
+//       if (Arm.getArm1Position() < 180) {
 //            Wrist.setPosition((HardwareLocal.position + 20) / 100);
 //        }
     }

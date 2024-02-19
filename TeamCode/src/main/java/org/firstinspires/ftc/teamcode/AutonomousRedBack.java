@@ -9,36 +9,44 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red back")
 public class AutonomousRedBack extends LinearOpMode {
 
-    private int spike_position = -1;
-    private boolean arm_moving = false;
+    int spike_position;
+    boolean arm_moving;
+    final int TIME = 150000;
+    int time;
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        time = TIME;
+
+        spike_position = -1;
+        arm_moving = false;
 
         initArm();
         initClaws();
         initWrist();
         initEgnitionSystem();
 
-        Wrist.moveDown();
-
         setVariables();
 
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
 
-        initCamera();
+        waitForStart();
 
-        while (opModeInInit()) {
+        Wrist.moveDown();
+
+        initCamera();
+        while (time > 0 && opModeIsActive()) {
             spike_position = PixelDetectorRB.getSpike_position();
             telemetry.addData("Spike position: ", spike_position);
             telemetry.addData("Right region avg", Camera.getRightRegion_avg(1));
             telemetry.addData("Left region avg", Camera.getLeftRegion_avg(1));
+            telemetry.addData("Time: ", time);
             telemetry.update();
+            time --;
         }
         Camera.close(1);
-
-        waitForStart();
 
         while (opModeIsActive()) {
 
@@ -121,6 +129,7 @@ public class AutonomousRedBack extends LinearOpMode {
         else if (RBrun0.phase == 5) { // open the right claw
             Claws.openRightClaw();
             RBrun0.phase++;
+            sleep(500);
         }
         else if (RBrun0.phase == 6) { // move wrist up
             Wrist.moveUp();
@@ -362,7 +371,7 @@ public class AutonomousRedBack extends LinearOpMode {
             RBrun2.phase ++;
         }
         else if (RBrun2.phase == 6) { // move wrist up && move backward
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            Wrist.setPosition(0.3);
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_6_POSITION, false)){
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);

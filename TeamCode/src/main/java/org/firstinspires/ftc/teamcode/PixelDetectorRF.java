@@ -27,16 +27,16 @@ public class PixelDetectorRF implements VisionProcessor {
     int frameWidth;
     int frameHeight;
 
-    private final int LEFT_REGION_START_X = 250;
-    private final int LEFT_REGION_START_Y = 300;
+    private final int LEFT_REGION_START_X = 200;
+    private final int LEFT_REGION_START_Y = 200;
 
     private final int RIGHT_REGION_START_X = 1100;
-    private final int RIGHT_REGION_START_Y = 250;
+    private final int RIGHT_REGION_START_Y = 200;
 
     private final int REGIONS_WIDTH = 100;
     private final int REGIONS_HEIGHT = 150;
 
-    private final int BRIGHTNESS_DIFFERENCE = 17; // ToDo: Find the correct value
+    private final int BRIGHTNESS_DIFFERENCE = 17;
 
     public int getLeftRegion_avg() {
         return this.leftRegion_avg;
