@@ -14,7 +14,6 @@ public class DriverControlledPeriod extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        initEgnitionSystem();
         initArm();
         initWrist();
         initClaws();
@@ -27,10 +26,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drone.setPosition(drone.getPosition());
-        Claws.moveToStartPosition();
+        initEgnitionSystem();
 
-        Wrist.moveUp();
+        drone.setPosition(drone.getPosition());
 
 
         while (opModeIsActive()) {
@@ -66,6 +64,8 @@ public class DriverControlledPeriod extends LinearOpMode {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
+        Claws.closeRightClaw();
+        Claws.closeLeftClaw();
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
@@ -73,6 +73,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
+        Wrist.setPosition(Wrist.WRIST_UP_POSITION);
     }
     public void runWrist() {
         if (Arm.getArm1Position() <= -1700) {

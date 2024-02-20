@@ -84,6 +84,9 @@ public class EgnitionSystem {
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
         telemetry.addLine("Press B to reset robot's head direction");
+        telemetry.addData("heading: ", heading);
+        telemetry.addData("adjusted ly ", adjustedLy);
+        telemetry.addData("adjusted lx ", adjustedLx);
         if (gamepad1.b) {
             imu.resetYaw();
         }

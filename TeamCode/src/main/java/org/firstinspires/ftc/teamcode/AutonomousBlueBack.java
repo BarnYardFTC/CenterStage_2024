@@ -21,46 +21,31 @@ public class AutonomousBlueBack extends LinearOpMode {
         initWrist();
         initEgnitionSystem();
 
-        Wrist.moveDown();
-
-        
-
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
-
-        initCamera();
-        
-        while (opModeInInit()) {
-            spike_position = PixelDetectorRB.getSpike_position();
-            telemetry.addData("Spike position: ", spike_position);
-            telemetry.addData("Right region avg", Camera.getRightRegion_avg(3));
-            telemetry.addData("Left region avg", Camera.getLeftRegion_avg(3));
-            telemetry.update();
-        }
-        Camera.close(3);
         
         waitForStart();
+
+        Wrist.setPosition(0.85);
         while (opModeIsActive()) {
-            if (spike_position == 0) {
-                run0();
-            }
-            else if (spike_position == 1) {
-                run1();
+            if (BBrun0.phase == 1) {
+                if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), BBrun0.PHASE_1_FINISH, true)) {
+                    EgnitionSystem.setVerticalPower(0);
+                    sleep(500);
+                    EgnitionSystem.resetEncoders();
+                }
+                else {
+                    EgnitionSystem.setVerticalPower(1);
+                }
             }
             else {
-                run2();
+                Claws.openRightClaw();
+                Claws.openLeftClaw();
             }
         }
-    }
-    
-    public void run0() {
 
-    }
-    public void run1() {
-        
-    }
-    public void run2() {
-        
+        EgnitionSystem.updateVariablesAutonomous();
+        EgnitionSystem.runAutonomous();
     }
 
     public void initClaws(){

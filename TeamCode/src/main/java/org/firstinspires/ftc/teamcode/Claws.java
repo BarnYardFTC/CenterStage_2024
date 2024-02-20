@@ -23,8 +23,8 @@ public class Claws {
         was_left_bumper_pressed = false;
     }
     public static void moveToStartPosition() {
-        left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
-        right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
+        left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
+        right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
     }
     public static void closeRightClaw() {
         right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);

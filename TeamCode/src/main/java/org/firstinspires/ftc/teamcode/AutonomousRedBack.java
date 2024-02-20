@@ -34,7 +34,7 @@ public class AutonomousRedBack extends LinearOpMode {
 
         waitForStart();
 
-        Wrist.moveDown();
+        Wrist.setPosition(0.85);
 
         initCamera();
         while (time > 0 && opModeIsActive()) {
@@ -61,7 +61,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
 
             if (!arm_moving) {
-                if (!Arm.passedMinimalHoldPosition()) {
+                if (Arm.passedMinimalHoldPosition()) {
                     Arm.stopMoving();
                 }
                 else {
@@ -132,11 +132,9 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun0.phase == 5) { // open the right claw
             Claws.openRightClaw();
-            RBrun0.phase++;
             sleep(500);
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_5_POSITION, false)) {
                 EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
                 EgnitionSystem.resetEncoders();
                 RBrun0.phase ++;
             }
@@ -146,16 +144,17 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun0.phase == 6) { // move wrist up
             Wrist.moveUp();
-            sleep(500);
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_6_POSITION, true)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                RBrun0.phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(-1);
-            }
+//            sleep(500);
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_6_POSITION, true)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RBrun0.phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(-1);
+//            }
+            RBrun0.phase ++;
         }
         else if (RBrun0.phase == 7) { // move sideways (towards back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_7_POSITION, false)) {
@@ -190,6 +189,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun0.phase == 10) { // open left claw
+            sleep(500);
             Claws.openLeftClaw();
             sleep(300);
             RBrun0.phase ++;
@@ -313,6 +313,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun1.phase == 9) { // open left claw (let go of the pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RBrun1.phase++;
             sleep(500);
@@ -429,12 +430,14 @@ public class AutonomousRedBack extends LinearOpMode {
         else if (RBrun2.phase == 8) { // move a bit forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_8_POSITION, true)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.4);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RBrun2.phase++;
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
 
         }
@@ -460,6 +463,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun2.phase == 11) { // open left claw (let go of the pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RBrun2.phase ++;
             sleep(500);
