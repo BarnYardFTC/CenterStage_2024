@@ -69,6 +69,10 @@ public class AutonomousRedBack extends LinearOpMode {
                 }
             }
 
+            if (Arm.getArm1Position() <= -1000) {
+                Wrist.setPosition((double) Arm.getArm1Position() / -6500);
+            }
+
             EgnitionSystem.updateVariablesAutonomous();
             EgnitionSystem.runAutonomous();
 
@@ -251,27 +255,19 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun1.phase == 3) { // move wrist up
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            sleep(500);
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_3_POSITION, true)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                RBrun1.phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
+            RBrun1.phase ++;
         }
         else if (RBrun1.phase == 4) { // move backwards
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                RBrun1.phase++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(-1);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RBrun1.phase++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+            RBrun1.phase ++;
         }
         else if (RBrun1.phase == 5) { // move sideways (toward back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_5_POSITION, true)) {
