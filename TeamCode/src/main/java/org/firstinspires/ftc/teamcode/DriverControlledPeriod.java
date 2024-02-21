@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
-
+    Gamepad.RumbleEffect lastTwentySecondsVibration;
+    Gamepad.RumbleEffect readyToReleaseVibration;
+    Gamepad.RumbleEffect closeToJunctionVibration;
     Servo servo;
     private double LAUNCH_POSITION = 0.5;
     private double HOLD_POSITION = 1;
@@ -27,12 +30,32 @@ public class DriverControlledPeriod extends LinearOpMode {
         servo = hardwareMap.get(Servo.class, "drone");
         servo.setPosition(HOLD_POSITION);
 
+        lastTwentySecondsVibration = new Gamepad.RumbleEffect.Builder()
+                .addStep(0.5, 0.5, 1000)
+                .addStep(0.0, 0.0, 1000)
+                .addStep(0.7, 0.7, 1000)
+                .addStep(0.0, 0.0, 1000)
+                .addStep(1.0, 1.0, 1000)
+                .build();
+
+        readyToReleaseVibration = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0,1.0,250)
+                .build();
+
         telemetry.update();
         waitForStart();
         boolean wasDpadDownPressed = false;
 
         Claws.moveToStartPosition();
         Wrist.moveToStartPosition();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sleep(102500);
+                gamepad1.runRumbleEffect(lastTwentySecondsVibration);
+            }
+        }).start();
 
         while (opModeIsActive()) {
             runEgnitionSystem();
