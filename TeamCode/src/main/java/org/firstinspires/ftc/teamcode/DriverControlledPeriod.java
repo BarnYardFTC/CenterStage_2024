@@ -120,7 +120,6 @@ public class DriverControlledPeriod extends LinearOpMode {
             runHangingMode();
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
-            runLoadingMode();
             Arm.loadingModeArm();
         } else {
             Arm.brake();
