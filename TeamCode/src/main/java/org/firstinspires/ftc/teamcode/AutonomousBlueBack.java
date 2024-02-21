@@ -27,22 +27,25 @@ public class AutonomousBlueBack extends LinearOpMode {
         waitForStart();
 
         Wrist.setPosition(0.85);
+        BBrun0.phase = 1;
         while (opModeIsActive()) {
             if (BBrun0.phase == 1) {
                 if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), BBrun0.PHASE_1_FINISH, true)) {
                     EgnitionSystem.setVerticalPower(0);
                     sleep(500);
                     EgnitionSystem.resetEncoders();
+                    BBrun0.phase ++;
                 }
                 else {
                     EgnitionSystem.setVerticalPower(1);
                 }
             }
-            else {
+            else if (BBrun0.phase == 2) {
                 Claws.openRightClaw();
-                Claws.openLeftClaw();
+                BBrun0.phase++;
             }
         }
+
 
         EgnitionSystem.updateVariablesAutonomous();
         EgnitionSystem.runAutonomous();

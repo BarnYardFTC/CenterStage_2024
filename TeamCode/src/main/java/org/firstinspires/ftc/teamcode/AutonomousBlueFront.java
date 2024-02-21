@@ -28,7 +28,7 @@ public class AutonomousBlueFront extends LinearOpMode {
         Wrist.setPosition(0.85);
         BFrun0.phase = 1;
         while (opModeIsActive()) {
-            if (BBrun0.phase == 1) {
+            if (BFrun0.phase == 1) {
                 if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), BFrun0.PHASE_1_FINISH, true)) {
                     EgnitionSystem.setVerticalPower(0);
                     sleep(500);
@@ -37,9 +37,9 @@ public class AutonomousBlueFront extends LinearOpMode {
                     EgnitionSystem.setVerticalPower(1);
                 }
             }
-            else {
+            else if (BFrun0.phase == 2) {
                 Claws.openRightClaw();
-                Claws.openLeftClaw();
+                BFrun0.phase ++;
             }
         }
         EgnitionSystem.updateVariablesAutonomous();

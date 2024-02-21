@@ -17,6 +17,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initArm();
         initWrist();
         initClaws();
+        initEgnitionSystem();
 //        HardwareLocal.initColorSensor();
 //        HardwareLocal.initAnalogInput();
 //        HardwareLocal.initDistanceSensor();
@@ -25,8 +26,6 @@ public class DriverControlledPeriod extends LinearOpMode {
 
         telemetry.update();
         waitForStart();
-
-        initEgnitionSystem();
 
         drone.setPosition(drone.getPosition());
 
@@ -145,7 +144,10 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
-        if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
+        if (gamepad1.b) {
+            initEgnitionSystem();
+        }
+        else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
             EgnitionSystem.runTeleop2();
         } else {
             EgnitionSystem.runTeleop1();

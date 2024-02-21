@@ -87,9 +87,6 @@ public class EgnitionSystem {
         telemetry.addData("heading: ", heading);
         telemetry.addData("adjusted ly ", adjustedLy);
         telemetry.addData("adjusted lx ", adjustedLx);
-        if (gamepad1.b) {
-            imu.resetYaw();
-        }
     }
     public static void setHorizontalPower(double power) {
         lx = power;
@@ -168,6 +165,9 @@ public class EgnitionSystem {
     }
     public static void fastMode() {
         power = 1;
+    }
+    public static void initIMU() {
+
     }
 
 }
