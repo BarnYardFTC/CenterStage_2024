@@ -18,16 +18,16 @@ public class EgnitionSystem {
     static private DcMotor bl_wheel;
     static private DcMotor br_wheel;
     static private IMU imu;
-    static private double max = 1;
-    static private double lx = 0;
-    static private double ly = 0;
-    static private double rx = 0;
-    static private double heading = 0;
-    static private double adjustedLx = 0;
-    static private double adjustedLy = 0;
-    static public double power = 1;
+    static private double max;
+    static private double lx;
+    static private double ly;
+    static private double rx;
+    static private double heading;
+    static private double adjustedLx;
+    static private double adjustedLy;
+    static public double power;
 
-    static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.5;
+    static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
 
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
@@ -66,10 +66,10 @@ public class EgnitionSystem {
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.5 * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.5 * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.5 * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.5 * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.3 * power);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.3 * power);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.3 * power);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.3 * power);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;
@@ -84,9 +84,9 @@ public class EgnitionSystem {
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
 
         telemetry.addLine("Press B to reset robot's head direction");
-        if (gamepad1.b) {
-            imu.resetYaw();
-        }
+        telemetry.addData("heading: ", heading);
+        telemetry.addData("adjusted ly ", adjustedLy);
+        telemetry.addData("adjusted lx ", adjustedLx);
     }
     public static void setHorizontalPower(double power) {
         lx = power;
@@ -165,6 +165,9 @@ public class EgnitionSystem {
     }
     public static void fastMode() {
         power = 1;
+    }
+    public static void initIMU() {
+
     }
 
 }

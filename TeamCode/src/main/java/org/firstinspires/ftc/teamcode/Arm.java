@@ -15,8 +15,13 @@ public class Arm {
     static private boolean got_position_to_hold = false;
 
     static private int hold_position1 = 0;
+    static private int hold_position2 = 0;
+
+    static public int ENCODER1 = 0;
 
     static public boolean HANGING_MODE_ACTIVE = false;
+
+    static private boolean DPAD_PRESSED = false;
 
     static public boolean LOADING_MODE_ACTIVE = false;
 
@@ -27,6 +32,9 @@ public class Arm {
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        DPAD_PRESSED = false;
+        LOADING_MODE_ACTIVE = false;
+        HANGING_MODE_ACTIVE = false;
     }
     public static void moveUp() {
         got_position_to_hold = false;
@@ -51,6 +59,8 @@ public class Arm {
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void hangingModeArm() {
+        got_position_to_hold = false;
+
         HANGING_MODE_ACTIVE = true;
         if (arm1.getCurrentPosition() > -1180 || arm1.getCurrentPosition() < -1220){
             arm1.setPower(1);
@@ -62,10 +72,17 @@ public class Arm {
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         } else {
             HANGING_MODE_ACTIVE = false;
+            if (DPAD_PRESSED) {
+                DPAD_PRESSED = false;
+            } else {
+                DPAD_PRESSED = true;
+            }
         }
     }
     public static void loadingModeArm(){
-        if (arm1.getCurrentPosition() < 0 && arm2.getCurrentPosition() > 0) {
+        got_position_to_hold = false;
+
+        if (arm1.getCurrentPosition() < 0) {
             arm1.setPower(1);
             arm1.setTargetPosition(0);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -76,6 +93,8 @@ public class Arm {
 
             LOADING_MODE_ACTIVE = true;
         } else {
+            arm1.setPower(0);
+            arm2.setPower(0);
             arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             LOADING_MODE_ACTIVE = false;
@@ -85,16 +104,31 @@ public class Arm {
         if (!got_position_to_hold) {
             got_position_to_hold = true;
             hold_position1 = arm1.getCurrentPosition();
+            hold_position2 = arm2.getCurrentPosition();
         }
-        if (hold_position1 < -300) {
+        if (!DPAD_PRESSED) {
+            if (arm1.getCurrentPosition() < -300) {
+                arm1.setPower(1);
+                arm2.setPower(0);
+                arm1.setTargetPosition(hold_position1);
+                arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else {
+                arm1.setPower(0);
+                arm2.setPower(0);
+            }
+        }
+        else {
             arm1.setPower(1);
+            arm2.setPower(1);
             arm1.setTargetPosition(hold_position1);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            arm2.setPower(0);
-        } else {
-            arm1.setPower(0);
-            arm2.setPower(0);
+            arm2.setTargetPosition(hold_position2);
+            arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+    }
+    public static void stopMoving() {
+        arm1.setPower(0);
+        arm2.setPower(0);
     }
     public static void addDataToTelemetry(Telemetry telemetry) {
         telemetry.addData("arm1 position: ", arm1.getCurrentPosition());

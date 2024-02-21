@@ -3,61 +3,39 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
-    Gamepad.RumbleEffect lastTwentySecondsVibration;
-    Gamepad.RumbleEffect readyToReleaseVibration;
-    Gamepad.RumbleEffect closeToJunctionVibration;
-    Servo servo;
-    private double LAUNCH_POSITION = 0.5;
-    private double HOLD_POSITION = 1;
+
+    Servo drone;
 
     @Override
     public void runOpMode() {
 
-        initEgnitionSystem();
         initArm();
         initWrist();
         initClaws();
+        initEgnitionSystem();
 //        HardwareLocal.initColorSensor();
 //        HardwareLocal.initAnalogInput();
 //        HardwareLocal.initDistanceSensor();
 
-        servo = hardwareMap.get(Servo.class, "drone");
-        servo.setPosition(HOLD_POSITION);
-
-        lastTwentySecondsVibration = new Gamepad.RumbleEffect.Builder()
-                .addStep(0.5, 0.5, 1000)
-                .addStep(0.0, 0.0, 1000)
-                .addStep(0.7, 0.7, 1000)
-                .addStep(0.0, 0.0, 1000)
-                .addStep(1.0, 1.0, 1000)
-                .build();
-
-        readyToReleaseVibration = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0,1.0,250)
-                .build();
+        drone = hardwareMap.get(Servo.class, "drone");
 
         telemetry.update();
         waitForStart();
-        boolean wasDpadDownPressed = false;
 
-        Claws.moveToStartPosition();
-        Wrist.moveToStartPosition();
+        drone.setPosition(drone.getPosition());
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sleep(102500);
-                gamepad1.runRumbleEffect(lastTwentySecondsVibration);
-            }
-        }).start();
 
         while (opModeIsActive()) {
+
+            if (gamepad1.dpad_down) {
+                drone.setPosition(0.5);
+            }
+
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -65,25 +43,15 @@ public class DriverControlledPeriod extends LinearOpMode {
 //            touchAndGoColor();
 //            touchAndGoDistance();
 
-            if (gamepad1.dpad_down && !wasDpadDownPressed) {
-                if (servo.getPosition() == HOLD_POSITION) {
-                    servo.setPosition(LAUNCH_POSITION);
-                }
-                else {
-                    servo.setPosition(HOLD_POSITION);
-                }
-                wasDpadDownPressed = true;
-            }
-            if (!gamepad1.dpad_down) {
-                wasDpadDownPressed = false;
-            }
+
 
 
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
 
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+            telemetry.addData("Encoder1: ", Arm.ENCODER1);
+            telemetry.addData("Wrist" , Wrist.getPosition());
 //            HardwareLocal.addTelemetryColorSensor();
 //            HardwareLocal.addTelemetryAnalogInput();
 //            HardwareLocal.addTelemetryDistanceSensor();
@@ -95,6 +63,8 @@ public class DriverControlledPeriod extends LinearOpMode {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
+        Claws.closeRightClaw();
+        Claws.closeLeftClaw();
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
@@ -102,14 +72,15 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
+        Wrist.setPosition(Wrist.WRIST_UP_POSITION);
     }
     public void runWrist() {
-        Wrist.runWrist(gamepad1.y);
-//        if (HardwareLocal.position > 20 && Arm.getArm1Position() < 180 && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
-//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-//        } else if (Arm.getArm1Position() < 180) {
-//            Wrist.setPosition((HardwareLocal.position + 20) / 100);
-//        }
+        if (Arm.getArm1Position() <= -1700) {
+            Wrist.setPosition((double) Arm.getArm1Position() / -6500);
+        }
+        else {
+            Wrist.runWrist(gamepad1.y);
+        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -128,17 +99,17 @@ public class DriverControlledPeriod extends LinearOpMode {
             runHangingMode();
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
-            Arm.loadingModeArm();
             runLoadingMode();
+            Arm.loadingModeArm();
         } else {
             Arm.brake();
         }
 
     }
     public void runLoadingMode() {
-        if (Arm.LOADING_MODE_ACTIVE && (Arm.getArm1Position() >= 0 || Arm.getArm2Position() <= 0)) {
+        if (Arm.LOADING_MODE_ACTIVE) {
             Claws.loadingModeClaws();
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void runHangingMode() {
@@ -173,7 +144,10 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
-        if (gamepad1.left_stick_button) {
+        if (gamepad1.b) {
+            initEgnitionSystem();
+        }
+        else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
             EgnitionSystem.runTeleop2();
         } else {
             EgnitionSystem.runTeleop1();

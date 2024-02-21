@@ -13,6 +13,7 @@ public class Camera {
 
     private static PixelDetectorRB pixel_detector_RB;
     private static PixelDetectorRF pixel_detector_RF;
+    private static PixelDetectorBB pixel_detector_BB;
     private static VisionPortal camera;
 
     public static void init(OpMode opMode, HardwareMap hardwareMap, int side) {
@@ -29,6 +30,10 @@ public class Camera {
             pixel_detector_RF = new PixelDetectorRF(opMode);
             builder.addProcessor(pixel_detector_RF);
         }
+        else if (side == 3) { // BB
+            pixel_detector_BB = new PixelDetectorBB(opMode);
+            builder.addProcessor(pixel_detector_BB);
+        }
 
         camera = builder.build();
     }
@@ -40,7 +45,7 @@ public class Camera {
             return pixel_detector_RF.getLeftRegion_avg();
         }
         else if (side == 3) {
-            return pixel_detector_RB.getLeftRegion_avg();
+            return pixel_detector_BB.getLeftRegion_avg();
         }
         else if (side == 4) {
             return pixel_detector_RF.getLeftRegion_avg();
@@ -55,7 +60,7 @@ public class Camera {
             return pixel_detector_RF.getRightRegion_avg();
         }
         else if (side == 3) {
-            return pixel_detector_RB.getRightRegion_avg();
+            return pixel_detector_BB.getRightRegion_avg();
         }
         else if (side == 4) {
             return pixel_detector_RF.getRightRegion_avg();
@@ -70,7 +75,7 @@ public class Camera {
             camera.setProcessorEnabled(pixel_detector_RF, false);
         }
         else if (side == 3) {
-            camera.setProcessorEnabled(pixel_detector_RB,false);
+            camera.setProcessorEnabled(pixel_detector_BB,false);
         }
         else if (side == 4) {
             camera.setProcessorEnabled(pixel_detector_RF, false);

@@ -15,7 +15,7 @@ import org.opencv.imgproc.Imgproc;
 
 public class PixelDetector2 implements VisionProcessor {
 
-    private static int spike_position = 0;
+    private static int spike_position;
 
     OpMode OpMode;
     Mat leftRegion = new Mat();
@@ -30,6 +30,7 @@ public class PixelDetector2 implements VisionProcessor {
 
     public PixelDetector2(OpMode opMode){
         this.OpMode = opMode;
+        spike_position = -1;
 
     }
     public static int getSpike_position() {

@@ -13,8 +13,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class PixelDetectorRB implements VisionProcessor {
-    
+public class PixelDetectorBB implements VisionProcessor {
+
     private static int spike_position = 0;
 
     OpMode OpMode;
@@ -44,7 +44,7 @@ public class PixelDetectorRB implements VisionProcessor {
     public int getRightRegion_avg() {
         return this.rightRegion_avg;
     }
-    public PixelDetectorRB(OpMode opMode){
+    public PixelDetectorBB(OpMode opMode){
         this.OpMode = opMode;
     }
     public static int getSpike_position() {
@@ -57,7 +57,7 @@ public class PixelDetectorRB implements VisionProcessor {
         frameHeight = frame.height();
 
         Imgproc.cvtColor(frame, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-        Core.extractChannel(YCrCb, Y, 1); // 0 - white | 1 - red
+        Core.extractChannel(YCrCb, Y, 2); // 0 - white | 1 - red | 2 -
 
 
 

@@ -9,36 +9,44 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Red back")
 public class AutonomousRedBack extends LinearOpMode {
 
-    private int spike_position = -1;
-    private boolean arm_moving = false;
+    int spike_position;
+    boolean arm_moving;
+    final int TIME = 100000;
+    int time;
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        time = TIME;
+
+        spike_position = -1;
+        arm_moving = false;
 
         initArm();
         initClaws();
         initWrist();
         initEgnitionSystem();
 
-        Wrist.moveDown();
-
         setVariables();
 
         Claws.closeLeftClaw();
         Claws.closeRightClaw();
 
-        initCamera();
+        waitForStart();
 
-        while (opModeInInit()) {
+        Wrist.setPosition(0.85);
+
+        initCamera();
+        while (time > 0 && opModeIsActive()) {
             spike_position = PixelDetectorRB.getSpike_position();
             telemetry.addData("Spike position: ", spike_position);
             telemetry.addData("Right region avg", Camera.getRightRegion_avg(1));
             telemetry.addData("Left region avg", Camera.getLeftRegion_avg(1));
+            telemetry.addData("Time: ", time);
             telemetry.update();
+            time --;
         }
         Camera.close(1);
-
-        waitForStart();
 
         while (opModeIsActive()) {
 
@@ -53,12 +61,16 @@ public class AutonomousRedBack extends LinearOpMode {
             }
 
             if (!arm_moving) {
-                if (!Arm.passedMinimalHoldPosition()) {
+                if (Arm.passedMinimalHoldPosition()) {
                     Arm.stopMoving();
                 }
                 else {
                     Arm.brake();
                 }
+            }
+
+            if (Arm.getArm1Position() <= -1000) {
+                Wrist.setPosition((double) Arm.getArm1Position() / -6500);
             }
 
             EgnitionSystem.updateVariablesAutonomous();
@@ -120,11 +132,29 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun0.phase == 5) { // open the right claw
             Claws.openRightClaw();
-            RBrun0.phase++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_5_POSITION, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.resetEncoders();
+                RBrun0.phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (RBrun0.phase == 6) { // move wrist up
             Wrist.moveUp();
-            RBrun0.phase++;
+//            sleep(500);
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_6_POSITION, true)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RBrun0.phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(-1);
+//            }
+            RBrun0.phase ++;
         }
         else if (RBrun0.phase == 7) { // move sideways (towards back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun0.PHASE_7_POSITION, false)) {
@@ -159,6 +189,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun0.phase == 10) { // open left claw
+            sleep(500);
             Claws.openLeftClaw();
             sleep(300);
             RBrun0.phase ++;
@@ -211,22 +242,32 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun1.phase == 2) { // open right claw
             Claws.openRightClaw();
-            RBrun1.phase ++;
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_2_POSITION, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                RBrun1.phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
         }
         else if (RBrun1.phase == 3) { // move wrist up
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             RBrun1.phase ++;
         }
         else if (RBrun1.phase == 4) { // move backwards
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                RBrun1.phase++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(-1);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_4_POSITION, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                RBrun1.phase++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+            RBrun1.phase ++;
         }
         else if (RBrun1.phase == 5) { // move sideways (toward back board)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun1.PHASE_5_POSITION, true)) {
@@ -272,6 +313,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun1.phase == 9) { // open left claw (let go of the pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RBrun1.phase++;
             sleep(500);
@@ -359,19 +401,20 @@ public class AutonomousRedBack extends LinearOpMode {
         }
         else if (RBrun2.phase == 5) { // open right claw
             Claws.openRightClaw();
-            RBrun2.phase ++;
-        }
-        else if (RBrun2.phase == 6) { // move wrist up && move backward
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_6_POSITION, false)){
+            sleep(500);
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_5_POSITION, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
-                RBrun2.phase ++;
+                RBrun2.phase++;
             }
             else {
                 EgnitionSystem.setVerticalPower(-1);
             }
+        }
+        else if (RBrun2.phase == 6) { // move wrist up && move backward
+            Wrist.moveUp();
+            RBrun2.phase ++;
         }
         else if (RBrun2.phase == 7) { // move right (towards backdrop)
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_7_POSITION, true)) {
@@ -387,12 +430,14 @@ public class AutonomousRedBack extends LinearOpMode {
         else if (RBrun2.phase == 8) { // move a bit forward
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), RBrun2.PHASE_8_POSITION, true)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(0.4);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 RBrun2.phase++;
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(0.2);
             }
 
         }
@@ -418,6 +463,7 @@ public class AutonomousRedBack extends LinearOpMode {
             }
         }
         else if (RBrun2.phase == 11) { // open left claw (let go of the pixel)
+            sleep(500);
             Claws.openLeftClaw();
             RBrun2.phase ++;
             sleep(500);

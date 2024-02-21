@@ -11,10 +11,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HardwareLocal {
-//    analog input
-    static AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "myanaloginput");
-    static double position = analogInput.getVoltage() / 3.3 * 360;
-
 //  distance sensor claws
     private static DistanceSensor distanceSensorLeft;
     private static DistanceSensor distanceSensorRight;
@@ -78,9 +74,6 @@ public class HardwareLocal {
         telemetry.addData("color green left: ", colorSensorLeft.green());
         telemetry.addData("color blue left: ", colorSensorLeft.blue());
         telemetry.addData("color alpha left: ", colorSensorLeft.alpha());
-    }
-    public static void addTelemetryAnalogInput() {
-        telemetry.addData("analog angel: ", position);
     }
     public static void addTelemetryDistanceSensor() {
         telemetry.addData("distance right: ", distanceSensorRight.getDistance(DistanceUnit.INCH));
