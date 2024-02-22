@@ -26,30 +26,11 @@ public class DriverControlledPeriod extends LinearOpMode {
 //        HardwareLocal.initDistanceSensor();
 
         drone = hardwareMap.get(Servo.class, "drone");
-        lastTwentySecondsVibration = new Gamepad.RumbleEffect.Builder()
-                .addStep(0.5, 0.5, 1000)
-                .addStep(0.0, 0.0, 1000)
-                .addStep(0.7, 0.7, 1000)
-                .addStep(0.0, 0.0, 1000)
-                .addStep(1.0, 1.0, 1000)
-                .build();
-
-        readyToReleaseVibration = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0,1.0,250)
-                .build();
 
         telemetry.update();
         waitForStart();
 
         drone.setPosition(drone.getPosition());
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sleep(110000);
-                gamepad1.runRumbleEffect(lastTwentySecondsVibration);
-            }
-        }).start();
 
         while (opModeIsActive()) {
 
