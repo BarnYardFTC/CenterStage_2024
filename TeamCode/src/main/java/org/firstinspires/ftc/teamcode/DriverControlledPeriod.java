@@ -46,7 +46,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                sleep(102500);
+                sleep(110000);
                 gamepad1.runRumbleEffect(lastTwentySecondsVibration);
             }
         }).start();
