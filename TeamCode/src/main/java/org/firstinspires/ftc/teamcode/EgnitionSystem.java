@@ -41,7 +41,6 @@ public class EgnitionSystem {
         EgnitionSystem.br_wheel = br_wheel;
 
         EgnitionSystem.bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        EgnitionSystem.br_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         EgnitionSystem.fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         EgnitionSystem.imu = imu;
