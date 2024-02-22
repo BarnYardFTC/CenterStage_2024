@@ -11,8 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class DriverControlledPeriod extends LinearOpMode {
 
     Servo drone;
-    Gamepad.RumbleEffect lastTwentySecondsVibration;
-    Gamepad.RumbleEffect readyToReleaseVibration;
 
     @Override
     public void runOpMode() {
@@ -21,9 +19,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-//        HardwareLocal.initColorSensor();
-//        HardwareLocal.initAnalogInput();
-//        HardwareLocal.initDistanceSensor();
+        HardwareLocal.initColorSensor();
 
         drone = hardwareMap.get(Servo.class, "drone");
 
@@ -43,10 +39,6 @@ public class DriverControlledPeriod extends LinearOpMode {
             runClaws();
             runWrist();
 //            touchAndGoColor();
-//            touchAndGoDistance();
-
-
-
 
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
@@ -54,12 +46,9 @@ public class DriverControlledPeriod extends LinearOpMode {
 
             telemetry.addData("Encoder1: ", Arm.ENCODER1);
             telemetry.addData("Wrist" , Wrist.getPosition());
-//            HardwareLocal.addTelemetryColorSensor();
-//            HardwareLocal.addTelemetryAnalogInput();
-//            HardwareLocal.addTelemetryDistanceSensor();
+            HardwareLocal.addTelemetryColorSensor();
             telemetry.update();
         }
-
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
@@ -107,12 +96,6 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
 
     }
-    public void runLoadingMode() {
-        if (Arm.LOADING_MODE_ACTIVE) {
-            Claws.loadingModeClaws();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-        }
-    }
     public void runHangingMode() {
         if (gamepad1.dpad_up) {
             Claws.closeLeftClaw();
@@ -120,20 +103,14 @@ public class DriverControlledPeriod extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
-//    public void touchAndGoColor() {
+    public void touchAndGoColor() {
 //        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
 //            Claws.closeLeftClaw();
-//        } else if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-//            Claws.closeRightClaw();
-//        }
-//    }
-//    public void touchAndGoColor() {
-//        if (HardwareLocal.pixelLeftDistance() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-//            Claws.closeLeftClaw();
-//        } else if (HardwareLocal.pixelRightDistance() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-//            Claws.closeRightClaw();
-//        }
-//    }
+//        } else
+        if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+            Claws.closeRightClaw();
+        }
+    }
     public void initEgnitionSystem() {
         DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
         DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
