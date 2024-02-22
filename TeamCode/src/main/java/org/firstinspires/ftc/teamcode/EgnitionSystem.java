@@ -26,11 +26,8 @@ public class EgnitionSystem {
     static private double adjustedLx;
     static private double adjustedLy;
     static public double power;
-
     static public double SLOW_power;
-
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
-
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
@@ -109,7 +106,6 @@ public class EgnitionSystem {
 
     }
     public static void runAutonomous() {
-
         setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
         setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
@@ -150,7 +146,6 @@ public class EgnitionSystem {
     public static int getBrEncoderPosition() {
         return br_wheel.getCurrentPosition();
     }
-
     public static boolean arrivedPosition(int current_position, int finish_position, boolean finish_positive) {
         if (finish_positive) {
             return current_position >= finish_position;
