@@ -87,20 +87,17 @@ public class DriverControlledPeriod extends LinearOpMode {
         } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
-            runHangingMode();
+            Claws.closeRightClaw();
+            Claws.closeLeftClaw();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
+            Claws.openRightClaw();
+            Claws.openLeftClaw();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             Arm.loadingModeArm();
         } else {
             Arm.brake();
-        }
-
-    }
-    public void runHangingMode() {
-        if (gamepad1.dpad_up) {
-            Claws.closeLeftClaw();
-            Claws.closeRightClaw();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void touchAndGoColor() {

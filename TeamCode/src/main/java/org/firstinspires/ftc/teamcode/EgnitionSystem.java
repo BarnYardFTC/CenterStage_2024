@@ -27,6 +27,8 @@ public class EgnitionSystem {
     static private double adjustedLy;
     static public double power;
 
+    static public double SLOW_power;
+
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
 
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
@@ -57,6 +59,7 @@ public class EgnitionSystem {
         adjustedLx = 0;
         adjustedLy = 0;
         power = 1;
+        SLOW_power = 0.3;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void runTeleop1() {
@@ -66,10 +69,10 @@ public class EgnitionSystem {
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.3 * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.3 * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.3 * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.3 * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * SLOW_power);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * SLOW_power);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * SLOW_power);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_power);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;
@@ -160,14 +163,4 @@ public class EgnitionSystem {
     public static void setAutonomousMovingPower(double power){
         AUTONOMOUS_MOVING_POWER = power;
     }
-    public static void slowMode() {
-        power = 0.5;
-    }
-    public static void fastMode() {
-        power = 1;
-    }
-    public static void initIMU() {
-
-    }
-
 }
