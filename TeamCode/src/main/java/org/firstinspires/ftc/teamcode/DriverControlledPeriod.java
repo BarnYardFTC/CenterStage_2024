@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -19,7 +20,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-        HardwareLocal.initColorSensor();
+        initColorSensor();
 
         drone = hardwareMap.get(Servo.class, "drone");
 
@@ -46,7 +47,9 @@ public class DriverControlledPeriod extends LinearOpMode {
 
             telemetry.addData("Encoder1: ", Arm.ENCODER1);
             telemetry.addData("Wrist" , Wrist.getPosition());
-            HardwareLocal.addTelemetryColorSensor();
+            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
+            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
+            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
             telemetry.update();
         }
     }
@@ -127,5 +130,8 @@ public class DriverControlledPeriod extends LinearOpMode {
         } else {
             EgnitionSystem.runTeleop1();
         }
+    }
+    public void initColorSensor() {
+        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_Sensor_ Sensor");
     }
 }
