@@ -12,36 +12,33 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HardwareLocal {
 //    color sensor claws
-//    private static ColorSensor colorSensorLeft;
-    private static ColorSensor colorSensorRight;
-//    public static double getRedValueLeft() {
-//        return colorSensorLeft.red();
-//    }
-//    public static double getGreenValueLeft() {
-//        return colorSensorLeft.green();
-//    }
-//    public static double getBlueValueLeft() {
-//        return colorSensorLeft.blue();
-//    }
-    public static double getRedValueRight() {
+    static private ColorSensor colorSensorLeft;
+    static private ColorSensor colorSensorRight;
+    static public double getRedValueLeft() {
+        return colorSensorLeft.red();
+    }
+    static public double getGreenValueLeft() {
+        return colorSensorLeft.green();
+    }
+    static public double getBlueValueLeft() {
+        return colorSensorLeft.blue();
+    }
+    static public double getRedValueRight() {
         return colorSensorRight.red();
     }
-    public static double getGreenValueRight() {
+    static public double getGreenValueRight() {
         return colorSensorRight.green();
     }
-    public static double getBlueValueRight() {
+    static public double getBlueValueRight() {
         return colorSensorRight.blue();
     }
-//    public static void initAnalogInput() {
-//        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "local_analog_input");
-//    }
-    public static void initColorSensor() {
+    public static void init() {
         ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_sensor_right");
 //        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_sensor_left");
     }
-//    public static boolean pixelLeftColor() {
-//        return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;
-//    }
+    public static boolean pixelLeftColor() {
+        return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;
+    }
     public static boolean pixelRightColor() {
         return colorSensorRight.red() == 190 && colorSensorRight.green() == 170 && colorSensorRight.blue() == 235 || colorSensorRight.red() == 110 && colorSensorRight.green() == 200 && colorSensorRight.blue() == 45 || colorSensorRight.red() == 255 && colorSensorRight.green() == 210 && colorSensorRight.blue() == 20 || colorSensorRight.red() == 235 && colorSensorRight.green() == 235 && colorSensorRight.blue() == 240;
     }

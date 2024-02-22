@@ -28,10 +28,13 @@ public class Arm {
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm2 = motor2;
+
         arm1.setDirection(DcMotorSimple.Direction.REVERSE);
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
+
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         DPAD_PRESSED = false;
         LOADING_MODE_ACTIVE = false;
         HANGING_MODE_ACTIVE = false;
@@ -82,7 +85,7 @@ public class Arm {
     public static void loadingModeArm(){
         got_position_to_hold = false;
 
-        if (arm1.getCurrentPosition() < 0) {
+        if (arm1.getCurrentPosition() < -10) {
             arm1.setPower(1);
             arm1.setTargetPosition(0);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -95,8 +98,10 @@ public class Arm {
         } else {
             arm1.setPower(0);
             arm2.setPower(0);
+
             arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
             LOADING_MODE_ACTIVE = false;
         }
     }
@@ -110,6 +115,7 @@ public class Arm {
             if (arm1.getCurrentPosition() < -300) {
                 arm1.setPower(1);
                 arm2.setPower(0);
+
                 arm1.setTargetPosition(hold_position1);
                 arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else {
@@ -119,9 +125,11 @@ public class Arm {
         }
         else {
             arm1.setPower(1);
+
             arm2.setPower(1);
             arm1.setTargetPosition(hold_position1);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
             arm2.setTargetPosition(hold_position2);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
@@ -140,10 +148,6 @@ public class Arm {
     public static int getArm2Position() {
         return arm2.getCurrentPosition();
     }
-    public static void resetEncoders() {
-        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
     public static boolean passedMinimalHoldPosition() {
         return arm1.getCurrentPosition() >= MINIMAL_HOLD_POSITION;
     }
@@ -154,8 +158,5 @@ public class Arm {
         else {
             return current_position <= finish_position;
         }
-    }
-    public static double getPower() {
-        return arm1.getPower();
     }
 }
