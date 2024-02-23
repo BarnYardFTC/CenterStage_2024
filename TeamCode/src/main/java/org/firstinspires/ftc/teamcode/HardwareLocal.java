@@ -27,6 +27,7 @@ public class HardwareLocal {
     static public double getBlueValueLeft() {
         return colorSensorLeft.blue();
     }
+    static public double getAlphaValueLeft(){return colorSensorLeft.alpha();}
     static public double getRedValueRight() {
         return colorSensorRight.red();
     }
@@ -36,8 +37,10 @@ public class HardwareLocal {
     static public double getBlueValueRight() {
         return colorSensorRight.blue();
     }
+    static public double getAlphaValueRight(){return colorSensorRight.alpha();}
 
-// Initializing
+
+    // Initializing
     public static void init(ColorSensor colorSensorRight) {
         HardwareLocal.colorSensorRight = colorSensorRight;
 //        HardwareLocal.colorSensorLeft = colorSensorLeft;

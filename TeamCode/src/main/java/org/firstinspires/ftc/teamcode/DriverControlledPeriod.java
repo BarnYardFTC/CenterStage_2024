@@ -44,9 +44,10 @@ public class DriverControlledPeriod extends LinearOpMode {
 
 // Telemetry update
             telemetry.addData("Wrist" , Wrist.getPosition());
-//            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
-//            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
-//            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
+//            telemetry.addData("Color sensorR red" , HardwareLocal.getRedValueRight());
+//            telemetry.addData("Color sensorR green" , HardwareLocal.getGreenValueRight());
+//            telemetry.addData("Color sensorR blue" , HardwareLocal.getBlueValueRight());
+//            telemetry.addData("Color sensorR Alpha" , HardwareLocal.getAlphaValueRight());
             telemetry.update();
         }
     }
@@ -119,25 +120,26 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.b) {
             initEgnitionSystem();
         }
-        if (gamepad1.a && EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
-            EgnitionSystem.SLOW_MODE = false;
-            EgnitionSystem.WAS_PRESSED = true;
-        } else if (gamepad1.left_stick_button && !EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
+        if ((gamepad1.left_stick_button || gamepad1.right_stick_button) && !EgnitionSystem.WAS_PRESSED && !EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = true;
-        } else {
+        } else if ((gamepad1.left_stick_button || gamepad1.right_stick_button) && !EgnitionSystem.WAS_PRESSED && EgnitionSystem.SLOW_MODE) {
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = true;
+        }
+        if (!gamepad1.left_stick_button && !gamepad1.right_stick_button) {
             EgnitionSystem.WAS_PRESSED = false;
         }
-        if (EgnitionSystem.SLOW_MODE) {
-            EgnitionSystem.runTeleop2();
-        } else {
+        if (!EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.runTeleop1();
+        } else {
+            EgnitionSystem.runTeleop2();
         }
     }
     public void initColorSensor() {
-        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_Sensor_right");
+        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "colorSensorRight");
         HardwareLocal.init(colorSensorRight);
-//        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_Sensor_left");
+//        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "colorSensorLeft");
 //        HardwareLocal.init(colorSensorLeft);
     }
     public void touchAndGoColor() {
