@@ -49,8 +49,7 @@ public class Claws {
 // Operating system
     public static void runClawsTeleop(boolean left_bumper_pressed, boolean right_bumper_pressed) {
         if (right_bumper_pressed && !was_right_bumper_pressed) {
-            if (Math.abs(right_claw.getPosition() - RIGHT_CLAW_CLOSED_POSITION)
-                    < Math.abs(right_claw.getPosition() - RIGHT_CLAW_OPENED_POSITION)) {
+            if (Math.abs(right_claw.getPosition() - RIGHT_CLAW_CLOSED_POSITION) < Math.abs(right_claw.getPosition() - RIGHT_CLAW_OPENED_POSITION)) {
                 right_claw.setPosition(RIGHT_CLAW_OPENED_POSITION);
             } else {
                 right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);

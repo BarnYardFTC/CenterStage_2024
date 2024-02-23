@@ -23,7 +23,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-        initColorSensor();
+//        initColorSensor();
         drone = hardwareMap.get(Servo.class, "drone");
         telemetry.update();
 
@@ -41,15 +41,12 @@ public class DriverControlledPeriod extends LinearOpMode {
             runClaws();
             runWrist();
 //            touchAndGoColor();
-            if (gamepad1.a){
-                EgnitionSystem.resetEncoders();
-            }
 
 // Telemetry update
             telemetry.addData("Wrist" , Wrist.getPosition());
-            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
-            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
-            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
+//            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
+//            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
+//            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
             telemetry.update();
         }
     }
@@ -72,7 +69,13 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runWrist() {
         if (Arm.getArm1Position() <= -1700) {
-            Wrist.setPosition((double) Arm.getArm1Position() / -6500);
+            if (Wrist.getPosition() < -1700 && Wrist.getPosition() > -2000) {
+                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -2210);
+            } else if (Wrist.getPosition() < -2000 && Wrist.getPosition() > -2300){
+                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -2500);
+            } else {
+                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -1950);
+            }
         }
         else {
             Wrist.runWrist(gamepad1.y);
@@ -84,9 +87,9 @@ public class DriverControlledPeriod extends LinearOpMode {
         Arm.init(motor, motor2);
     }
     public void runArm() {
-        if (gamepad1.right_trigger > 0.1) {
+        if (gamepad1.right_trigger > 0) {
             Arm.moveUp();
-        } else if (gamepad1.left_trigger > 0.1) {
+        } else if (gamepad1.left_trigger > 0) {
             Arm.moveDown();
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
@@ -116,7 +119,16 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.b) {
             initEgnitionSystem();
         }
-        else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
+        if (gamepad1.dpad_left && EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = true;
+        } else if (gamepad1.left_stick_button && !EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
+            EgnitionSystem.SLOW_MODE = true;
+            EgnitionSystem.WAS_PRESSED = true;
+        } else {
+            EgnitionSystem.WAS_PRESSED = false;
+        }
+        if (EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.runTeleop2();
         } else {
             EgnitionSystem.runTeleop1();

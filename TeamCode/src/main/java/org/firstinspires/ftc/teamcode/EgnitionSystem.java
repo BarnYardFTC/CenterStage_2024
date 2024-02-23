@@ -27,8 +27,10 @@ public class EgnitionSystem {
     static private double heading;
     static private double adjustedLx;
     static private double adjustedLy;
-    static public double power;
-    static public double SLOW_power;
+    static public double POWER;
+    static public double SLOW_POWER;
+    static public boolean SLOW_MODE;
+    static public boolean WAS_PRESSED;
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
@@ -57,8 +59,10 @@ public class EgnitionSystem {
         heading = 0;
         adjustedLx = 0;
         adjustedLy = 0;
-        power = 1;
-        SLOW_power = 0.3;
+        POWER = 1;
+        SLOW_POWER = 0.3;
+        SLOW_MODE = false;
+        WAS_PRESSED = false;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void initEncoders() {
@@ -75,27 +79,18 @@ public class EgnitionSystem {
 
 // Teleop functions
     public static void runTeleop1() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * POWER);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * POWER);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * POWER);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * POWER);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * SLOW_power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * SLOW_power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * SLOW_power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * SLOW_POWER);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * SLOW_POWER);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * SLOW_POWER);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_POWER);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
-        if (gamepad1.left_stick_x <= 0.1) {
-            gamepad1.left_stick_x = 0;
-        }
-        if (-gamepad1.left_stick_y <= 0.1) {
-            gamepad1.left_stick_y = 0;
-        }
-        if (gamepad1.right_stick_x <= 0.1) {
-            gamepad1.right_stick_x = 0;
-        }
         lx = gamepad1.left_stick_x;
         ly = -gamepad1.left_stick_y;
         rx = gamepad1.right_stick_x;
