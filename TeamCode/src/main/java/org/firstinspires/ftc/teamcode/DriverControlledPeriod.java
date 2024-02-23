@@ -119,7 +119,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         if (gamepad1.b) {
             initEgnitionSystem();
         }
-        if (gamepad1.dpad_left && EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
+        if (gamepad1.a && EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = true;
         } else if (gamepad1.left_stick_button && !EgnitionSystem.SLOW_MODE && !EgnitionSystem.WAS_PRESSED) {
