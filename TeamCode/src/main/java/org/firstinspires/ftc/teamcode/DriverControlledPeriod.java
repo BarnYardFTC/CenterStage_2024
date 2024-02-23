@@ -89,9 +89,9 @@ public class DriverControlledPeriod extends LinearOpMode {
     }
     public void runArm() {
         if (gamepad1.right_trigger > 0) {
-            Arm.moveUp();
+            Arm.moveUp(gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0) {
-            Arm.moveDown();
+            Arm.moveDown(gamepad1.left_trigger);
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
             Claws.closeLeftClaw();

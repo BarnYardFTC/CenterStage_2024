@@ -184,7 +184,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun0.phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -200,7 +200,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun0.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }
@@ -308,7 +308,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun1.phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -324,7 +324,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun1.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }
@@ -458,7 +458,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun2.phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -474,7 +474,7 @@ public class AutonomousRedBack extends LinearOpMode {
                 RBrun2.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }

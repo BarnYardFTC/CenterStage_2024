@@ -13,6 +13,7 @@ public class Arm {
     static private DcMotor arm1;
     static private DcMotor arm2;
     static public final int MINIMAL_HOLD_POSITION = -300;
+    static private double SPEED;
     static private boolean got_position_to_hold = false;
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
@@ -34,29 +35,30 @@ public class Arm {
         DPAD_PRESSED = false;
         LOADING_MODE_ACTIVE = false;
         HANGING_MODE_ACTIVE = false;
+        SPEED = 0;
     }
 
 // System's functions
-    public static void moveUp() {
+    public static void moveUp(double SPEED) {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() - 300);
+        arm1.setTargetPosition(arm1.getCurrentPosition() - (int) (300 * SPEED));
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() + 300);
+        arm2.setTargetPosition(arm2.getCurrentPosition() + (int) (300 * SPEED));
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public static void moveDown() {
+    public static void moveDown(double SPEED) {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() + 300);
+        arm1.setTargetPosition(arm1.getCurrentPosition() + (int) (300 * SPEED));
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() - 300);
+        arm2.setTargetPosition(arm2.getCurrentPosition() - (int) (300 * SPEED));
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void hangingModeArm() {
