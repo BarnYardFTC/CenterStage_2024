@@ -132,6 +132,7 @@ public class DriverControlledPeriod extends LinearOpMode {
         }
     }
     public void initColorSensor() {
-        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_Sensor_ Sensor");
+        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_Sensor_right");
+        HardwareLocal.init(colorSensorRight);
     }
 }
