@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+// Imports
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
 
+// Variables
     static private DcMotor arm1;
     static private DcMotor arm2;
     static public final int MINIMAL_HOLD_POSITION = -300;
@@ -20,6 +22,8 @@ public class Arm {
     static public boolean HANGING_MODE_ACTIVE = false;
     static private boolean DPAD_PRESSED = false;
     static public boolean LOADING_MODE_ACTIVE = false;
+
+// Initializing
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm2 = motor2;
@@ -36,6 +40,8 @@ public class Arm {
         TARGET_POSITION1 = 0;
         TARGET_POSITION2 = 0;
     }
+
+// System's functions
     public static void moveUp() {
         got_position_to_hold = false;
 
@@ -139,6 +145,8 @@ public class Arm {
         arm1.setPower(0);
         arm2.setPower(0);
     }
+
+// Getting variables
     public static int getArm1Position() {
         return arm1.getCurrentPosition();
     }

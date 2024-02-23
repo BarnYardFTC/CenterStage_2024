@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+// Imports
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
@@ -11,9 +12,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HardwareLocal {
-//    color sensor claws
+
+// Variables
     static private ColorSensor colorSensorLeft;
     static private ColorSensor colorSensorRight;
+
+// Getting Variables
     static public double getRedValueLeft() {
         return colorSensorLeft.red();
     }
@@ -32,10 +36,14 @@ public class HardwareLocal {
     static public double getBlueValueRight() {
         return colorSensorRight.blue();
     }
+
+// Initializing
     public static void init(ColorSensor colorSensorRight) {
         HardwareLocal.colorSensorRight = colorSensorRight;
 //        HardwareLocal.colorSensorLeft = colorSensorLeft;
     }
+
+// System's functions
     public static boolean pixelLeftColor() {
         return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;
     }

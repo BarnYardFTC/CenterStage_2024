@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+// Imports
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -8,11 +9,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// Teleop
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
+
+// Configuring
     Servo drone;
     @Override
     public void runOpMode() {
+
+// Initialize
         initArm();
         initWrist();
         initClaws();
@@ -25,6 +31,8 @@ public class DriverControlledPeriod extends LinearOpMode {
         drone.setPosition(drone.getPosition());
 
         while (opModeIsActive()) {
+
+// Running systems
             if (gamepad1.dpad_down) {
                 drone.setPosition(0.5);
             }
@@ -36,6 +44,8 @@ public class DriverControlledPeriod extends LinearOpMode {
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
+
+// Telemetry update
             telemetry.addData("Wrist" , Wrist.getPosition());
             telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
             telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
@@ -43,6 +53,8 @@ public class DriverControlledPeriod extends LinearOpMode {
             telemetry.update();
         }
     }
+
+// Initializing & running system functions
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
@@ -90,19 +102,11 @@ public class DriverControlledPeriod extends LinearOpMode {
             Arm.brake();
         }
     }
-    public void touchAndGoColor() {
-//        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-//            Claws.closeLeftClaw();
-//        } else
-        if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-            Claws.closeRightClaw();
-        }
-    }
     public void initEgnitionSystem() {
-        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
-        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
-        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
-        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "leftFront");
+        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "rightFront");
+        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "leftBack");
+        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "rightBack");
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
@@ -123,5 +127,13 @@ public class DriverControlledPeriod extends LinearOpMode {
         HardwareLocal.init(colorSensorRight);
 //        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_Sensor_left");
 //        HardwareLocal.init(colorSensorLeft);
+    }
+    public void touchAndGoColor() {
+//        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+//            Claws.closeLeftClaw();
+//        } else
+        if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+            Claws.closeRightClaw();
+        }
     }
 }
