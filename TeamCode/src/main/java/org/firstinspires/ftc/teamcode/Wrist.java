@@ -8,7 +8,6 @@ public class Wrist {
     static Servo wrist;
     static final double WRIST_UP_POSITION = 0;
     static final double WRIST_DOWN_POSITION = 0.94;
-
     static boolean was_Y_pressed;
     public static void init(Servo servo) {
         wrist = servo;

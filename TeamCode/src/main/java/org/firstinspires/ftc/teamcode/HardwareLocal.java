@@ -34,6 +34,7 @@ public class HardwareLocal {
     }
     public static void init(ColorSensor colorSensorRight) {
         HardwareLocal.colorSensorRight = colorSensorRight;
+//        HardwareLocal.colorSensorLeft = colorSensorLeft;
     }
     public static boolean pixelLeftColor() {
         return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -9,22 +10,16 @@ public class Arm {
 
     static private DcMotor arm1;
     static private DcMotor arm2;
-
     static public final int MINIMAL_HOLD_POSITION = -300;
-
     static private boolean got_position_to_hold = false;
-
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
-
-    static public int ENCODER1 = 0;
-
+    static private int SPEED = -300;
+    static public int TARGET_POSITION1 = 0;
+    static public int TARGET_POSITION2 = 0;
     static public boolean HANGING_MODE_ACTIVE = false;
-
     static private boolean DPAD_PRESSED = false;
-
     static public boolean LOADING_MODE_ACTIVE = false;
-
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
         arm2 = motor2;
@@ -38,27 +33,33 @@ public class Arm {
         DPAD_PRESSED = false;
         LOADING_MODE_ACTIVE = false;
         HANGING_MODE_ACTIVE = false;
+        TARGET_POSITION1 = 0;
+        TARGET_POSITION2 = 0;
     }
     public static void moveUp() {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() - 150);
+        TARGET_POSITION1 += SPEED;
+        arm1.setTargetPosition(TARGET_POSITION1);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() + 150);
+        TARGET_POSITION2 -= SPEED;
+        arm2.setTargetPosition(TARGET_POSITION2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown() {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() + 150);
+        TARGET_POSITION1 -= SPEED;
+        arm1.setTargetPosition(TARGET_POSITION1);
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() - 150);
+        TARGET_POSITION2 += SPEED;
+        arm2.setTargetPosition(TARGET_POSITION2);
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void hangingModeArm() {
@@ -137,10 +138,6 @@ public class Arm {
     public static void stopMoving() {
         arm1.setPower(0);
         arm2.setPower(0);
-    }
-    public static void addDataToTelemetry(Telemetry telemetry) {
-        telemetry.addData("arm1 position: ", arm1.getCurrentPosition());
-        telemetry.addData("arm2 position: ", arm2.getCurrentPosition());
     }
     public static int getArm1Position() {
         return arm1.getCurrentPosition();

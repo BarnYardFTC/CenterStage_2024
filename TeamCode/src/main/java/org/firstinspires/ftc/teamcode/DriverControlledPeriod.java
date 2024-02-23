@@ -10,42 +10,32 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "CenterStage TeleOp")
 public class DriverControlledPeriod extends LinearOpMode {
-
     Servo drone;
-
     @Override
     public void runOpMode() {
-
         initArm();
         initWrist();
         initClaws();
         initEgnitionSystem();
         initColorSensor();
-
         drone = hardwareMap.get(Servo.class, "drone");
-
         telemetry.update();
-        waitForStart();
 
+        waitForStart();
         drone.setPosition(drone.getPosition());
 
         while (opModeIsActive()) {
-
             if (gamepad1.dpad_down) {
                 drone.setPosition(0.5);
             }
-
             runEgnitionSystem();
             runArm();
             runClaws();
             runWrist();
 //            touchAndGoColor();
-
             if (gamepad1.a){
                 EgnitionSystem.resetEncoders();
             }
-
-            telemetry.addData("Encoder1: ", Arm.ENCODER1);
             telemetry.addData("Wrist" , Wrist.getPosition());
             telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
             telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
@@ -80,14 +70,11 @@ public class DriverControlledPeriod extends LinearOpMode {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
         DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
         Arm.init(motor, motor2);
-        Arm.addDataToTelemetry(telemetry);
     }
     public void runArm() {
-        Arm.addDataToTelemetry(telemetry);
-
-        if (gamepad1.right_trigger > 0) {
+        if (gamepad1.right_trigger > 0.1) {
             Arm.moveUp();
-        } else if (gamepad1.left_trigger > 0) {
+        } else if (gamepad1.left_trigger > 0.1) {
             Arm.moveDown();
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
@@ -134,5 +121,7 @@ public class DriverControlledPeriod extends LinearOpMode {
     public void initColorSensor() {
         ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "color_Sensor_right");
         HardwareLocal.init(colorSensorRight);
+//        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "color_Sensor_left");
+//        HardwareLocal.init(colorSensorLeft);
     }
 }

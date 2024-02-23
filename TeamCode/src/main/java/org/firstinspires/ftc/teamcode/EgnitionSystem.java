@@ -71,6 +71,15 @@ public class EgnitionSystem {
         br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_power);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
+        if (gamepad1.left_stick_x <= 0.1) {
+            gamepad1.left_stick_x = 0;
+        }
+        if (-gamepad1.left_stick_y <= 0.1) {
+            gamepad1.left_stick_y = 0;
+        }
+        if (gamepad1.right_stick_x <= 0.1) {
+            gamepad1.right_stick_x = 0;
+        }
         lx = gamepad1.left_stick_x;
         ly = -gamepad1.left_stick_y;
         rx = gamepad1.right_stick_x;
