@@ -24,7 +24,7 @@ public class Teleop extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-//        initColorSensor();
+        initColorSensor();
         drone = hardwareMap.get(Servo.class, "drone");
         telemetry.update();
 
@@ -41,14 +41,15 @@ public class Teleop extends LinearOpMode {
             runArm();
             runClaws();
             runWrist();
-//            touchAndGoColor();
+//            touchAndGo();
 
 // Telemetry update
             telemetry.addData("Wrist" , Wrist.getPosition());
-//            telemetry.addData("Color sensorR red" , HardwareLocal.getRedValueRight());
-//            telemetry.addData("Color sensorR green" , HardwareLocal.getGreenValueRight());
-//            telemetry.addData("Color sensorR blue" , HardwareLocal.getBlueValueRight());
-//            telemetry.addData("Color sensorR Alpha" , HardwareLocal.getAlphaValueRight());
+            telemetry.addData("arm1 encoder", Arm.getArm1Position());
+            telemetry.addData("Color sensorR red" , HardwareLocal.getRedValueRight());
+            telemetry.addData("Color sensorR green" , HardwareLocal.getGreenValueRight());
+            telemetry.addData("Color sensorR blue" , HardwareLocal.getBlueValueRight());
+            telemetry.addData("Color sensorR Alpha" , HardwareLocal.getAlphaValueRight());
             telemetry.update();
         }
     }
@@ -78,8 +79,6 @@ public class Teleop extends LinearOpMode {
             } else {
                 Wrist.setPosition((double) (Arm.getArm1Position() + 2300) / -2210);
             }
-        } else if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         } else {
             Wrist.runWrist(gamepad1.y);
         }
@@ -144,12 +143,12 @@ public class Teleop extends LinearOpMode {
 //        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "colorSensorLeft");
 //        HardwareLocal.init(colorSensorLeft);
     }
-    public void touchAndGoColor() {
-//        if (HardwareLocal.pixelLeftColor() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
+
+//    public void touchAndGo() {
+//        if ((HardwareLocal.purpleLeft() || HardwareLocal.greenLeft() || HardwareLocal.yellowLeft() || HardwareLocal.whiteLeft()) && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
 //            Claws.closeLeftClaw();
-//        } else
-        if (HardwareLocal.pixelRightColor() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-            Claws.closeRightClaw();
-        }
-    }
+//        } else if ((HardwareLocal.purpleRight() || HardwareLocal.greenRight() || HardwareLocal.yellowRight() || HardwareLocal.whiteRight()) && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+//            Claws.closeRightClaw();
+//        }
+//    }
 }

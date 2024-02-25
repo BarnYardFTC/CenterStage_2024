@@ -47,11 +47,45 @@ public class HardwareLocal {
     }
 
 // System's functions
-    public static boolean pixelLeftColor() {
-        return colorSensorLeft.red() == 190 && colorSensorLeft.green() == 170 && colorSensorLeft.blue() == 235 || colorSensorLeft.red() == 110 && colorSensorLeft.green() == 200 && colorSensorLeft.blue() == 45 || colorSensorLeft.red() == 255 && colorSensorLeft.green() == 210 && colorSensorLeft.blue() == 20 || colorSensorLeft.red() == 235 && colorSensorLeft.green() == 235 && colorSensorLeft.blue() == 240;
-    }
-    public static boolean pixelRightColor() {
-        return colorSensorRight.red() == 190 && colorSensorRight.green() == 170 && colorSensorRight.blue() == 235 || colorSensorRight.red() == 110 && colorSensorRight.green() == 200 && colorSensorRight.blue() == 45 || colorSensorRight.red() == 255 && colorSensorRight.green() == 210 && colorSensorRight.blue() == 20 || colorSensorRight.red() == 235 && colorSensorRight.green() == 235 && colorSensorRight.blue() == 240;
-    }
+//    public static boolean purpleRight() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean greenRight() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean yellowRight() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean whiteRight() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean purpleLeft() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean greenLeft() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean yellowLeft() {
+//        if () {
+//            return true;
+//        }
+//    }
+//    public static boolean whiteLeft() {
+//        if () {
+//            return true;
+//        }
+//    }
 }
 
