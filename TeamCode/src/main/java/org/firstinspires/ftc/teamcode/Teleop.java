@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.C;
+
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
 public class Teleop extends LinearOpMode {
@@ -72,12 +74,13 @@ public class Teleop extends LinearOpMode {
             if (Wrist.getPosition() < -1700 && Wrist.getPosition() > -2000) {
                 Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -2210);
             } else if (Wrist.getPosition() < -2000 && Wrist.getPosition() > -2300){
-                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -2500);
+                Wrist.setPosition((double) (Arm.getArm1Position() + 2000) / -2210);
             } else {
-                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -1950);
+                Wrist.setPosition((double) (Arm.getArm1Position() + 2300) / -2210);
             }
-        }
-        else {
+        } else if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+        } else {
             Wrist.runWrist(gamepad1.y);
         }
     }
