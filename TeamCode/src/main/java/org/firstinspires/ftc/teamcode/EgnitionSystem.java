@@ -60,7 +60,7 @@ public class EgnitionSystem {
         adjustedLx = 0;
         adjustedLy = 0;
         POWER = 1;
-        SLOW_POWER = 0.3;
+        SLOW_POWER = 0.25;
         SLOW_MODE = false;
         WAS_PRESSED = false;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;

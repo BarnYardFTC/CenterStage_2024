@@ -46,10 +46,10 @@ public class Teleop extends LinearOpMode {
 // Telemetry update
             telemetry.addData("Wrist" , Wrist.getPosition());
             telemetry.addData("arm1 encoder", Arm.getArm1Position());
-            telemetry.addData("Color sensorR red" , HardwareLocal.getRedValueRight());
-            telemetry.addData("Color sensorR green" , HardwareLocal.getGreenValueRight());
-            telemetry.addData("Color sensorR blue" , HardwareLocal.getBlueValueRight());
-            telemetry.addData("Color sensorR Alpha" , HardwareLocal.getAlphaValueRight());
+            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
+            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
+            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
+            telemetry.addData("Color sensor Alpha" , HardwareLocal.getAlphaValueRight());
             telemetry.update();
         }
     }
@@ -72,13 +72,7 @@ public class Teleop extends LinearOpMode {
     }
     public void runWrist() {
         if (Arm.getArm1Position() <= -1700) {
-            if (Wrist.getPosition() < -1700 && Wrist.getPosition() > -2000) {
-                Wrist.setPosition((double) (Arm.getArm1Position() + 1700) / -2210);
-            } else if (Wrist.getPosition() < -2000 && Wrist.getPosition() > -2300){
-                Wrist.setPosition((double) (Arm.getArm1Position() + 2000) / -2210);
-            } else {
-                Wrist.setPosition((double) (Arm.getArm1Position() + 2300) / -2210);
-            }
+            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.0175 * ((int) ((Arm.getArm1Position() + 1700) / -50)));
         } else {
             Wrist.runWrist(gamepad1.y);
         }

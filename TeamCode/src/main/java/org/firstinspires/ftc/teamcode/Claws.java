@@ -16,7 +16,7 @@ public class Claws {
     private static boolean was_left_bumper_pressed;
 
 // Initializing
-    public static void init(Servo left_claw, Servo right_claw) {
+    public static void init(Servo right_claw, Servo left_claw) {
         Claws.left_claw = right_claw;
         Claws.right_claw = left_claw;
 
