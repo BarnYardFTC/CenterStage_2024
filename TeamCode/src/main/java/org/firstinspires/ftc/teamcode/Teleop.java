@@ -25,6 +25,7 @@ public class Teleop extends LinearOpMode {
         initClaws();
         initEgnitionSystem();
         initColorSensor();
+
         drone = hardwareMap.get(Servo.class, "drone");
         telemetry.update();
 
@@ -112,6 +113,9 @@ public class Teleop extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
+        if (gamepad1.left_stick_x == 0 && gamepad1.left_stick_y == 0 && gamepad1.right_stick_x == 0) {
+            EgnitionSystem.setZeroPowerBehavior();
+        }
         if (gamepad1.b) {
             initEgnitionSystem();
         }
@@ -138,11 +142,12 @@ public class Teleop extends LinearOpMode {
 //        HardwareLocal.init(colorSensorLeft);
     }
 
-//    public void touchAndGo() {
+    public void touchAndGo() {
 //        if ((HardwareLocal.purpleLeft() || HardwareLocal.greenLeft() || HardwareLocal.yellowLeft() || HardwareLocal.whiteLeft()) && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
 //            Claws.closeLeftClaw();
-//        } else if ((HardwareLocal.purpleRight() || HardwareLocal.greenRight() || HardwareLocal.yellowRight() || HardwareLocal.whiteRight()) && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-//            Claws.closeRightClaw();
-//        }
-//    }
+//        } else
+        if ((HardwareLocal.purpleRight() || HardwareLocal.greenRight() || HardwareLocal.yellowRight() || HardwareLocal.whiteRight()) && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+            Claws.closeRightClaw();
+        }
+    }
 }

@@ -113,11 +113,8 @@ public class Arm {
         }
         if (!DPAD_PRESSED) {
             if (arm1.getCurrentPosition() < -300) {
-                arm1.setPower(1);
-                arm2.setPower(0);
-
-                arm1.setTargetPosition(hold_position1);
-                arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             } else {
                 arm1.setPower(0);
                 arm2.setPower(0);

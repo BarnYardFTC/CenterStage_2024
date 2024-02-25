@@ -131,6 +131,12 @@ public class EgnitionSystem {
         motor.setTargetPosition((int) (motor.getCurrentPosition() + power*ENCODER_CHANGING_SPEED));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+    public static void setZeroPowerBehavior() {
+        fl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
 
 // Getting variables
     public static int getFlEncoderPosition() {
