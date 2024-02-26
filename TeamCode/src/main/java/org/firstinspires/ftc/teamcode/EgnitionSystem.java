@@ -45,6 +45,11 @@ public class EgnitionSystem {
         EgnitionSystem.bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         EgnitionSystem.fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        fl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         EgnitionSystem.imu = imu;
 
         EgnitionSystem.imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -130,12 +135,6 @@ public class EgnitionSystem {
         motor.setPower(power);
         motor.setTargetPosition((int) (motor.getCurrentPosition() + power*ENCODER_CHANGING_SPEED));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    public static void setZeroPowerBehavior() {
-        fl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        fr_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        br_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
 // Getting variables

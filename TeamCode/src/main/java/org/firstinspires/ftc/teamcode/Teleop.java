@@ -97,6 +97,8 @@ public class Teleop extends LinearOpMode {
             Claws.openRightClaw();
             Claws.openLeftClaw();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = false;
             Arm.loadingModeArm();
         } else {
             Arm.brake();
@@ -113,9 +115,6 @@ public class Teleop extends LinearOpMode {
     }
     public void runEgnitionSystem() {
         EgnitionSystem.updateVariablesTeleop(gamepad1, telemetry);
-        if (gamepad1.left_stick_x == 0 && gamepad1.left_stick_y == 0 && gamepad1.right_stick_x == 0) {
-            EgnitionSystem.setZeroPowerBehavior();
-        }
         if (gamepad1.b) {
             initEgnitionSystem();
         }
