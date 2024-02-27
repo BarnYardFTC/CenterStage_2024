@@ -30,6 +30,7 @@ public class EgnitionSystem {
     static public double POWER;
     static public double SLOW_POWER;
     static public boolean SLOW_MODE;
+    static public boolean PIXELS_IN;
     static public boolean WAS_PRESSED;
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
@@ -65,9 +66,10 @@ public class EgnitionSystem {
         adjustedLx = 0;
         adjustedLy = 0;
         POWER = 1;
-        SLOW_POWER = 0.3;
+        SLOW_POWER = 0.45;
         SLOW_MODE = false;
         WAS_PRESSED = false;
+        PIXELS_IN = false;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
     public static void initEncoders() {
@@ -111,6 +113,7 @@ public class EgnitionSystem {
         telemetry.addData("heading: ", heading);
         telemetry.addData("adjusted ly ", adjustedLy);
         telemetry.addData("adjusted lx ", adjustedLx);
+        telemetry.update();
     }
     public static void resetEncoders() {
         fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

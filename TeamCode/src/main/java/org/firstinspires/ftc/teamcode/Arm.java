@@ -43,22 +43,22 @@ public class Arm {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() - (int) (300 * SPEED));
+        arm1.setTargetPosition(arm1.getCurrentPosition() - (int) (380 * SPEED));
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() + (int) (300 * SPEED));
+        arm2.setTargetPosition(arm2.getCurrentPosition() + (int) (380 * SPEED));
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void moveDown(double SPEED) {
         got_position_to_hold = false;
 
         arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() + (int) (300 * SPEED));
+        arm1.setTargetPosition(arm1.getCurrentPosition() + (int) (380 * SPEED));
         arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
-        arm2.setTargetPosition(arm2.getCurrentPosition() - (int) (300 * SPEED));
+        arm2.setTargetPosition(arm2.getCurrentPosition() - (int) (380 * SPEED));
         arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void hangingModeArm() {
@@ -85,7 +85,7 @@ public class Arm {
     public static void loadingModeArm(){
         got_position_to_hold = false;
 
-        if (arm1.getCurrentPosition() < 0 && arm2.getCurrentPosition() > 0) {
+        if (arm1.getCurrentPosition() < -5 && arm2.getCurrentPosition() > 5) {
             arm1.setPower(1);
             arm1.setTargetPosition(0);
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);

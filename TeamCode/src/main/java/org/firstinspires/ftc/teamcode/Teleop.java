@@ -5,10 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.checkerframework.checker.units.qual.C;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
@@ -45,12 +48,6 @@ public class Teleop extends LinearOpMode {
 //            touchAndGo();
 
 // Telemetry update
-            telemetry.addData("Wrist" , Wrist.getPosition());
-            telemetry.addData("arm1 encoder", Arm.getArm1Position());
-            telemetry.addData("Color sensor red" , HardwareLocal.getRedValueRight());
-            telemetry.addData("Color sensor green" , HardwareLocal.getGreenValueRight());
-            telemetry.addData("Color sensor blue" , HardwareLocal.getBlueValueRight());
-            telemetry.addData("Color sensor Alpha" , HardwareLocal.getAlphaValueRight());
             telemetry.update();
         }
     }
@@ -76,6 +73,15 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.0175 * ((int) ((Arm.getArm1Position() + 1700) / -50)));
         } else {
             Wrist.runWrist(gamepad1.y);
+        }
+        if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+            EgnitionSystem.SLOW_MODE = true;
+            EgnitionSystem.WAS_PRESSED = false;
+            EgnitionSystem.PIXELS_IN = false;
+        } else if (Wrist.getPosition() == Wrist.WRIST_UP_POSITION && EgnitionSystem.SLOW_MODE && !EgnitionSystem.PIXELS_IN) {
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = false;
+            EgnitionSystem.PIXELS_IN = true;
         }
     }
     public void initArm() {
@@ -135,18 +141,12 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void initColorSensor() {
-        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "colorSensorRight");
+        NormalizedColorSensor colorSensorRight = hardwareMap.get(NormalizedColorSensor.class, "colorSensorRight");
         HardwareLocal.init(colorSensorRight);
-//        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "colorSensorLeft");
+//        NormalizedColorSensor colorSensorLeft = hardwareMap.get(NormalizedColorSensor.class, "colorSensorLeft");
 //        HardwareLocal.init(colorSensorLeft);
     }
 
-    public void touchAndGo() {
-//        if ((HardwareLocal.purpleLeft() || HardwareLocal.greenLeft() || HardwareLocal.yellowLeft() || HardwareLocal.whiteLeft()) && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION) {
-//            Claws.closeLeftClaw();
-//        } else
-        if ((HardwareLocal.purpleRight() || HardwareLocal.greenRight() || HardwareLocal.yellowRight() || HardwareLocal.whiteRight()) && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-            Claws.closeRightClaw();
-        }
-    }
+//    public void touchAndGo() {
+//    }
 }
