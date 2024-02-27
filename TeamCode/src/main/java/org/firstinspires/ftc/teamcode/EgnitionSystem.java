@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+// Imports
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 public class EgnitionSystem {
 
+// Variables
     static private DcMotor fl_wheel;
     static private DcMotor fr_wheel;
     static private DcMotor bl_wheel;
@@ -25,13 +27,15 @@ public class EgnitionSystem {
     static private double heading;
     static private double adjustedLx;
     static private double adjustedLy;
-    static public double power;
-
+    static public double POWER;
+    static public double SLOW_POWER;
+    static public boolean SLOW_MODE;
+    static public boolean WAS_PRESSED;
     static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
-
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 
+// Initializing
     public static void init(DcMotor fl_wheel, DcMotor fr_wheel, DcMotor bl_wheel, DcMotor br_wheel, IMU imu) {
         EgnitionSystem.fl_wheel = fl_wheel;
         EgnitionSystem.fr_wheel = fr_wheel;
@@ -40,6 +44,11 @@ public class EgnitionSystem {
 
         EgnitionSystem.bl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
         EgnitionSystem.fl_wheel.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        fl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br_wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         EgnitionSystem.imu = imu;
 
@@ -55,20 +64,36 @@ public class EgnitionSystem {
         heading = 0;
         adjustedLx = 0;
         adjustedLy = 0;
-        power = 1;
+        POWER = 1;
+        SLOW_POWER = 0.25;
+        SLOW_MODE = false;
+        WAS_PRESSED = false;
         AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     }
+    public static void initEncoders() {
+        fl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+// Teleop functions
     public static void runTeleop1() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * POWER);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * POWER);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * POWER);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * POWER);
     }
     public static void runTeleop2() {
-        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * 0.3 * power);
-        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * 0.3 * power);
-        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * 0.3 * power);
-        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * 0.3 * power);
+        fl_wheel.setPower(((adjustedLy + adjustedLx + rx) / max) * SLOW_POWER);
+        bl_wheel.setPower(((adjustedLy - adjustedLx + rx) / max) * SLOW_POWER);
+        fr_wheel.setPower(((adjustedLy - adjustedLx - rx) / max) * SLOW_POWER);
+        br_wheel.setPower(((adjustedLy + adjustedLx - rx) / max) * SLOW_POWER);
     }
     public static void updateVariablesTeleop(Gamepad gamepad1, Telemetry telemetry) {
         lx = gamepad1.left_stick_x;
@@ -87,15 +112,17 @@ public class EgnitionSystem {
         telemetry.addData("adjusted ly ", adjustedLy);
         telemetry.addData("adjusted lx ", adjustedLx);
     }
-    public static void setHorizontalPower(double power) {
-        lx = power;
+    public static void resetEncoders() {
+        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public static void setVerticalPower(double power) {
-        ly = power;
-    }
-    public static void setRotPower(double power){
-        rx = power;
-    }
+
+// Setting Variables
+    public static void setHorizontalPower(double power) {lx = power;}
+    public static void setVerticalPower(double power) {ly = power;}
+    public static void setRotPower(double power){rx = power;}
     public static void updateVariablesAutonomous() {
         max = Math.max(Math.abs(lx) + Math.abs(ly) + Math.abs(rx), 1);
 
@@ -103,38 +130,14 @@ public class EgnitionSystem {
 
         adjustedLx = -ly * Math.sin(heading) + lx * Math.cos(heading);
         adjustedLy = ly  * Math.cos(heading) + lx * Math.sin(heading);
-
     }
-    public static void runAutonomous() {
-
-        setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
-        setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
-        setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
-        setPowerEncoders(br_wheel, ((adjustedLy + adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
-    }
-
     private static void setPowerEncoders(DcMotor motor, double power) {
         motor.setPower(power);
         motor.setTargetPosition((int) (motor.getCurrentPosition() + power*ENCODER_CHANGING_SPEED));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public static void initEncoders() {
-        fl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br_wheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-    public static void resetEncoders() {
-        fl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        fr_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bl_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        br_wheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
+// Getting variables
     public static int getFlEncoderPosition() {
         return fl_wheel.getCurrentPosition();
     }
@@ -148,6 +151,13 @@ public class EgnitionSystem {
         return br_wheel.getCurrentPosition();
     }
 
+// Autonomous functions
+    public static void runAutonomous() {
+        setPowerEncoders(fl_wheel, ((adjustedLy + adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(bl_wheel, ((adjustedLy - adjustedLx + rx) / max) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(fr_wheel, ((adjustedLy - adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
+        setPowerEncoders(br_wheel, ((adjustedLy + adjustedLx - rx) / max) * AUTONOMOUS_MOVING_POWER);
+    }
     public static boolean arrivedPosition(int current_position, int finish_position, boolean finish_positive) {
         if (finish_positive) {
             return current_position >= finish_position;
@@ -159,14 +169,4 @@ public class EgnitionSystem {
     public static void setAutonomousMovingPower(double power){
         AUTONOMOUS_MOVING_POWER = power;
     }
-    public static void slowMode() {
-        power = 0.5;
-    }
-    public static void fastMode() {
-        power = 1;
-    }
-    public static void initIMU() {
-
-    }
-
 }

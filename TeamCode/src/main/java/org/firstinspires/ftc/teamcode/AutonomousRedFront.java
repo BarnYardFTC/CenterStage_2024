@@ -201,7 +201,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 RFrun0.phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -217,7 +217,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 RFrun0.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }
@@ -341,7 +341,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 RFrun1.phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -357,7 +357,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 RFrun1.phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }
@@ -486,7 +486,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 phase ++;
             }
             else {
-                Arm.moveUp();
+                Arm.moveUp(1);
                 arm_moving = true;
             }
         }
@@ -502,7 +502,7 @@ public class AutonomousRedFront extends LinearOpMode {
                 phase ++;
             }
             else {
-                Arm.moveDown();
+                Arm.moveDown(1);
                 arm_moving = true;
             }
         }
