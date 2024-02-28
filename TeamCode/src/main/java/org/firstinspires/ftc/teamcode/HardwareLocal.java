@@ -28,38 +28,16 @@ public class HardwareLocal {
         HardwareLocal.colorSensorRight = colorSensorRight;
 //        HardwareLocal.colorSensorLeft = colorSensorLeft;
     }
-    private static void colorTest() {
-        if (colorSensorRight instanceof DistanceSensor) {
-            telemetry.addData("Distance (cm)", "%.3f", ((DistanceSensor) colorSensorRight).getDistance(DistanceUnit.CM));
-        }
 
-//        NormalizedRGBA colors = colorSensorRight.getNormalizedColors();
-//        Color.colorToHSV(colors.toColor(), hsvValues);
-//        final float[] hsvValues = new float[3];
-//        telemetry.addLine()
-//                .addData("Red", "%.3f", colors.red)
-//                .addData("Green", "%.3f", colors.green)
-//                .addData("Blue", "%.3f", colors.blue);
-//        telemetry.addLine()
-//                .addData("Hue", "%.3f", hsvValues[0])
-//                .addData("Saturation", "%.3f", hsvValues[1])
-//                .addData("Value", "%.3f", hsvValues[2]);
-//        telemetry.addData("Alpha", "%.3f", colors.alpha);
-//        if (colorSensorRight instanceof DistanceSensor) {
-//            telemetry.addData("Distance (cm)", "%.3f", ((DistanceSensor) colorSensorRight).getDistance(DistanceUnit.CM));
-//        }
-        telemetry.update();
-    }
-
-// Getting values
-//    public static int getRedValueRight() {return colorSensorRight.red();}
-//    public static int getBlueValueRight() {return colorSensorRight.blue();}
-//    public static int getGreenValueRight() {return colorSensorRight.green();}
-//    public static int getAlphaValueRight() {return colorSensorRight.alpha();}
-//    public static int getRedValueLeft() {return colorSensorRight.red();}
-//    public static int getBlueValueLeft() {return colorSensorRight.blue();}
-//    public static int getGreenValueLeft() {return colorSensorRight.green();}
-//    public static int getAlphaValueLeft() {return colorSensorRight.alpha();}
+ Getting values
+    public static int getRedValueRight() {return colorSensorRight.red();}
+    public static int getBlueValueRight() {return colorSensorRight.blue();}
+    public static int getGreenValueRight() {return colorSensorRight.green();}
+    public static int getAlphaValueRight() {return colorSensorRight.alpha();}
+    public static int getRedValueLeft() {return colorSensorRight.red();}
+    public static int getBlueValueLeft() {return colorSensorRight.blue();}
+    public static int getGreenValueLeft() {return colorSensorRight.green();}
+    public static int getAlphaValueLeft() {return colorSensorRight.alpha();}
 
 // System's functions
 //    public static boolean purpleRight() {
