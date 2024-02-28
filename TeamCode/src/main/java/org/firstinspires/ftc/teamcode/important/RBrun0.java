@@ -1,0 +1,20 @@
+//package org.firstinspires.ftc.teamcode.important;
+//
+//public class RBrun0 {
+//
+//    static int phase = 1;
+//
+//    static final int PHASE_1_POSITION = 700;
+//    static final int PHASE_2_POSITION = 25;
+//    static final int PHASE_3_POSITION = -650;
+//    static final int PHASE_4_POSITION = 80;
+//    static final int PHASE_5_POSITION = -200;
+//    static final int PHASE_6_POSITION = 100;
+//    static final int PHASE_7_POSITION = -600;
+//    static final int PHASE_8_POSITION = 15;
+//    static final int PHASE_9_POSITION = -2200;
+//    static final int PHASE_11_POSITION = Arm.MINIMAL_HOLD_POSITION;
+//    static final int PHASE_12_POSITION = -1100;
+//    static final int PHASE_13_POSITION = -500;
+//
+//}
