@@ -72,15 +72,6 @@ public class Teleop extends LinearOpMode {
         } else {
             Wrist.runWrist(gamepad1.y);
         }
-        if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
-            EgnitionSystem.SLOW_MODE = true;
-            EgnitionSystem.WAS_PRESSED = false;
-            EgnitionSystem.PIXELS_IN = false;
-        } else if (Wrist.getPosition() == Wrist.WRIST_UP_POSITION && EgnitionSystem.SLOW_MODE && !EgnitionSystem.PIXELS_IN) {
-            EgnitionSystem.SLOW_MODE = false;
-            EgnitionSystem.WAS_PRESSED = false;
-            EgnitionSystem.PIXELS_IN = true;
-        }
     }
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
@@ -122,6 +113,15 @@ public class Teleop extends LinearOpMode {
         if (gamepad1.b) {
             initEgnitionSystem();
             initEgnitionSystem();
+        }
+        if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+            EgnitionSystem.SLOW_MODE = true;
+            EgnitionSystem.WAS_PRESSED = false;
+            EgnitionSystem.PIXELS_IN = false;
+        } else if (Wrist.getPosition() == Wrist.WRIST_UP_POSITION && EgnitionSystem.SLOW_MODE && !EgnitionSystem.PIXELS_IN) {
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = false;
+            EgnitionSystem.PIXELS_IN = true;
         }
         if ((gamepad1.left_stick_button || gamepad1.right_stick_button) && !EgnitionSystem.WAS_PRESSED && !EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.SLOW_MODE = true;
