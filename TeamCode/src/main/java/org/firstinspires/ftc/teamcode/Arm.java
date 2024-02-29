@@ -86,11 +86,11 @@ public class Arm {
         if (arm1.getCurrentPosition() < -5 && arm2.getCurrentPosition() > 5) {
             got_position_to_hold = false;
             arm1.setPower(1);
-            arm1.setTargetPosition(0);
+            arm1.setTargetPosition(arm1.getCurrentPosition() - arm1.getCurrentPosition());
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             arm2.setPower(1);
-            arm2.setTargetPosition(0);
+            arm2.setTargetPosition(arm2.getCurrentPosition() - arm2.getCurrentPosition());
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             LOADING_MODE_ACTIVE = true;
