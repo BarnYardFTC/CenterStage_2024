@@ -83,7 +83,7 @@ public class Arm {
         }
     }
     public static void loadingModeArm(){
-        if (arm1.getCurrentPosition() < -5 && arm2.getCurrentPosition() > 5) {
+        if (arm1.getCurrentPosition() < -7 && arm2.getCurrentPosition() > 7) {
             got_position_to_hold = false;
             arm1.setPower(1);
             arm1.setTargetPosition(arm1.getCurrentPosition() - arm1.getCurrentPosition());
