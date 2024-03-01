@@ -60,12 +60,6 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.pixelRight()) {
-            HardwareLocal.PIXEL_IN_R = false;
-        }
-        if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft()) {
-            HardwareLocal.PIXEL_IN_L = false;
-        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
@@ -158,6 +152,12 @@ public class Teleop extends LinearOpMode {
         if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_L) {
             Claws.closeLeftClaw();
             HardwareLocal.PIXEL_IN_L = true;
+        }
+        if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.pixelRight()) {
+            HardwareLocal.PIXEL_IN_R = false;
+        }
+        if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft()) {
+            HardwareLocal.PIXEL_IN_L = false;
         }
     }
 }
