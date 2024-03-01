@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 // Imports
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -46,6 +47,7 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("blue", HardwareLocal.getBlueValueRight());
             telemetry.addData("green", HardwareLocal.getGreenValueRight());
             telemetry.addData("alpha", HardwareLocal.getAlphaValueRight());
+            telemetry.addData("proximity", HardwareLocal.getProximityValueRight());
             telemetry.update();
         }
     }
@@ -140,9 +142,9 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void initColorSensor() {
-        ColorSensor colorSensorRight = hardwareMap.get(ColorSensor.class, "colorSensorRight");
+        ColorRangeSensor colorSensorRight = hardwareMap.get(ColorRangeSensor.class, "colorSensorRight");
         HardwareLocal.init(colorSensorRight);
-//        ColorSensor colorSensorLeft = hardwareMap.get(ColorSensor.class, "colorSensorLeft");
+//        ColorRangeSensor colorSensorLeft = hardwareMap.get(ColorRangeSensor.class, "colorSensorLeft");
 //        HardwareLocal.init(colorSensorLeft);
     }
 }
