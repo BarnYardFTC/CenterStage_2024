@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.C;
+
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
 public class Teleop extends LinearOpMode {
@@ -41,13 +43,9 @@ public class Teleop extends LinearOpMode {
             runArm();
             runClaws();
             runWrist();
+            touchAndGo();
 
 // Telemetry update
-            telemetry.addData("red", HardwareLocal.getRedValueRight());
-            telemetry.addData("blue", HardwareLocal.getBlueValueRight());
-            telemetry.addData("green", HardwareLocal.getGreenValueRight());
-            telemetry.addData("alpha", HardwareLocal.getAlphaValueRight());
-            telemetry.addData("proximity", HardwareLocal.getProximityValueRight());
             telemetry.update();
         }
     }
@@ -62,6 +60,12 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
+        if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.pixelRight()) {
+            HardwareLocal.PIXEL_IN_R = false;
+        }
+        if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft()) {
+            HardwareLocal.PIXEL_IN_L = false;
+        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
@@ -146,5 +150,15 @@ public class Teleop extends LinearOpMode {
         HardwareLocal.init(colorSensorRight);
 //        ColorRangeSensor colorSensorLeft = hardwareMap.get(ColorRangeSensor.class, "colorSensorLeft");
 //        HardwareLocal.init(colorSensorLeft);
+    }
+    public void touchAndGo() {
+        if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
+            Claws.closeRightClaw();
+            HardwareLocal.PIXEL_IN_R = true;
+        }
+        if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_L) {
+            Claws.closeLeftClaw();
+            HardwareLocal.PIXEL_IN_L = true;
+        }
     }
 }
