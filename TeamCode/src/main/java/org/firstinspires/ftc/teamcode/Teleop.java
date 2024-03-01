@@ -146,10 +146,9 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void initColorSensor() {
-        ColorRangeSensor colorSensorRight = hardwareMap.get(ColorRangeSensor.class, "colorSensorRight");
-        HardwareLocal.init(colorSensorRight);
-//        ColorRangeSensor colorSensorLeft = hardwareMap.get(ColorRangeSensor.class, "colorSensorLeft");
-//        HardwareLocal.init(colorSensorLeft);
+        ColorRangeSensor distanceSensorRight = hardwareMap.get(ColorRangeSensor.class, "distanceSensorRight");
+        ColorRangeSensor distanceSensorLeft = hardwareMap.get(ColorRangeSensor.class, "distanceSensorLeft");
+        HardwareLocal.init(distanceSensorRight, distanceSensorLeft);
     }
     public void touchAndGo() {
         if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
