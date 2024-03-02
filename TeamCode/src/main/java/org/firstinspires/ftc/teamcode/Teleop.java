@@ -72,7 +72,7 @@ public class Teleop extends LinearOpMode {
         } else {
             Wrist.runWrist(gamepad1.y);
         }
-        if (HardwareLocal.pixelLeft() && HardwareLocal.pixelRight() && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION && Arm.getArm1Position() > -1700) {
+        if (HardwareLocal.pixelLeft() && HardwareLocal.pixelRight() && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.getArm1Position() > -1700) {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
