@@ -77,8 +77,8 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
         Arm.init(motor, motor2);
     }
     public void runArm() {
