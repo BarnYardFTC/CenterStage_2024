@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Claws {
 
-    // Variables
+// Variables
     private static Servo left_claw;
     private static Servo right_claw;
     static final double LEFT_CLAW_CLOSED_POSITION = 0.47;
@@ -15,7 +15,7 @@ public class Claws {
     private static boolean was_right_bumper_pressed;
     private static boolean was_left_bumper_pressed;
 
-    // Initializing
+// Initializing
     public static void init(Servo right_claw, Servo left_claw) {
         Claws.left_claw = right_claw;
         Claws.right_claw = left_claw;
@@ -24,7 +24,7 @@ public class Claws {
         was_left_bumper_pressed = false;
     }
 
-    // System's variables
+// System's variables
     public static void moveToStartPosition() {
         left_claw.setPosition(LEFT_CLAW_CLOSED_POSITION);
         right_claw.setPosition(RIGHT_CLAW_CLOSED_POSITION);
@@ -46,7 +46,7 @@ public class Claws {
         left_claw.setPosition(LEFT_CLAW_OPENED_POSITION);
     }
 
-    // Operating system
+// Operating system
     public static void runClawsTeleop(boolean left_bumper_pressed, boolean right_bumper_pressed) {
         if (right_bumper_pressed && !was_right_bumper_pressed) {
             if (Math.abs(right_claw.getPosition() - RIGHT_CLAW_CLOSED_POSITION) < Math.abs(right_claw.getPosition() - RIGHT_CLAW_OPENED_POSITION)) {
@@ -71,7 +71,7 @@ public class Claws {
         }
     }
 
-    // Getting variables
+// Getting variables
     public static double getLeftClawPosition() {
         return left_claw.getPosition();
     }
