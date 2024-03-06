@@ -55,6 +55,8 @@ public class Teleop extends LinearOpMode {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
+        Claws.openRightClaw();
+        Claws.openLeftClaw();
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
@@ -67,11 +69,10 @@ public class Teleop extends LinearOpMode {
     public void runWrist() {
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
+            EgnitionSystem.SLOW_MODE = true;
+            EgnitionSystem.WAS_PRESSED = false;
         } else {
             Wrist.runWrist(gamepad1.y);
-        }
-        if (HardwareLocal.pixelLeft() && HardwareLocal.pixelRight() && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && Arm.getArm1Position() > Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
         }
     }
     public void initArm() {

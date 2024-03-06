@@ -151,7 +151,7 @@ public class Arm {
         return leftArm.getCurrentPosition();
     }
     public static boolean passedMinimalHoldPosition() {
-        return rightArm.getCurrentPosition() >= MINIMAL_HOLD_POSITION;
+        return rightArm.getCurrentPosition() <= MINIMAL_HOLD_POSITION;
     }
     public static boolean arrivedPosition (int current_position, int finish_position, boolean finish_bigger_than_start) {
         if (finish_bigger_than_start) {
