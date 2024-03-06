@@ -9,14 +9,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class HardwareLocal {
 
-    // Variables
+// Variables
     static private ColorRangeSensor distanceSensorLeft;
     static private ColorRangeSensor distanceSensorRight;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
-    static private int DETECTING_DISTANCE = 36;
+    static private final int DETECTING_DISTANCE = 36;
 
-    // Initializing
+// Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
         HardwareLocal.distanceSensorRight = distanceSensorRight;
         HardwareLocal.distanceSensorLeft = distanceSensorLeft;
@@ -24,7 +24,7 @@ public class HardwareLocal {
         PIXEL_IN_L = false;
     }
 
-    // Getting values
+// Getting values
     public static int getRedValueRight() {return distanceSensorRight.red();}
     public static int getBlueValueRight() {return distanceSensorRight.blue();}
     public static int getGreenValueRight() {return distanceSensorRight.green();}
