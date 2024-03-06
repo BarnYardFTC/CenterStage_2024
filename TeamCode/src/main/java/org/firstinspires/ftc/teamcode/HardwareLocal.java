@@ -14,6 +14,7 @@ public class HardwareLocal {
     static private ColorRangeSensor distanceSensorRight;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
+    static private int DETECTING_DISTANCE = 40;
 
     // Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
@@ -37,9 +38,9 @@ public class HardwareLocal {
 
 //// System's functions
     public static boolean pixelRight() {
-        return distanceSensorRight.getDistance(DistanceUnit.MM) <= 36;
+        return distanceSensorRight.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;
     }
     public static boolean pixelLeft() {
-        return distanceSensorLeft.getDistance(DistanceUnit.MM) <= 36;
+        return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;
     }
 }
