@@ -10,10 +10,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Arm {
 
 // Variables
-    static private DcMotor arm1;
+    static private DcMotor rightArm;
     static private DcMotor arm2;
     static public final int MINIMAL_HOLD_POSITION = -300;
-    static private double SPEED;
     static private boolean got_position_to_hold = false;
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
@@ -23,28 +22,28 @@ public class Arm {
 
 // Initializing
     public static void init(DcMotor motor1, DcMotor motor2) {
-        arm1 = motor1;
+        rightArm = motor1;
         arm2 = motor2;
 
-        arm1.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
         arm2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         DPAD_PRESSED = false;
         LOADING_MODE_ACTIVE = false;
         HANGING_MODE_ACTIVE = false;
-        SPEED = 0;
+        double SPEED = 0;
     }
 
 // System's functions
     public static void moveUp(double SPEED) {
         got_position_to_hold = false;
 
-        arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() - (int) (380 * SPEED));
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightArm.setPower(1);
+        rightArm.setTargetPosition(rightArm.getCurrentPosition() - (int) (380 * SPEED));
+        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
         arm2.setTargetPosition(arm2.getCurrentPosition() + (int) (380 * SPEED));
@@ -53,9 +52,9 @@ public class Arm {
     public static void moveDown(double SPEED) {
         got_position_to_hold = false;
 
-        arm1.setPower(1);
-        arm1.setTargetPosition(arm1.getCurrentPosition() + (int) (380 * SPEED));
-        arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightArm.setPower(1);
+        rightArm.setTargetPosition(rightArm.getCurrentPosition() + (int) (380 * SPEED));
+        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         arm2.setPower(1);
         arm2.setTargetPosition(arm2.getCurrentPosition() - (int) (380 * SPEED));
@@ -65,10 +64,10 @@ public class Arm {
         got_position_to_hold = false;
 
         HANGING_MODE_ACTIVE = true;
-        if (arm1.getCurrentPosition() > -1180 || arm1.getCurrentPosition() < -1220){
-            arm1.setPower(1);
-            arm1.setTargetPosition(-1196);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (rightArm.getCurrentPosition() > -1180 || rightArm.getCurrentPosition() < -1220){
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(-1196);
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             arm2.setPower(1);
             arm2.setTargetPosition(1196);
@@ -83,11 +82,11 @@ public class Arm {
         }
     }
     public static void loadingModeArm(){
-        if (arm1.getCurrentPosition() < -5 && arm2.getCurrentPosition() > 5) {
+        if (rightArm.getCurrentPosition() < -5 && arm2.getCurrentPosition() > 5) {
             got_position_to_hold = false;
-            arm1.setPower(1);
-            arm1.setTargetPosition(arm1.getCurrentPosition() - arm1.getCurrentPosition());
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition() - rightArm.getCurrentPosition());
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             arm2.setPower(1);
             arm2.setTargetPosition(arm2.getCurrentPosition() - arm2.getCurrentPosition());
@@ -96,10 +95,10 @@ public class Arm {
             LOADING_MODE_ACTIVE = true;
         } else {
             got_position_to_hold = false;
-            arm1.setPower(0);
+            rightArm.setPower(0);
             arm2.setPower(0);
 
-            arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             LOADING_MODE_ACTIVE = false;
@@ -108,49 +107,49 @@ public class Arm {
     public static void brake(){
         if (!got_position_to_hold) {
             got_position_to_hold = true;
-            hold_position1 = arm1.getCurrentPosition();
+            hold_position1 = rightArm.getCurrentPosition();
             hold_position2 = arm2.getCurrentPosition();
         }
         if (!DPAD_PRESSED) {
-            if (arm1.getCurrentPosition() < -300 && !LOADING_MODE_ACTIVE) {
-                arm1.setPower(1);
+            if (rightArm.getCurrentPosition() < -300 && !LOADING_MODE_ACTIVE) {
+                rightArm.setPower(1);
 
                 arm2.setPower(1);
-                arm1.setTargetPosition(hold_position1);
-                arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightArm.setTargetPosition(hold_position1);
+                rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 arm2.setTargetPosition(hold_position2);
                 arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             } else {
-                arm1.setPower(0);
+                rightArm.setPower(0);
                 arm2.setPower(0);
             }
         }
         else {
-            arm1.setPower(1);
+            rightArm.setPower(1);
 
             arm2.setPower(1);
-            arm1.setTargetPosition(hold_position1);
-            arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightArm.setTargetPosition(hold_position1);
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             arm2.setTargetPosition(hold_position2);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
     public static void stopMoving() {
-        arm1.setPower(0);
+        rightArm.setPower(0);
         arm2.setPower(0);
     }
 
 // Getting variables
     public static int getArm1Position() {
-        return arm1.getCurrentPosition();
+        return rightArm.getCurrentPosition();
     }
     public static int getArm2Position() {
         return arm2.getCurrentPosition();
     }
     public static boolean passedMinimalHoldPosition() {
-        return arm1.getCurrentPosition() >= MINIMAL_HOLD_POSITION;
+        return rightArm.getCurrentPosition() >= MINIMAL_HOLD_POSITION;
     }
     public static boolean arrivedPosition (int current_position, int finish_position, boolean finish_bigger_than_start) {
         if (finish_bigger_than_start) {
@@ -163,7 +162,7 @@ public class Arm {
 
 // Telemetry
     public static void addDataToTelemetry(Telemetry telemetry) {
-        telemetry.addData("arm1 encoder", arm1.getCurrentPosition());
+        telemetry.addData("rightArm encoder", rightArm.getCurrentPosition());
         telemetry.addData("arm2 encoder", arm2.getCurrentPosition());
     }
 }
