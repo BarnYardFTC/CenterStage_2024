@@ -8,10 +8,10 @@ public class Claws {
     // Variables
     private static Servo left_claw;
     private static Servo right_claw;
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.43;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.47;
     static final double LEFT_CLAW_OPENED_POSITION = 0;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.10;
-    static final double RIGHT_CLAW_OPENED_POSITION = 0.52;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.05;
+    static final double RIGHT_CLAW_OPENED_POSITION = 0.53;
     private static boolean was_right_bumper_pressed;
     private static boolean was_left_bumper_pressed;
 

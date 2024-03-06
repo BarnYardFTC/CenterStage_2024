@@ -112,7 +112,7 @@ public class Arm {
             hold_position2 = arm2.getCurrentPosition();
         }
         if (!DPAD_PRESSED) {
-            if (arm1.getCurrentPosition() < -300) {
+            if (arm1.getCurrentPosition() < -300 && !LOADING_MODE_ACTIVE) {
                 arm1.setPower(1);
 
                 arm2.setPower(1);

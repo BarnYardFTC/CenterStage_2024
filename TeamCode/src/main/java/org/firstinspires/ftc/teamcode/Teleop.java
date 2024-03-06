@@ -55,8 +55,6 @@ public class Teleop extends LinearOpMode {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
-        Claws.closeRightClaw();
-        Claws.closeLeftClaw();
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
@@ -90,6 +88,8 @@ public class Teleop extends LinearOpMode {
             Claws.closeRightClaw();
             Claws.closeLeftClaw();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            EgnitionSystem.SLOW_MODE = false;
+            EgnitionSystem.WAS_PRESSED = false;
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
             Claws.openRightClaw();
