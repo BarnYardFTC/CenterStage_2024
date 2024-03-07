@@ -16,6 +16,7 @@ public class Camera {
     private static PixelDetectorRB pixel_detector_RB;
     private static PixelDetectorRF pixel_detector_RF;
     private static PixelDetectorBB pixel_detector_BB;
+    private static PixelDetectorBF pixel_detector_BF;
     private static VisionPortal camera;
 
     public static void init(OpMode opMode, HardwareMap hardwareMap, int side) {
@@ -35,6 +36,10 @@ public class Camera {
         else if (side == 3) { // BB
             pixel_detector_BB = new PixelDetectorBB(opMode);
             builder.addProcessor(pixel_detector_BB);
+        }
+        else if (side == 4) { // BF
+            pixel_detector_BF = new PixelDetectorBF(opMode);
+            builder.addProcessor(pixel_detector_BF);
         }
 
         camera = builder.build();
