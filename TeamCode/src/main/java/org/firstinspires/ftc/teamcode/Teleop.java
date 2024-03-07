@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
 // Imports
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.checkerframework.checker.units.qual.C;
 
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
@@ -128,6 +126,10 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
             EgnitionSystem.PIXELS_IN = true;
+        }
+        if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
+            EgnitionSystem.SLOW_MODE = true;
+            EgnitionSystem.WAS_PRESSED = false;
         }
         if ((gamepad1.left_stick_button || gamepad1.right_stick_button) && !EgnitionSystem.WAS_PRESSED && !EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.SLOW_MODE = true;
