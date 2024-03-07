@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous (name = "Red Front")
 
 public class AutonomousRF extends LinearOpMode{
-
+//
     spike_position position;
     boolean arm_moving;
 
