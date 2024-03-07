@@ -46,6 +46,8 @@ public class Teleop extends LinearOpMode {
             touchAndGo();
 
 // Telemetry update
+            telemetry.addData("Color Distance R", HardwareLocal.getProximityValueRight());
+            telemetry.addData("Color Distance L", HardwareLocal.getProximityValueLeft());
             telemetry.update();
         }
     }
