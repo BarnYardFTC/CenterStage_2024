@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class AutonomousRB extends LinearOpMode {
     spike_position position;
-    boolean arm_moving;
     public int phase;
     static double SLOW_SPEED = 0.2;
     static double FAST_SPEED = 0.5;
@@ -108,16 +107,6 @@ public class AutonomousRB extends LinearOpMode {
                 Center();
             }
 
-            // In case the arm isn't moving (most of the time) brake/ stop moving the arm
-            if (!arm_moving) {
-                if ( ! Arm.passedMinimalHoldPosition()) {
-                    Arm.stopMoving();
-                }
-                else {
-                    Arm.brake();
-                }
-            }
-
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
                 Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
@@ -211,12 +200,11 @@ public class AutonomousRB extends LinearOpMode {
         }
         else if (phase == 9) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
-                arm_moving = false;
+                Arm.brake();
                 phase ++;
             }
             else {
                 Arm.moveUp(ARM_SPEED);
-                arm_moving = true;
             }
         }
         else if (phase == 10) {
@@ -226,12 +214,11 @@ public class AutonomousRB extends LinearOpMode {
         }
         else if (phase == 11) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, true)) {
-                arm_moving = false;
+                Arm.brake();
                 phase ++;
             }
             else {
                 Arm.moveUp(ARM_SPEED);
-                arm_moving = true;
             }
         }
         else if (phase == 12) {
@@ -256,20 +243,32 @@ public class AutonomousRB extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(0);
             }
         }
-
-//        public static int PHASE_1_L = 1000; // Forward
-//        public static int PHASE_2_L = -1000; // Rotate left
-//        public static int PHASE_3_L = 200; // Left
-//        public static int PHASE_5_L = -200; // Right
-//        public static int PHASE_7_L = -400; // Right
-//        public static int PHASE_8_L = 400; // Forward
-//        public static int PHASE_9_L = -1600; // Arm up
-//        public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-//        public static int PHASE_12_L = -800; // Backward
-//        public static int PHASE_13_L = -500; // Right
     }
     public void Center() {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_C, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+
+        }
+
+//        public static int PHASE_1_C = 1000; // Forward
+//        public static int PHASE_3_C = -200; // Backward
+//        public static int PHASE_5_C = -600; // Rotate left
+//        public static int PHASE_6_C = -700; // Right
+//        public static int PHASE_7_C = -1600; // Arm up
+//        public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+//        public static int PHASE_10_C = -700; // Backward
+//        public static int PHASE_11_C = -500; // Right
     }
     public void Right () {
 
