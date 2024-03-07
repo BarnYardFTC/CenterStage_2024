@@ -30,7 +30,7 @@ public class EgnitionSystem {
     static public boolean SLOW_MODE;
     static public boolean PIXELS_IN;
     static public boolean WAS_PRESSED;
-    static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.4;
+    static private final double AUTONOMOUS_MOVING_POWER_ORIGINAL = 0.5;
     static private double AUTONOMOUS_MOVING_POWER = AUTONOMOUS_MOVING_POWER_ORIGINAL;
     static private final int ENCODER_CHANGING_SPEED = 1000;
 

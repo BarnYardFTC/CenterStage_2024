@@ -17,21 +17,37 @@ public class AutonomousRB extends LinearOpMode {
     static double SLOW_SPEED = 0.2;
     static double FAST_SPEED = 0.5;
 
+    static double ARM_SPEED = 0.6;
+
     public static int PHASE_1_L = 1000; // Forward
     public static int PHASE_2_L = -1000; // Rotate left
     public static int PHASE_3_L = 200; // Left
     public static int PHASE_5_L = -200; // Right
     public static int PHASE_7_L = -400; // Right
     public static int PHASE_8_L = 400; // Forward
-    public static int PHASE_9_L = 1600; // Arm up
+    public static int PHASE_9_L = -1600; // Arm up
     public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
     public static int PHASE_12_L = -800; // Backward
     public static int PHASE_13_L = -500; // Right
 
     public static int PHASE_1_C = 1000; // Forward
     public static int PHASE_3_C = -200; // Backward
-    public static int PHASE_4_C = -600; // Rotate left
+    public static int PHASE_5_C = -600; // Rotate left
+    public static int PHASE_6_C = -700; // Right
+    public static int PHASE_7_C = -1600; // Arm up
+    public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_10_C = -700; // Backward
+    public static int PHASE_11_C = -500; // Right
 
+    public static int PHASE_1_R = 300; // Forward
+    public static int PHASE_2_R = 300; // Right
+    public static int PHASE_3_R = -300; // Rotate left
+    public static int PHASE_4_R = 200; // Forward
+    public static int PHASE_6_R = -400; // Right
+    public static int PHASE_8_R = -1600; // Arm up
+    public static int PHASE_10_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_11_R = -300; // Backward
+    public static int PHASE_12_R = -400; // Right
 
     enum spike_position {
         LEFT,
@@ -119,6 +135,138 @@ public class AutonomousRB extends LinearOpMode {
     }
     public void Left() {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_L, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_L, false)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
+        }
+        else if (phase == 3) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 4) {
+            Claws.openRightClaw();
+            phase++;
+        }
+        else if (phase == 5) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
+        }
+        else if (phase == 6) {
+            Wrist.moveUp();
+            phase ++;
+        }
+        else if (phase == 7) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
+        }
+        else if (phase == 8) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_L, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 9) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
+                arm_moving = false;
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+                arm_moving = true;
+            }
+        }
+        else if (phase == 10) {
+            sleep(500);
+            Claws.openLeftClaw();
+            phase ++;
+        }
+        else if (phase == 11) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, true)) {
+                arm_moving = false;
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+                arm_moving = true;
+            }
+        }
+        else if (phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_L, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (phase == 13) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(0);
+            }
+        }
+
+//        public static int PHASE_1_L = 1000; // Forward
+//        public static int PHASE_2_L = -1000; // Rotate left
+//        public static int PHASE_3_L = 200; // Left
+//        public static int PHASE_5_L = -200; // Right
+//        public static int PHASE_7_L = -400; // Right
+//        public static int PHASE_8_L = 400; // Forward
+//        public static int PHASE_9_L = -1600; // Arm up
+//        public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+//        public static int PHASE_12_L = -800; // Backward
+//        public static int PHASE_13_L = -500; // Right
     }
     public void Center() {
 
