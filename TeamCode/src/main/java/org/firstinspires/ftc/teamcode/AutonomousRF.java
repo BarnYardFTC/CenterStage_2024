@@ -48,7 +48,7 @@ public class AutonomousRF extends LinearOpMode{
 
             telemetry.addData("Spike Position: ", position);
             telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-            telemetry.addData("Left Region avg: ", Camera.getRightRegion_avg(2));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
             telemetry.update();
         }
         Camera.close(2);
@@ -115,16 +115,16 @@ public class AutonomousRF extends LinearOpMode{
         Wrist.init(servo);
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
         Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }
     public void initEgnitionSystem() {
-        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
-        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
-        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
-        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "leftFront");
+        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "rightFront");
+        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "leftBack");
+        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "rightBack");
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);

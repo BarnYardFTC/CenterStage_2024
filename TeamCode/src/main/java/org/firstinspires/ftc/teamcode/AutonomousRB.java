@@ -1,17 +1,37 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 @Autonomous (name = "Red Back")
 
-public class AutonomousRB extends LinearOpMode{
-//
+public class AutonomousRB extends LinearOpMode {
     spike_position position;
     boolean arm_moving;
+    public int phase;
+    static double SLOW_SPEED = 0.2;
+    static double FAST_SPEED = 0.5;
+
+    public static int PHASE_1_L = 1000; // Forward
+    public static int PHASE_2_L = -1000; // Rotate left
+    public static int PHASE_3_L = 200; // Left
+    public static int PHASE_5_L = -200; // Right
+    public static int PHASE_7_L = -400; // Right
+    public static int PHASE_8_L = 400; // Forward
+    public static int PHASE_9_L = 1600; // Arm up
+    public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_12_L = -800; // Backward
+    public static int PHASE_13_L = -500; // Right
+
+    public static int PHASE_1_C = 1000; // Forward
+    public static int PHASE_3_C = -200; // Backward
+    public static int PHASE_4_C = -600; // Rotate left
+
 
     enum spike_position {
         LEFT,
@@ -29,6 +49,7 @@ public class AutonomousRB extends LinearOpMode{
         initWrist();
         initEgnitionSystem();
         initCamera();
+        phase = 1;
 
         // Close the claws
         Claws.closeRightClaw();
@@ -48,7 +69,7 @@ public class AutonomousRB extends LinearOpMode{
 
             telemetry.addData("Spike Position: ", position);
             telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(1));
-            telemetry.addData("Left Region avg: ", Camera.getRightRegion_avg(1));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(1));
             telemetry.update();
         }
         Camera.close(1);
@@ -115,16 +136,16 @@ public class AutonomousRB extends LinearOpMode{
         Wrist.init(servo);
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
         Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }
     public void initEgnitionSystem() {
-        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "fl_wheel");
-        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "fr_wheel");
-        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "bl_wheel");
-        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "br_wheel");
+        DcMotor fl_wheel = hardwareMap.get(DcMotor.class, "leftFront");
+        DcMotor fr_wheel = hardwareMap.get(DcMotor.class, "rightFront");
+        DcMotor bl_wheel = hardwareMap.get(DcMotor.class, "leftBack");
+        DcMotor br_wheel = hardwareMap.get(DcMotor.class, "rightBack");
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         EgnitionSystem.init(fl_wheel, fr_wheel, bl_wheel, br_wheel, imu);
