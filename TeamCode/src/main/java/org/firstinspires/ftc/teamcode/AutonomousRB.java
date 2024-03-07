@@ -18,35 +18,36 @@ public class AutonomousRB extends LinearOpMode {
 
     static double ARM_SPEED = 0.6;
 
-    public static int PHASE_1_L = 1000; // Forward
-    public static int PHASE_2_L = -1000; // Rotate left
-    public static int PHASE_3_L = 200; // Left
-    public static int PHASE_5_L = -200; // Right
-    public static int PHASE_7_L = -400; // Right
-    public static int PHASE_8_L = 400; // Forward
-    public static int PHASE_9_L = -1700; // Arm up
-    public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_12_L = -800; // Backward
-    public static int PHASE_13_L = -500; // Right
+     static int PHASE_1_L = 1000; // Forward
+     static int PHASE_2_L = -1000; // Rotate left
+     static int PHASE_3_L = 200; // Left
+     static int PHASE_5_L = -200; // Right
+     static int PHASE_7_L = -400; // Right
+     static int PHASE_8_L = 400; // Forward
+     static int PHASE_9_L = -1700; // Arm up
+     static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+     static int PHASE_12_L = -800; // Backward
+     static int PHASE_13_L = -500; // Right
 
-    public static int PHASE_1_C = 1000; // Forward
-    public static int PHASE_3_C = -200; // Backward
-    public static int PHASE_5_C = -600; // Rotate left
-    public static int PHASE_6_C = -700; // Right
-    public static int PHASE_7_C = -1700; // Arm up
-    public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_10_C = -700; // Backward
-    public static int PHASE_11_C = -500; // Right
+    public static int PHASE_1_C = 690; // Forward
+    public static int PHASE_3_C = -5; // Backward
+    public static int PHASE_5_C = -530; // Rotate left
+    public static int PHASE_6_C = -1000; // Right
+    public static int PHASE_7_C = 20; // Forward
+    public static int PHASE_8_C = -2350 ; // Arm up
+    public static int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_11_C = -600; // Backward
+    public static int PHASE_12_C = -570; // Right
 
-    public static int PHASE_1_R = 300; // Forward
-    public static int PHASE_2_R = 300; // Right
-    public static int PHASE_3_R = -300; // Rotate left
-    public static int PHASE_4_R = 200; // Forward
-    public static int PHASE_6_R = -400; // Right
-    public static int PHASE_8_R = -1700; // Arm up
-    public static int PHASE_10_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_11_R = -300; // Backward
-    public static int PHASE_12_R = -400; // Right
+     static int PHASE_1_R = 300; // Forward
+     static int PHASE_2_R = 300; // Right
+     static int PHASE_3_R = -300; // Rotate left
+     static int PHASE_4_R = 200; // Forward
+     static int PHASE_6_R = -400; // Right
+     static int PHASE_8_R = -1700; // Arm up
+     static int PHASE_10_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+     static int PHASE_11_R = -300; // Backward
+     static int PHASE_12_R = -400; // Right
 
     enum spike_position {
         LEFT,
@@ -70,6 +71,8 @@ public class AutonomousRB extends LinearOpMode {
         Claws.closeRightClaw();
         Claws.closeLeftClaw();
 
+        Wrist.setPosition(0);
+
         // Find the spike with pixel and print in telemetry
         while (opModeInInit()) {
             if (PixelDetectorRB.getSpike_position() == 0) {
@@ -92,34 +95,72 @@ public class AutonomousRB extends LinearOpMode {
         waitForStart();
 
         // move the wrist down
-        Wrist.moveDown();
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.1);
+
+        boolean run = false;
+        boolean x_pressed = false;
+        boolean b_pressed = false;
 
         while (opModeIsActive()) {
+            if (!run) {
 
-            // Choose a path according to the spike position
-            if (position == spike_position.RIGHT) {
-                Right();
-            }
-            else if (position == spike_position.LEFT) {
-                Left();
+                telemetry.addLine("press A to run autonomous");
+                telemetry.addLine("press X/B to change starting phase");
+
+                telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+                telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
+
+                telemetry.addData("Phase: ", phase);
+                telemetry.update();
+
+                if (gamepad1.a) {
+                    run = true;
+                }
+                if (gamepad1.x && !x_pressed) {
+                    phase --;
+                    x_pressed = true;
+                }
+                else if (!gamepad1.x) {
+                    x_pressed = false;
+                }
+                if (gamepad1.b && !b_pressed) {
+                    phase ++;
+                    b_pressed = true;
+                }
+                else if (!gamepad1.b) {
+                    b_pressed = false;
+                }
             }
             else {
-                Center();
+
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+
+                // Choose a path according to the spike position
+                if (position == spike_position.RIGHT) {
+                    Right();
+                }
+                else if (position == spike_position.LEFT) {
+                    Left();
+                }
+                else {
+                    Center();
+                }
+
+                // Adjust the wrist position according to the arm position
+                if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
+                    Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
+                }
+
+                // Move the Egnition system
+                EgnitionSystem.updateVariablesAutonomous();
+                EgnitionSystem.runAutonomous();
+
+                // Add data to telemetry
+                telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
+                telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
+                telemetry.addLine("Press Y to stop opMode");
+                telemetry.update();
             }
-
-            // Adjust the wrist position according to the arm position
-            if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-                Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
-            }
-
-            // Move the Egnition system
-            EgnitionSystem.updateVariablesAutonomous();
-            EgnitionSystem.runAutonomous();
-
-            // Add data to telemetry
-            telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-            telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
-            telemetry.update();
         }
     }
     public void Left() {
@@ -259,18 +300,20 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 2) {
-            Claws.openRightClaw();
+            Claws.openLeftClaw();
             phase ++;
         }
         else if (phase == 3) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_C, false)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
                 EgnitionSystem.setVerticalPower(-1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
             }
         }
         else if (phase == 4) {
@@ -300,7 +343,20 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 7) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_7_C, false)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_C, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+            }
+        }
+        else if (phase == 8) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_C, false)) {
                 Arm.brake();
                 phase ++;
             }
@@ -308,14 +364,14 @@ public class AutonomousRB extends LinearOpMode {
                 Arm.moveUp(ARM_SPEED);
             }
         }
-        else if (phase == 8) {
+        else if (phase == 9) {
             sleep(500);
-            Claws.openLeftClaw();
+            Claws.openRightClaw();
             phase++;
             sleep(500);
         }
-        else if (phase == 9) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_C, true)) {
+        else if (phase == 10) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_C, true)) {
                 Arm.brake();
                 phase ++;
             }
@@ -323,8 +379,8 @@ public class AutonomousRB extends LinearOpMode {
                 Arm.moveDown(ARM_SPEED);
             }
         }
-        else if (phase == 10) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_10_C, false)) {
+        else if (phase == 11) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_C, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
@@ -334,8 +390,8 @@ public class AutonomousRB extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(-1);
             }
         }
-        else if (phase == 11) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_C, false)) {
+        else if (phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, false)) {
                 EgnitionSystem.setHorizontalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
@@ -345,15 +401,6 @@ public class AutonomousRB extends LinearOpMode {
                 EgnitionSystem.setHorizontalPower(1);
             }
         }
-
-//        public static int PHASE_1_C = 1000; // Forward
-//        public static int PHASE_3_C = -200; // Backward
-//        public static int PHASE_5_C = -600; // Rotate left
-//        public static int PHASE_6_C = -700; // Right
-//        public static int PHASE_7_C = -1600; // Arm up
-//        public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-//        public static int PHASE_10_C = -700; // Backward
-//        public static int PHASE_11_C = -500; // Right
     }
     public void Right () {
         if (phase == 1) {
