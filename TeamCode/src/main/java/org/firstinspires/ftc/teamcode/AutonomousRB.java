@@ -401,7 +401,7 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 5) {
-            Claws.openLeftClaw();
+            Claws.openRightClaw();
             phase++;
         }
         else if (phase == 6) {
@@ -426,6 +426,43 @@ public class AutonomousRB extends LinearOpMode {
             }
             else {
                 Arm.moveUp(ARM_SPEED);
+            }
+        }
+        else if (phase == 9) {
+            sleep(500);
+            Claws.openLeftClaw();
+            sleep(500);
+            phase++;
+        }
+        else if (phase == 10) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_R, true)) {
+                Arm.brake();
+                phase ++;
+            }
+            else {
+                Arm.moveDown(ARM_SPEED);
+            }
+        }
+        else if (phase == 11) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_R, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_R, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
             }
         }
     }
