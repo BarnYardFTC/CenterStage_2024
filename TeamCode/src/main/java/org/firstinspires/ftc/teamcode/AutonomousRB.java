@@ -123,7 +123,6 @@ public class AutonomousRB extends LinearOpMode {
             // Add data to telemetry
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
             telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
-            telemetry.addLine("Press Y to stop opMode");
             telemetry.update();
         }
     }

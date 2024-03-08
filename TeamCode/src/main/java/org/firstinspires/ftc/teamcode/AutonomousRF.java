@@ -101,7 +101,7 @@ public class AutonomousRF extends LinearOpMode{
         waitForStart();
 
         // move the wrist down
-        Wrist.moveDown();
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.1);
 
         while (opModeIsActive()) {
 
@@ -225,6 +225,7 @@ public class AutonomousRF extends LinearOpMode{
             }
             else {
                 Arm.moveUp(ARM_SPEED);
+                Wrist.moveUp();
             }
         }
         else if (phase == 10) {
@@ -344,6 +345,7 @@ public class AutonomousRF extends LinearOpMode{
                 phase ++;
             }
             else {
+                Wrist.moveUp();
                 Arm.moveUp(ARM_SPEED);
             }
         }
@@ -492,6 +494,7 @@ public class AutonomousRF extends LinearOpMode{
                 phase ++;
             }
             else {
+                Wrist.moveUp();
                 Arm.moveUp(ARM_SPEED);
             }
         }
