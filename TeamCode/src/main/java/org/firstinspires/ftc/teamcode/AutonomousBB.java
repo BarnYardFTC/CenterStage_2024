@@ -361,19 +361,117 @@ public class AutonomousBB extends LinearOpMode{
                 EgnitionSystem.setHorizontalPower(-1);
             }
         }
-
-//        public static int PHASE_1_C = 690; // Forward
-//        public static int PHASE_3_C = -50; // Backward (Slow)
-//        public static int PHASE_4_C = 530; // Rotate right
-//        public static int PHASE_5_C = -600; // Left
-//        public static int PHASE_6_C = -50; // Forward (Slow)
-//        public static int PHASE_7_C = -2350; // Arm up
-//        public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-//        public static int PHASE_10_C = 600; // Backward
-//        public static int PHASE_11_C = -400; // Left
     }
     public void Right () {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_R, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_R, true)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(1);
+            }
+        }
+        else if (phase == 3) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_R, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+            }
+        }
+        else if (phase == 4) {
+            Claws.openRightClaw();
+        }
+        else if (phase == 5) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_R, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 6) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_R, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+            }
+        }
+        else if (phase == 7) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_7_R, false)) {
+                Arm.brake();
+                sleep(500);
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+            }
+        }
+        else if (phase == 8) {
+            Claws.openLeftClaw();
+            sleep(500);
+        }
+        else if (phase == 9) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_R, true)) {
+                Arm.brake();
+                sleep(500);
+                phase ++;
+            }
+            else {
+                Arm.moveDown(ARM_SPEED);
+            }
+        }
+        else if (phase == 10) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_10_R, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (phase == 11) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_R, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
