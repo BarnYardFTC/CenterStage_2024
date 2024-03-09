@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Config
 @Autonomous (name = "Red Back")
 
 public class AutonomousRB extends LinearOpMode {
@@ -18,16 +16,16 @@ public class AutonomousRB extends LinearOpMode {
 
     static double ARM_SPEED = 0.6;
 
-     public static int PHASE_1_L = 690; // Forward
-     public static int PHASE_2_L = -510; // Rotate left
-     public static int PHASE_3_L = 0; // Left (slow)
-     public static int PHASE_5_L = -100; // Right
-     public static int PHASE_7_L = -330; // Right
-     public static int PHASE_8_L = 180; // Forward (slow)
-     public static int PHASE_9_L = -2350; // Arm up
-     public static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-     public static int PHASE_12_L = -900; // Backward
-     public static int PHASE_13_L = -500; // Right
+     static int PHASE_1_L = 690; // Forward
+      static int PHASE_2_L = -510; // Rotate left
+      static int PHASE_3_L = 0; // Left (slow)
+      static int PHASE_5_L = -200; // Right
+      static int PHASE_7_L = -700; // Right
+      static int PHASE_8_L = 220; // Forward (slow)
+      static int PHASE_9_L = -2350; // Arm up
+      static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+      static int PHASE_12_L = -1100; // Backward
+      static int PHASE_13_L = -500; // Right
 
     static int PHASE_1_C = 690; // Forward
     static int PHASE_3_C = -5; // Backward

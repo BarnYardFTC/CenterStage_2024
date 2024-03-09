@@ -75,10 +75,10 @@ public class AutonomousBB extends LinearOpMode{
 
         // Find the spike with pixel and print in telemetry
         while (opModeInInit()) {
-            if (PixelDetectorRB.getSpike_position() == 0) {
+            if (PixelDetectorBB.getSpike_position() == 0) {
                 position = spike_position.LEFT;
             }
-            else if (PixelDetectorRB.getSpike_position() == 1) {
+            else if (PixelDetectorBB.getSpike_position() == 1) {
                 position = spike_position.CENTER;
             }
             else {
