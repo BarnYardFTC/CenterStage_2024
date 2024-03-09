@@ -47,9 +47,9 @@ public class AutonomousRF extends LinearOpMode{
     public static int PHASE_3_R = 0; // Right (slow)
     public static int PHASE_5_R = -50; // Left (slow)
     public static int PHASE_7_R = -700; // Forward
-    public static int PHASE_8_R = -1420; // Rotate left 180
-    public static int PHASE_9_R = -3000; // Right
-    public static int PHASE_10_R = -500; // Backward
+    public static int PHASE_8_R = -1480; // Rotate left 180
+    public static int PHASE_9_R = -3350; // Right
+    public static int PHASE_10_R = -800; // Backward
     public static int PHASE_11_R = -2250; // Arm up
     public static int PHASE_13_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
     public static int PHASE_14_R = 500; // Forward
