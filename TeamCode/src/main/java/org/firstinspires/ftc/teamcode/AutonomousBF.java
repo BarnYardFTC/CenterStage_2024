@@ -13,7 +13,48 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class AutonomousBF extends LinearOpMode{
 //
     spike_position position;
-    boolean arm_moving;
+    public int phase;
+    static double SLOW_SPEED = 0.2;
+    static double FAST_SPEED = 0.5;
+
+    static double ARM_SPEED = 0.6;
+
+    public static int PHASE_1_L = 640; // Forward
+    public static int PHASE_2_L = -530; // Rotate left
+    public static int PHASE_3_L = 50; // Left (slow)
+    public static int PHASE_5_L = -50; // Right (slow)
+    public static int PHASE_7_L = 300; // Forward
+    public static int PHASE_8_L = -1060; // Rotate left 180
+    public static int PHASE_9_L = -1000; // Left
+    public static int PHASE_10_L = 500; // Backward
+    public static int PHASE_11_L = -2250; // Arm up
+    public static int PHASE_13_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_14_L = -300; // Forward
+    public static int PHASE_15_L = -300; // Left
+
+    public static int PHASE_1_C = 800; // Forward
+    public static int PHASE_2_C = 1060; // Rotate right 180
+    public static int PHASE_4_C = -50; // Forward (slow)
+    public static int PHASE_6_C = -530; // Rotate left
+    public static int PHASE_7_C = -1000; // Left
+    public static int PHASE_8_C = 400; // Backward
+    public static int PHASE_9_C = -2250; // Arm up
+    public static int PHASE_11_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_12_C = -300; // Forward
+    public static int PHASE_13_C = -300; // Left
+
+    public static int PHASE_1_R = 640; // Forward
+    public static int PHASE_2_R = 530; // Rotate right
+    public static int PHASE_3_R = 50; // Right (Slow)
+    public static int PHASE_5_R = -50; // Left (Slow)
+    public static int PHASE_7_R = -300; // Forward
+    public static int PHASE_8_R = -1000; // Left
+    public static int PHASE_9_R = 200; // Backward
+    public static int PHASE_10_R = -2250; // Arm up
+    public static int PHASE_12_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    public static int PHASE_13_R = -300; // Forward
+    public static int PHASE_14_R = -300; // Left
+
 
     enum spike_position {
         LEFT,
@@ -31,10 +72,13 @@ public class AutonomousBF extends LinearOpMode{
         initWrist();
         initEgnitionSystem();
         initCamera();
+        phase = 1;
 
         // Close the claws
         Claws.closeRightClaw();
         Claws.closeLeftClaw();
+
+        Wrist.setPosition(0);
 
         // Find the spike with pixel and print in telemetry
         while (opModeInInit()) {
@@ -73,16 +117,6 @@ public class AutonomousBF extends LinearOpMode{
                 Center();
             }
 
-            // In case the arm isn't moving (most of the time) brake/ stop moving the arm
-            if (!arm_moving) {
-                if ( ! Arm.passedMinimalHoldPosition()) {
-                    Arm.stopMoving();
-                }
-                else {
-                    Arm.brake();
-                }
-            }
-
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
                 Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
@@ -100,12 +134,406 @@ public class AutonomousBF extends LinearOpMode{
     }
     public void Left() {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_L, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_L, false)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
+        }
+        else if (phase == 3) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+            }
+        }
+        else if (phase == 4) {
+            Claws.openRightClaw();
+            phase ++;
+        }
+        else if (phase == 5) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+            }
+        }
+        else if (phase == 6) {
+            Wrist.moveUp();
+            phase ++;
+        }
+        else if (phase == 7) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_L, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 8) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_L, false)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
+        }
+        else if (phase == 9) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_9_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 10) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_10_L, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (phase == 11) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, false)) {
+                Arm.brake();
+                sleep(500);
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+            }
+        }
+        else if (phase == 12) {
+            Claws.openLeftClaw();
+            sleep(500);
+        }
+        else if (phase == 13) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_13_L, true)) {
+                Arm.brake();
+                phase ++;
+            }
+            else {
+                Arm.moveDown(ARM_SPEED);
+            }
+        }
+        else if (phase == 14) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 15) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_15_L, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
     }
     public void Center() {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_C, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_C, true)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(1);
+            }
+        }
+        else if (phase == 3) {
+            Claws.openRightClaw();
+            phase ++;
+        }
+        else if (phase == 4) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_4_C, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 5) {
+            Wrist.moveUp();
+            phase ++;
+        }
+        else if (phase == 6) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_C, false)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+            }
+        }
+        else if (phase == 7) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_C, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 8) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_C, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (phase == 9) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_C, false)) {
+                Arm.brake();
+                sleep(500);
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+            }
+        }
+        else if (phase == 10) {
+            Claws.openLeftClaw();
+            sleep(500);
+        }
+        else if (phase == 11) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_C, true)) {
+                Arm.brake();
+                phase ++;
+            }
+            else {
+                Arm.moveDown(ARM_SPEED);
+            }
+        }
+        else if (phase == 12) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 13) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_C, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
     }
     public void Right () {
 
+        if (phase == 1) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_R, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 2) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_R, true)) {
+                EgnitionSystem.setRotPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(1);
+            }
+        }
+        else if (phase == 3) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_R, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+            }
+        }
+        else if (phase == 4) {
+            Claws.openRightClaw();
+            phase ++;
+        }
+        else if (phase == 5) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_R, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 6) {
+            Wrist.moveUp();
+            phase ++;
+        }
+        else if (phase == 7) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_R, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 8) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_R, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
+        else if (phase == 9) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_9_R, true)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(-1);
+            }
+        }
+        else if (phase == 10) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_R, false)) {
+                Arm.brake();
+                sleep(500);
+                phase ++;
+            }
+            else {
+                Arm.moveUp(ARM_SPEED);
+            }
+        }
+        else if (phase == 11) {
+            Claws.openLeftClaw();
+            sleep(500);
+        }
+        else if (phase == 12) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_12_R, true)) {
+                Arm.brake();
+                phase ++;
+            }
+            else {
+                Arm.moveDown(ARM_SPEED);
+            }
+        }
+        else if (phase == 13) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_R, false)) {
+                EgnitionSystem.setVerticalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setVerticalPower(1);
+            }
+        }
+        else if (phase == 14) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_R, false)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setHorizontalPower(-1);
+            }
+        }
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");

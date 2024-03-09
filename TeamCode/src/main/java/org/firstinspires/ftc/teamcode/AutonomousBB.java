@@ -13,7 +13,7 @@ import org.tensorflow.lite.task.vision.segmenter.ImageSegmenter;
 @Config
 
 public class AutonomousBB extends LinearOpMode{
-//
+
     spike_position position;
     public int phase;
     static double SLOW_SPEED = 0.2;
@@ -62,7 +62,7 @@ public class AutonomousBB extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
 
-// Initialize everything
+        // Initialize everything
         initArm();
         initClaws();
         initWrist();
@@ -195,6 +195,7 @@ public class AutonomousBB extends LinearOpMode{
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_L, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                Wrist.moveUp();
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
@@ -307,6 +308,7 @@ public class AutonomousBB extends LinearOpMode{
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_C, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                Wrist.moveUp();
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
