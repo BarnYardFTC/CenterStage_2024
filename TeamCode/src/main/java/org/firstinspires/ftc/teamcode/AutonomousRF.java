@@ -6,10 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.tensorflow.lite.task.vision.segmenter.ImageSegmenter;
-
 @Autonomous (name = "Red Front")
-
+//@Config
 
 public class AutonomousRF extends LinearOpMode{
 //
@@ -220,7 +218,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 9) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -341,7 +339,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 8) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_C, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -490,7 +488,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 11) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_R, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
