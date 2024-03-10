@@ -102,7 +102,8 @@ public class AutonomousRF extends LinearOpMode{
         waitForStart();
 
         // move the wrist down
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.1);
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
+        sleep(700);
 
         while (opModeIsActive()) {
 

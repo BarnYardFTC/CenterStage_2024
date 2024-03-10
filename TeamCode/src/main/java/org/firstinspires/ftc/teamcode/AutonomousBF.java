@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous (name = "Blue Front")
-//@Config
+@Config
 
 public class AutonomousBF extends LinearOpMode{
 //
@@ -18,41 +19,41 @@ public class AutonomousBF extends LinearOpMode{
 
     static double ARM_SPEED = 0.6;
 
-    public static int PHASE_1_L = 640; // Forward
-    public static int PHASE_2_L = -530; // Rotate left
-    public static int PHASE_3_L = 50; // Left (slow)
-    public static int PHASE_5_L = -50; // Right (slow)
-    public static int PHASE_7_L = 300; // Forward
-    public static int PHASE_8_L = -1060; // Rotate left 180
-    public static int PHASE_9_L = -1000; // Left
-    public static int PHASE_10_L = 500; // Backward
-    public static int PHASE_11_L = -2250; // Arm up
-    public static int PHASE_13_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_14_L = -300; // Forward
-    public static int PHASE_15_L = -300; // Left
+    static int PHASE_1_L = 690; // Forward
+    static int PHASE_2_L = -510; // Rotate left
+//    public static int PHASE_3_L = 50; // Left (slow)
+//    public static int PHASE_5_L = -50; // Right (slow)
+    static int PHASE_7_L = 550; // Forward
+    static int PHASE_8_L = -1450; // Rotate left 180
+    static int PHASE_9_L = -3380; // Left
+    static int PHASE_10_L = 1240; // Backward
+    static int PHASE_11_L = -2250; // Arm up
+    static int PHASE_13_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    static int PHASE_14_L = 200; // Backward
+    static int PHASE_15_L = -300; // Left
 
-    public static int PHASE_1_C = 800; // Forward
-    public static int PHASE_2_C = 1060; // Rotate right 180
-    public static int PHASE_4_C = -50; // Forward (slow)
-    public static int PHASE_6_C = -530; // Rotate left
-    public static int PHASE_7_C = -1000; // Left
-    public static int PHASE_8_C = 400; // Backward
+    public static int PHASE_1_C = 1550; // Forward
+    public static int PHASE_2_C = 1530; // Rotate right 180
+    public static int PHASE_4_C = -5; // Forward (slow)
+    public static int PHASE_6_C = -500; // Rotate left
+    public static int PHASE_7_C = -2980; // Left
+    public static int PHASE_8_C = 880; // Backward
     public static int PHASE_9_C = -2250; // Arm up
     public static int PHASE_11_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_12_C = -300; // Forward
-    public static int PHASE_13_C = -300; // Left
+    public static int PHASE_12_C = 540; // Backward
+    public static int PHASE_13_C = -280; // Left
 
-    public static int PHASE_1_R = 640; // Forward
-    public static int PHASE_2_R = 530; // Rotate right
-    public static int PHASE_3_R = 50; // Right (Slow)
-    public static int PHASE_5_R = -50; // Left (Slow)
-    public static int PHASE_7_R = -300; // Forward
-    public static int PHASE_8_R = -1000; // Left
-    public static int PHASE_9_R = 200; // Backward
-    public static int PHASE_10_R = -2250; // Arm up
-    public static int PHASE_12_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_13_R = -300; // Forward
-    public static int PHASE_14_R = -300; // Left
+    static int PHASE_1_R = 640; // Forward
+    static int PHASE_2_R = 530; // Rotate right
+    static int PHASE_3_R = 50; // Right (Slow)
+    static int PHASE_5_R = -50; // Left (Slow)
+    static int PHASE_7_R = -300; // Forward
+    static int PHASE_8_R = -1000; // Left
+    static int PHASE_9_R = 200; // Backward
+    static int PHASE_10_R = -2250; // Arm up
+    static int PHASE_12_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    static int PHASE_13_R = 300; // Backward
+    static int PHASE_14_R = -300; // Left
 
 
     enum spike_position {
@@ -79,42 +80,45 @@ public class AutonomousBF extends LinearOpMode{
 
         Wrist.setPosition(0);
 
-        // Find the spike with pixel and print in telemetry
-        while (opModeInInit()) {
-            if (PixelDetectorBF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-            }
-            else if (PixelDetectorBF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-            }
-            else {
-                position = spike_position.RIGHT;
-            }
-
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
-            telemetry.update();
-        }
-        Camera.close(4);
+//        // Find the spike with pixel and print in telemetry
+//        while (opModeInInit()) {
+//            if (PixelDetectorBF.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//            }
+//            else if (PixelDetectorBF.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+//            telemetry.update();
+//        }
+//        Camera.close(4);
 
         waitForStart();
 
         // move the wrist down
-        Wrist.moveDown();
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
+        sleep(700);
 
         while (opModeIsActive()) {
 
             // Choose a path according to the spike position
-            if (position == spike_position.RIGHT) {
-                Right();
-            }
-            else if (position == spike_position.LEFT) {
-                Left();
-            }
-            else {
-                Center();
-            }
+//            if (position == spike_position.RIGHT) {
+//                Right();
+//            }
+//            else if (position == spike_position.LEFT) {
+//                Left();
+//            }
+//            else {
+//                Center();
+//            }
+
+            Center();
 
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
@@ -156,35 +160,39 @@ public class AutonomousBF extends LinearOpMode{
             }
         }
         else if (phase == 3) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(-1);
-                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(-1);
+//                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+//            }
+            phase ++;
         }
         else if (phase == 4) {
             Claws.openRightClaw();
+            sleep(500);
             phase ++;
         }
         else if (phase == 5) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(1);
+//            }
+            phase ++;
         }
         else if (phase == 6) {
             Wrist.moveUp();
+            sleep(500);
             phase ++;
         }
         else if (phase == 7) {
@@ -234,7 +242,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 11) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -244,6 +252,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 12) {
             Claws.openLeftClaw();
             sleep(500);
+            phase ++;
         }
         else if (phase == 13) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_13_L, true)) {
@@ -255,14 +264,14 @@ public class AutonomousBF extends LinearOpMode{
             }
         }
         else if (phase == 14) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, false)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (phase == 15) {
@@ -287,6 +296,7 @@ public class AutonomousBF extends LinearOpMode{
                 phase ++;
             }
             else {
+                Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.1);
                 EgnitionSystem.setVerticalPower(1);
             }
         }
@@ -303,16 +313,19 @@ public class AutonomousBF extends LinearOpMode{
         }
         else if (phase == 3) {
             Claws.openRightClaw();
+            sleep(500);
             phase ++;
         }
         else if (phase == 4) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_4_C, false)) {
                 EgnitionSystem.setVerticalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
                 EgnitionSystem.setVerticalPower(1);
             }
         }
@@ -356,7 +369,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 9) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_C, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1800);
                 phase ++;
             }
             else {
@@ -366,6 +379,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 10) {
             Claws.openLeftClaw();
             sleep(500);
+            phase ++;
         }
         else if (phase == 11) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_C, true)) {
@@ -377,14 +391,14 @@ public class AutonomousBF extends LinearOpMode{
             }
         }
         else if (phase == 12) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, false)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (phase == 13) {
@@ -491,7 +505,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 10) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_R, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -501,6 +515,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 11) {
             Claws.openLeftClaw();
             sleep(500);
+            phase ++;
         }
         else if (phase == 12) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_12_R, true)) {
@@ -512,14 +527,14 @@ public class AutonomousBF extends LinearOpMode{
             }
         }
         else if (phase == 13) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_R, false)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_R, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setVerticalPower(-1);
             }
         }
         else if (phase == 14) {

@@ -73,29 +73,30 @@ public class AutonomousBB extends LinearOpMode{
 
         Wrist.setPosition(0);
 
-        // Find the spike with pixel and print in telemetry
-        while (opModeInInit()) {
-            if (PixelDetectorBB.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-            }
-            else if (PixelDetectorBB.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-            }
-            else {
-                position = spike_position.RIGHT;
-            }
-
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(3));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(3));
-            telemetry.update();
-        }
-        Camera.close(3);
+//        // Find the spike with pixel and print in telemetry
+//        while (opModeInInit()) {
+//            if (PixelDetectorBB.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//            }
+//            else if (PixelDetectorBB.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(3));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(3));
+//            telemetry.update();
+//        }
+//        Camera.close(3);
 
         waitForStart();
 
         // move the wrist down
-        Wrist.moveDown();
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
+        sleep(700);
 
         while (opModeIsActive()) {
 
@@ -205,7 +206,7 @@ public class AutonomousBB extends LinearOpMode{
         else if (phase == 8) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_L, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -317,7 +318,7 @@ public class AutonomousBB extends LinearOpMode{
         else if (phase == 7) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_7_C, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
@@ -428,7 +429,7 @@ public class AutonomousBB extends LinearOpMode{
         else if (phase == 7) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_7_R, false)) {
                 Arm.brake();
-                sleep(500);
+                sleep(1500);
                 phase ++;
             }
             else {
