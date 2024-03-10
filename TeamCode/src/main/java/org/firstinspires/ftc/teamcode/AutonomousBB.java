@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous (name = "Blue Back")
-//@Config
+@Config
 
 public class AutonomousBB extends LinearOpMode{
 
@@ -20,34 +21,34 @@ public class AutonomousBB extends LinearOpMode{
 
     public static int PHASE_1_L = 100; // Forward
     public static int PHASE_2_L = -400; // Left
-    public static int PHASE_3_L = 530; // Rotate right
+    public static int PHASE_3_L = 520; // Rotate right
     public static int PHASE_4_L = -200; // Forward
     public static int PHASE_6_L = -300; // Left
     public static int PHASE_7_L = 50; // Backward (Slow)
     public static int PHASE_8_L = -2350; // Arm up
     public static int PHASE_10_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_11_L = 500; // Backward
-    public static int PHASE_12_L = -600; // Left
+    public static int PHASE_11_L = 700; // Backward
+    public static int PHASE_12_L = -500; // Left
 
-    public static int PHASE_1_C = 690; // Forward
-    public static int PHASE_3_C = -50; // Backward (Slow)
-    public static int PHASE_4_C = 530; // Rotate right
-    public static int PHASE_5_C = -600; // Left
-    public static int PHASE_6_C = -50; // Forward (Slow)
-    public static int PHASE_7_C = -2350; // Arm up
-    public static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_10_C = 600; // Backward
-    public static int PHASE_11_C = -400; // Left
+    static int PHASE_1_C = 690; // Forward
+    static int PHASE_3_C = -50; // Backward (Slow)
+    static int PHASE_4_C = 530; // Rotate right
+    static int PHASE_5_C = -600; // Left
+    static int PHASE_6_C = -50; // Forward (Slow)
+    static int PHASE_7_C = -2350; // Arm up
+    static int PHASE_9_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    static int PHASE_10_C = 600; // Backward
+    static int PHASE_11_C = -400; // Left
 
-    public static int PHASE_1_R = 620; // Forward
-    public static int PHASE_2_R = 530; // Rotate right
-    public static int PHASE_3_R = 50; // Right (Slow)
-    public static int PHASE_5_R = -500; // Left
-    public static int PHASE_6_R = -50; // Forward (Slow)
-    public static int PHASE_7_R = -2350; // Arm up
-    public static int PHASE_9_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_10_R = 800; // Backward
-    public static int PHASE_11_R = -500; // Left
+    static int PHASE_1_R = 620; // Forward
+    static int PHASE_2_R = 530; // Rotate right
+    static int PHASE_3_R = 50; // Right (Slow)
+    static int PHASE_5_R = -500; // Left
+    static int PHASE_6_R = -50; // Forward (Slow)
+    static int PHASE_7_R = -2350; // Arm up
+    static int PHASE_9_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    static int PHASE_10_R = 800; // Backward
+    static int PHASE_11_R = -500; // Left
 
     enum spike_position {
         LEFT,
@@ -101,15 +102,16 @@ public class AutonomousBB extends LinearOpMode{
         while (opModeIsActive()) {
 
             // Choose a path according to the spike position
-            if (position == spike_position.RIGHT) {
-                Right();
-            }
-            else if (position == spike_position.LEFT) {
-                Left();
-            }
-            else {
-                Center();
-            }
+//            if (position == spike_position.RIGHT) {
+//                Right();
+//            }
+//            else if (position == spike_position.LEFT) {
+//                Left();
+//            }
+//            else {
+//                Center();
+//            }
+            Left();
 
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
@@ -206,7 +208,7 @@ public class AutonomousBB extends LinearOpMode{
         else if (phase == 8) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_L, false)) {
                 Arm.brake();
-                sleep(1500);
+                sleep(1800);
                 phase ++;
             }
             else {
@@ -483,8 +485,8 @@ public class AutonomousBB extends LinearOpMode{
         Wrist.init(servo);
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
         Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }

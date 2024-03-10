@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +7,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous (name = "Blue Front")
-@Config
 
 public class AutonomousBF extends LinearOpMode{
 //
@@ -32,27 +30,27 @@ public class AutonomousBF extends LinearOpMode{
     static int PHASE_14_L = 200; // Backward
     static int PHASE_15_L = -300; // Left
 
-    public static int PHASE_1_C = 1550; // Forward
-    public static int PHASE_2_C = 1530; // Rotate right 180
-    public static int PHASE_4_C = -5; // Forward (slow)
-    public static int PHASE_6_C = -500; // Rotate left
-    public static int PHASE_7_C = -2980; // Left
-    public static int PHASE_8_C = 880; // Backward
-    public static int PHASE_9_C = -2250; // Arm up
-    public static int PHASE_11_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_12_C = 540; // Backward
-    public static int PHASE_13_C = -280; // Left
+    static int PHASE_1_C = 1550; // Forward
+    static int PHASE_2_C = 1530; // Rotate right 180
+    static int PHASE_4_C = -5; // Forward (slow)
+    static int PHASE_6_C = -500; // Rotate left
+    static int PHASE_7_C = -2980; // Left
+    static int PHASE_8_C = 880; // Backward
+    static int PHASE_9_C = -2250; // Arm up
+    static int PHASE_11_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    static int PHASE_12_C = 540; // Backward
+    static int PHASE_13_C = -300; // Left
 
     static int PHASE_1_R = 640; // Forward
-    static int PHASE_2_R = 530; // Rotate right
-    static int PHASE_3_R = 50; // Right (Slow)
-    static int PHASE_5_R = -50; // Left (Slow)
-    static int PHASE_7_R = -300; // Forward
-    static int PHASE_8_R = -1000; // Left
-    static int PHASE_9_R = 200; // Backward
+    static int PHASE_2_R = 515; // Rotate right
+    static int PHASE_4_R = -5;  // Left (Slow)
+    static int PHASE_6_R = 5;// Right (Slow)
+    static int PHASE_7_R = -500; // Forward
+    static int PHASE_8_R = -3100; // Left
+    static int PHASE_9_R = 400; // Backward
     static int PHASE_10_R = -2250; // Arm up
     static int PHASE_12_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_13_R = 300; // Backward
+    static int PHASE_13_R = 800; // Backward
     static int PHASE_14_R = -300; // Left
 
 
@@ -118,7 +116,7 @@ public class AutonomousBF extends LinearOpMode{
 //                Center();
 //            }
 
-            Center();
+            Right();
 
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
@@ -132,6 +130,7 @@ public class AutonomousBF extends LinearOpMode{
             // Add data to telemetry
             telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
             telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
+            telemetry.addData("Heading: ", EgnitionSystem.getHeading());
             telemetry.update();
         }
     }
@@ -420,6 +419,7 @@ public class AutonomousBF extends LinearOpMode{
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
+                Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.1);
                 phase ++;
             }
             else {
@@ -437,24 +437,13 @@ public class AutonomousBF extends LinearOpMode{
                 EgnitionSystem.setRotPower(1);
             }
         }
+
         else if (phase == 3) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_R, true)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
-            }
-        }
-        else if (phase == 4) {
             Claws.openRightClaw();
             phase ++;
         }
-        else if (phase == 5) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_R, false)) {
+        else if (phase == 4) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_4_R, false)) {
                 EgnitionSystem.setHorizontalPower(0);
                 EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
                 sleep(500);
@@ -463,11 +452,25 @@ public class AutonomousBF extends LinearOpMode{
             }
             else {
                 EgnitionSystem.setHorizontalPower(-1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
             }
         }
-        else if (phase == 6) {
+        else if (phase == 5) {
             Wrist.moveUp();
             phase ++;
+        }
+        else if (phase == 6) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_R, true)) {
+                EgnitionSystem.setHorizontalPower(0);
+                sleep(500);
+                EgnitionSystem.setHorizontalPower(FAST_SPEED);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+                EgnitionSystem.setHorizontalPower(1);
+            }
         }
         else if (phase == 7) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_R, false)) {
@@ -478,6 +481,8 @@ public class AutonomousBF extends LinearOpMode{
             }
             else {
                 EgnitionSystem.setVerticalPower(1);
+                EgnitionSystem.setHorizontalPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
             }
         }
         else if (phase == 8) {

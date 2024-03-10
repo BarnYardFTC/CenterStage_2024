@@ -208,6 +208,7 @@ public class AutonomousRB extends LinearOpMode {
         else if (phase == 9) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
                 Arm.brake();
+                sleep(1800);
                 phase ++;
             }
             else {
@@ -215,7 +216,6 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 10) {
-            sleep(1500);
             Claws.openLeftClaw();
             phase ++;
             sleep(500);

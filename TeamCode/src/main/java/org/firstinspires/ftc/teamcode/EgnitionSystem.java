@@ -167,4 +167,7 @@ public class EgnitionSystem {
     public static void setAutonomousMovingPower(double power){
         AUTONOMOUS_MOVING_POWER = power;
     }
+    public static double getHeading() {
+        return heading;
+    }
 }

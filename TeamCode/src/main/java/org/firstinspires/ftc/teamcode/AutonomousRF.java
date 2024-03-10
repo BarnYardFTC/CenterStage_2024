@@ -227,7 +227,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 9) {
             if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
                 Arm.brake();
-                sleep(1500);
+                sleep(1800);
                 phase ++;
             }
             else {
