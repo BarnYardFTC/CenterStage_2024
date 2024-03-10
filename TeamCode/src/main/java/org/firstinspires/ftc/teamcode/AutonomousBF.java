@@ -27,7 +27,7 @@ public class AutonomousBF extends LinearOpMode{
     static int PHASE_10_L = 1240; // Backward
     static int PHASE_11_L = -2250; // Arm up
     static int PHASE_13_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_14_L = 200; // Backward
+    static int PHASE_14_L = -800; // Forward
     static int PHASE_15_L = -300; // Left
 
     static int PHASE_1_C = 1550; // Forward
@@ -38,7 +38,7 @@ public class AutonomousBF extends LinearOpMode{
     static int PHASE_8_C = 880; // Backward
     static int PHASE_9_C = -2250; // Arm up
     static int PHASE_11_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_12_C = 540; // Backward
+    static int PHASE_12_C = -540; // Forward
     static int PHASE_13_C = -300; // Left
 
     static int PHASE_1_R = 640; // Forward
@@ -50,7 +50,7 @@ public class AutonomousBF extends LinearOpMode{
     static int PHASE_9_R = 400; // Backward
     static int PHASE_10_R = -2250; // Arm up
     static int PHASE_12_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_13_R = 800; // Backward
+    static int PHASE_13_R = -200; // Forward
     static int PHASE_14_R = -300; // Left
 
 
