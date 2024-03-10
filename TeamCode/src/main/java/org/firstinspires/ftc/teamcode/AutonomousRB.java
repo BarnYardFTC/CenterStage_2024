@@ -27,14 +27,14 @@ public class AutonomousRB extends LinearOpMode {
       static int PHASE_12_L = -1100; // Backward
       static int PHASE_13_L = -500; // Right
 
-    static int PHASE_1_C = 690; // Forward
+    static int PHASE_1_C = 670; // Forward
     static int PHASE_3_C = -5; // Backward
-     static int PHASE_5_C = -500; // Rotate left
-     static int PHASE_6_C = -895; // Right
-     static int PHASE_7_C = 270; // Forward
+     static int PHASE_5_C = -520; // Rotate left
+     static int PHASE_6_C = -890; // Right
+     static int PHASE_7_C = 320; // Forward
      static int PHASE_8_C = -2350 ; // Arm up
      static int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-     static int PHASE_11_C = -740; // Backward
+     static int PHASE_11_C = -780; // Backward
      static int PHASE_12_C = -550; // Right
 
      static int PHASE_1_R = 100; // Forward
@@ -255,6 +255,7 @@ public class AutonomousRB extends LinearOpMode {
     public void Center() {
 
         if (phase == 1) {
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.05);
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_C, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
