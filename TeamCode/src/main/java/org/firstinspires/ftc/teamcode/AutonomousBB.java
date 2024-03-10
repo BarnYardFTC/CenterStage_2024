@@ -20,14 +20,14 @@ public class AutonomousBB extends LinearOpMode{
     static double ARM_SPEED = 0.6;
 
     public static int PHASE_1_L = 100; // Forward
-    public static int PHASE_2_L = -400; // Left
-    public static int PHASE_3_L = 520; // Rotate right
+    public static int PHASE_2_L = -650; // Left
+    public static int PHASE_3_L = 480; // Rotate right
     public static int PHASE_4_L = -200; // Forward
-    public static int PHASE_6_L = -300; // Left
-    public static int PHASE_7_L = 50; // Backward (Slow)
+    public static int PHASE_6_L = -60; // Left
+    public static int PHASE_7_L = 150; // Backward (Slow)
     public static int PHASE_8_L = -2350; // Arm up
     public static int PHASE_10_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_11_L = 700; // Backward
+    public static int PHASE_11_L = 450; // Backward
     public static int PHASE_12_L = -500; // Left
 
     static int PHASE_1_C = 690; // Forward
