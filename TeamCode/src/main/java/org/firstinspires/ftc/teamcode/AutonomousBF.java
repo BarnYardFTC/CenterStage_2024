@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -70,6 +71,7 @@ public class AutonomousBF extends LinearOpMode{
         initWrist();
         initEgnitionSystem();
         initCamera();
+        initLed();
         phase = 1;
 
         // Close the claws
@@ -82,12 +84,15 @@ public class AutonomousBF extends LinearOpMode{
         while (opModeInInit()) {
             if (PixelDetectorBF.getSpike_position() == 0) {
                 position = spike_position.LEFT;
+                HardwareLocal.green();
             }
             else if (PixelDetectorBF.getSpike_position() == 1) {
                 position = spike_position.CENTER;
+                HardwareLocal.green();
             }
             else {
                 position = spike_position.RIGHT;
+                HardwareLocal.green();
             }
 
             telemetry.addData("Spike Position: ", position);
@@ -580,5 +585,9 @@ public class AutonomousBF extends LinearOpMode{
     }
     public void initCamera() {
         Camera.init(this, hardwareMap, 4);
+    }
+    public void initLed() {
+        RevBlinkinLedDriver ledDriver = hardwareMap.get(RevBlinkinLedDriver.class, "ledDrive");
+        HardwareLocal.init(ledDriver);
     }
 }

@@ -194,7 +194,9 @@ public class Teleop extends LinearOpMode {
     public void ledChange() {
         if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
             HardwareLocal.green();
-        } else {
+        } else if (HardwareLocal.pixelRight() || HardwareLocal.pixelLeft()) {
+            HardwareLocal.blink();
+        }else {
             HardwareLocal.red();
         }
     }
