@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 // Imports
 
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -14,7 +13,7 @@ public class HardwareLocal {
     static private ColorRangeSensor distanceSensorRight;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
-    static private final int DETECTING_DISTANCE = 36;
+    static private final int DETECTING_DISTANCE = 38;
 
 // Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
