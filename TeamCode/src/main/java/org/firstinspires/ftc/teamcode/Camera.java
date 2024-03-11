@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.PixelDetectorBB;
-import org.firstinspires.ftc.teamcode.PixelDetectorRB;
-import org.firstinspires.ftc.teamcode.PixelDetectorRF;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 public class Camera {
@@ -55,7 +52,7 @@ public class Camera {
             return pixel_detector_BB.getLeftRegion_avg();
         }
         else if (side == 4) {
-            return pixel_detector_RF.getLeftRegion_avg();
+            return pixel_detector_BF.getLeftRegion_avg();
         }
         return -1;
     }
@@ -70,7 +67,7 @@ public class Camera {
             return pixel_detector_BB.getRightRegion_avg();
         }
         else if (side == 4) {
-            return pixel_detector_RF.getRightRegion_avg();
+            return pixel_detector_BF.getRightRegion_avg();
         }
         return -1;
     }
@@ -85,7 +82,7 @@ public class Camera {
             camera.setProcessorEnabled(pixel_detector_BB,false);
         }
         else if (side == 4) {
-            camera.setProcessorEnabled(pixel_detector_RF, false);
+            camera.setProcessorEnabled(pixel_detector_BF, false);
         }
 
         camera.close();

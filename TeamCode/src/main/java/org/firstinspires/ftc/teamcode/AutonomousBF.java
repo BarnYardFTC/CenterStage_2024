@@ -21,10 +21,10 @@ public class AutonomousBF extends LinearOpMode{
     static int PHASE_2_L = -510; // Rotate left
 //    public static int PHASE_3_L = 50; // Left (slow)
 //    public static int PHASE_5_L = -50; // Right (slow)
-    static int PHASE_7_L = 550; // Forward
-    static int PHASE_8_L = -1450; // Rotate left 180
-    static int PHASE_9_L = -3380; // Left
-    static int PHASE_10_L = 1240; // Backward
+    static int PHASE_7_L = 600; // Forward
+    static int PHASE_8_L = -1500; // Rotate left 180
+    static int PHASE_9_L = -3300; // Left
+    static int PHASE_10_L = 1000; // Backward
     static int PHASE_11_L = -2250; // Arm up
     static int PHASE_13_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
     static int PHASE_14_L = -800; // Forward
@@ -78,24 +78,24 @@ public class AutonomousBF extends LinearOpMode{
 
         Wrist.setPosition(0);
 
-//        // Find the spike with pixel and print in telemetry
-//        while (opModeInInit()) {
-//            if (PixelDetectorBF.getSpike_position() == 0) {
-//                position = spike_position.LEFT;
-//            }
-//            else if (PixelDetectorBF.getSpike_position() == 1) {
-//                position = spike_position.CENTER;
-//            }
-//            else {
-//                position = spike_position.RIGHT;
-//            }
-//
-//            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
-//            telemetry.update();
-//        }
-//        Camera.close(4);
+        // Find the spike with pixel and print in telemetry
+        while (opModeInInit()) {
+            if (PixelDetectorBF.getSpike_position() == 0) {
+                position = spike_position.LEFT;
+            }
+            else if (PixelDetectorBF.getSpike_position() == 1) {
+                position = spike_position.CENTER;
+            }
+            else {
+                position = spike_position.RIGHT;
+            }
+
+            telemetry.addData("Spike Position: ", position);
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+            telemetry.update();
+        }
+        Camera.close(4);
 
         waitForStart();
 
@@ -105,18 +105,16 @@ public class AutonomousBF extends LinearOpMode{
 
         while (opModeIsActive()) {
 
-            // Choose a path according to the spike position
-//            if (position == spike_position.RIGHT) {
-//                Right();
-//            }
-//            else if (position == spike_position.LEFT) {
-//                Left();
-//            }
-//            else {
-//                Center();
-//            }
-
-            Right();
+             // Choose a path according to the spike position
+            if (position == spike_position.RIGHT) {
+                Right();
+            }
+            else if (position == spike_position.LEFT) {
+                Left();
+            }
+            else {
+                Center();
+            }
 
             // Adjust the wrist position according to the arm position
             if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
@@ -208,7 +206,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 8) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_L, false)) {
                 EgnitionSystem.setRotPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
@@ -225,6 +223,7 @@ public class AutonomousBF extends LinearOpMode{
             }
             else {
                 EgnitionSystem.setHorizontalPower(-1);
+                EgnitionSystem.setVerticalPower(-0.04);
             }
         }
         else if (phase == 10) {
@@ -263,14 +262,14 @@ public class AutonomousBF extends LinearOpMode{
             }
         }
         else if (phase == 14) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, true)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
             else {
-                EgnitionSystem.setVerticalPower(-1);
+                EgnitionSystem.setVerticalPower(1);
             }
         }
         else if (phase == 15) {
@@ -335,7 +334,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 6) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_C, false)) {
                 EgnitionSystem.setRotPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
@@ -475,7 +474,7 @@ public class AutonomousBF extends LinearOpMode{
         else if (phase == 7) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_R, false)) {
                 EgnitionSystem.setVerticalPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }

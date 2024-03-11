@@ -194,7 +194,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 6) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_L, true)) {
                 EgnitionSystem.setVerticalPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
@@ -318,7 +318,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 5) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_C, true)) {
                 EgnitionSystem.setRotPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
@@ -471,7 +471,7 @@ public class AutonomousRF extends LinearOpMode{
         else if (phase == 8) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_R, false)) {
                 EgnitionSystem.setRotPower(0);
-                sleep(500);
+                sleep(10000);
                 EgnitionSystem.resetEncoders();
                 phase ++;
             }
