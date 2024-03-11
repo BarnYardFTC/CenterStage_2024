@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 // Imports
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
@@ -26,6 +27,7 @@ public class Teleop extends LinearOpMode {
         initClaws();
         initEgnitionSystem();
         initColorSensor();
+        initLed();
         initDrone();
         drone.setDirection(Servo.Direction.REVERSE);
         drone.setPosition(DRONE_INIT);
@@ -46,6 +48,7 @@ public class Teleop extends LinearOpMode {
             runClaws();
             runWrist();
             touchAndGo();
+            ledChange();
 
 // Telemetry update
             telemetry.addData("Drone position: ", drone.getPosition());
@@ -168,6 +171,10 @@ public class Teleop extends LinearOpMode {
         ColorRangeSensor distanceSensorLeft = hardwareMap.get(ColorRangeSensor.class, "distanceSensorLeft");
         HardwareLocal.init(distanceSensorRight, distanceSensorLeft);
     }
+    public void initLed() {
+        RevBlinkinLedDriver ledDriver = hardwareMap.get(RevBlinkinLedDriver.class, "ledDrive");
+        HardwareLocal.init(ledDriver);
+    }
     public void touchAndGo() {
         if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
             Claws.closeRightClaw();
@@ -184,5 +191,11 @@ public class Teleop extends LinearOpMode {
             HardwareLocal.PIXEL_IN_L = false;
         }
     }
-
+    public void ledChange() {
+        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
+            HardwareLocal.green();
+        } else {
+            HardwareLocal.red();
+        }
+    }
 }

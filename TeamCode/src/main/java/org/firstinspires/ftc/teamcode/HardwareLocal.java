@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 // Imports
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -11,9 +12,10 @@ public class HardwareLocal {
 // Variables
     static private ColorRangeSensor distanceSensorLeft;
     static private ColorRangeSensor distanceSensorRight;
+    static private RevBlinkinLedDriver ledDrive;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
-    static private final int DETECTING_DISTANCE = 38;
+    static private final int DETECTING_DISTANCE = 39;
 
 // Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
@@ -21,6 +23,9 @@ public class HardwareLocal {
         HardwareLocal.distanceSensorLeft = distanceSensorLeft;
         PIXEL_IN_R = false;
         PIXEL_IN_L = false;
+    }
+    public static void init(RevBlinkinLedDriver ledDrive) {
+        HardwareLocal.ledDrive = ledDrive;
     }
 
 // Getting values
@@ -41,5 +46,11 @@ public class HardwareLocal {
     }
     public static boolean pixelLeft() {
         return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;
+    }
+    public static void red() {
+        ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);
+    }
+    public static void green() {
+        ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
     }
 }
