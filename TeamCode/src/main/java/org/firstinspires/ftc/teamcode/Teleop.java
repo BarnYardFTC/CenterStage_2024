@@ -15,6 +15,8 @@ public class Teleop extends LinearOpMode {
 
 // Configuring
     Servo drone;
+    double DRONE_LUNCH = 1;
+    double DRONE_INIT = 0.3;
     @Override
     public void runOpMode() {
 
@@ -24,19 +26,21 @@ public class Teleop extends LinearOpMode {
         initClaws();
         initEgnitionSystem();
         initColorSensor();
+        initDrone();
+        drone.setDirection(Servo.Direction.REVERSE);
+        drone.setPosition(DRONE_INIT);
 
-        drone = hardwareMap.get(Servo.class, "drone");
+        telemetry.addData("Drone position: ", String.valueOf(drone.getPosition()));
+
         telemetry.update();
 
         waitForStart();
-        drone.setPosition(drone.getPosition());
+
 
         while (opModeIsActive()) {
 
 // Running systems
-            if (gamepad1.dpad_down) {
-                drone.setPosition(0.5);
-            }
+            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -44,13 +48,25 @@ public class Teleop extends LinearOpMode {
             touchAndGo();
 
 // Telemetry update
+            telemetry.addData("Drone position: ", drone.getPosition());
             telemetry.addData("Color Distance R", HardwareLocal.getProximityValueRight());
             telemetry.addData("Color Distance L", HardwareLocal.getProximityValueLeft());
             telemetry.update();
         }
+        drone.setPosition(0);
     }
 
 // Initializing & running system functions
+
+    public void initDrone() {
+        drone = hardwareMap.get(Servo.class, "drone");
+
+    }
+    public void runDrone() {
+        if (gamepad1.dpad_down) {
+            drone.setPosition(DRONE_LUNCH);
+        }
+    }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");

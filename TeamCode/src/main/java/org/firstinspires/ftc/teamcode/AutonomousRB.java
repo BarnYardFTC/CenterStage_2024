@@ -16,37 +16,39 @@ public class AutonomousRB extends LinearOpMode {
 
     static double ARM_SPEED = 0.6;
 
-     static int PHASE_1_L = 690; // Forward
-      static int PHASE_2_L = -510; // Rotate left
-      static int PHASE_3_L = 0; // Left (slow)
-      static int PHASE_5_L = -200; // Right
-      static int PHASE_7_L = -700; // Right
-      static int PHASE_8_L = 220; // Forward (slow)
-      static int PHASE_9_L = -2350; // Arm up
-      static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
-      static int PHASE_12_L = -1100; // Backward
-      static int PHASE_13_L = -500; // Right
+    int PHASE_1_L = 690; // Forward
+    int PHASE_2_L = -510; // Rotate left
+    int PHASE_3_L = 0; // Left (slow)
+    int PHASE_5_L = -200; // Right
+    int PHASE_7_L = -670; // Right
+    int PHASE_8_L = 30; // Forward (slow)
+    int PHASE_9_L = -20; // Rotate left (slow)
+    int PHASE_10_L = -2350; // Arm up
+    int PHASE_12_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    int PHASE_13_L = -1000; // Backward
+    int PHASE_14_L = -500; // Right
 
-    static int PHASE_1_C = 670; // Forward
-    static int PHASE_3_C = -5; // Backward
-     static int PHASE_5_C = -520; // Rotate left
-     static int PHASE_6_C = -890; // Right
-     static int PHASE_7_C = 320; // Forward
-     static int PHASE_8_C = -2350 ; // Arm up
-     static int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-     static int PHASE_11_C = -780; // Backward
-     static int PHASE_12_C = -550; // Right
+    int PHASE_1_C = 670; // Forward
+    int PHASE_3_C = -5; // Backward
+    double PHASE_4_C = 0.45; // Wrist position
+    int PHASE_5_C = -520; // Rotate left
+    int PHASE_6_C = -890; // Right
+    int PHASE_7_C = 310; // Forward
+    int PHASE_8_C = -2350 ; // Arm up
+    int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    int PHASE_11_C = -780; // Backward
+    int PHASE_12_C = -550; // Right
 
-     static int PHASE_1_R = 100; // Forward
-     static int PHASE_2_R = 650; // Right
-     static int PHASE_3_R = -530; // Rotate left
-     static int PHASE_4_R = 150; // Forward
-     static int PHASE_6_R = -100; // Right
-    static int PHASE_8_R = -40; // Backward (slow)
-    static int PHASE_9_R = -2350; // Arm up
-    static int PHASE_11_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_12_R = -300; // Backward
-    static int PHASE_13_R = -400; // Right
+    int PHASE_1_R = 100; // Forward
+    int PHASE_2_R = 650; // Right
+    int PHASE_3_R = -530; // Rotate left
+    int PHASE_4_R = 150; // Forward
+    int PHASE_6_R = -100; // Right
+    int PHASE_8_R = -40; // Backward (slow)
+    int PHASE_9_R = -2350; // Arm up
+    int PHASE_11_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+    int PHASE_12_R = -300; // Backward
+    int PHASE_13_R = -400; // Right
 
     enum spike_position {
         LEFT,
@@ -206,7 +208,20 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 9) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_9_L, false)) {
+                EgnitionSystem.setRotPower(0);
+                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+                sleep(500);
+                EgnitionSystem.resetEncoders();
+                phase ++;
+            }
+            else {
+                EgnitionSystem.setRotPower(-1);
+                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED-0.15);
+            }
+        }
+        else if (phase == 10) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_L, false)) {
                 Arm.brake();
                 sleep(1800);
                 phase ++;
@@ -215,13 +230,13 @@ public class AutonomousRB extends LinearOpMode {
                 Arm.moveUp(ARM_SPEED);
             }
         }
-        else if (phase == 10) {
+        else if (phase == 11) {
             Claws.openLeftClaw();
             phase ++;
             sleep(500);
         }
-        else if (phase == 11) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, true)) {
+        else if (phase == 12) {
+            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_12_L, true)) {
                 Arm.brake();
                 phase ++;
             }
@@ -229,8 +244,8 @@ public class AutonomousRB extends LinearOpMode {
                 Arm.moveDown(ARM_SPEED);
             }
         }
-        else if (phase == 12) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_L, false)) {
+        else if (phase == 13) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_L, false)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
@@ -240,8 +255,8 @@ public class AutonomousRB extends LinearOpMode {
                 EgnitionSystem.setVerticalPower(-1);
             }
         }
-        else if (phase == 13) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_L, false)) {
+        else if (phase == 14) {
+            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_L, false)) {
                 EgnitionSystem.setHorizontalPower(0);
                 sleep(500);
                 EgnitionSystem.resetEncoders();
@@ -284,7 +299,7 @@ public class AutonomousRB extends LinearOpMode {
             }
         }
         else if (phase == 4) {
-            Wrist.moveUp();
+            Wrist.setPosition(PHASE_4_C);
             phase ++;
         }
         else if (phase == 5) {
@@ -371,6 +386,7 @@ public class AutonomousRB extends LinearOpMode {
     }
     public void Right () {
         if (phase == 1) {
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_1_R, true)) {
                 EgnitionSystem.setVerticalPower(0);
                 sleep(500);

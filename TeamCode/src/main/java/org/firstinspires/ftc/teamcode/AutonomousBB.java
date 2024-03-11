@@ -43,7 +43,7 @@ public class AutonomousBB extends LinearOpMode{
     static int PHASE_1_R = 650; // Forward
     static int PHASE_2_R = 470; // Rotate right
     static int PHASE_3_R = -150; // Forward (Slow)
-    static int PHASE_4_R = -840; // Left
+    static int PHASE_4_R = -900; // Left
     static double PHASE_5_R = 0.4; // Wrist position
 //    static int PHASE_6_R = -50; // Forward (Slow)
     static int PHASE_7_R = -2350; // Arm up
