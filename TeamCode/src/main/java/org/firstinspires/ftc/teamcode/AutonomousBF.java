@@ -92,7 +92,7 @@ public class AutonomousBF extends LinearOpMode{
             }
             else {
                 position = spike_position.RIGHT;
-                HardwareLocal.green();
+                HardwareLocal.blink();
             }
 
             telemetry.addData("Spike Position: ", position);
