@@ -20,41 +20,41 @@ public class AutonomousRF extends LinearOpMode{
 
     static double ARM_SPEED = 0.6;
 
-    static int PHASE_1_L = 1020; // Forward
+    static int PHASE_1_L = 960; // Forward
     static int PHASE_2_L = -480; // Rotate left
-    static int PHASE_3_L = 0; // Left (Slow)
-    static int PHASE_5_L = 0; // Right (Slow)
-    static int PHASE_6_L = 300; // Forward
-    static int PHASE_7_L = -3050; // Right
-    static int PHASE_8_L = -400; // Backward
-    static int PHASE_9_L = -2250; // Arm up
-    static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
+//    static int PHASE_3_L = 0; // Left (Slow)
+//    static int PHASE_5_L = 0; // Right (Slow)
+//    static int PHASE_6_L = 300; // Forward
+//    static int PHASE_7_L = -3050; // Right
+//    static int PHASE_8_L = -400; // Backward
+//    static int PHASE_9_L = -2250; // Arm up
+//    static int PHASE_11_L = Arm.MINIMAL_HOLD_POSITION; // Arm down
 //    static int PHASE_12_L = 200; // Forward
 //    static int PHASE_13_L = -500; // Right
 
-    static int PHASE_1_C = 1600; // Forward
-    static int PHASE_2_C = -1440; // Rotate left 180
-    static int PHASE_4_C = -50; // Forward (Slow)
-    static int PHASE_5_C = 500; // Rotate right 90
-    static int PHASE_6_C = -2330; // Right
-    static int PHASE_7_C = -700; // Backward
-    static int PHASE_8_C = -2320; // Arm up
-    static int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    static int PHASE_11_C = 500; // Forward
-    static int PHASE_12_C = -500; // Right
+    static int PHASE_1_C = 620; // Forward
+//    static int PHASE_2_C = -1440; // Rotate left 180
+//    static int PHASE_4_C = -50; // Forward (Slow)
+//    static int PHASE_5_C = 500; // Rotate right 90
+//    static int PHASE_6_C = -2330; // Right
+//    static int PHASE_7_C = -700; // Backward
+//    static int PHASE_8_C = -2320; // Arm up
+//    static int PHASE_10_C = Arm.MINIMAL_HOLD_POSITION; // Arm down
+//    static int PHASE_11_C = 500; // Forward
+//    static int PHASE_12_C = -500; // Right
 
     public static int PHASE_1_R = 690; // Forward
     public static int PHASE_2_R = 530; // Rotate right
-    public static int PHASE_3_R = 0; // Right (slow)
-    public static int PHASE_5_R = -50; // Left (slow)
-    public static int PHASE_7_R = -700; // Forward
-    public static int PHASE_8_R = -1480; // Rotate left 180
-    public static int PHASE_9_R = -3350; // Right
-    public static int PHASE_10_R = -800; // Backward
-    public static int PHASE_11_R = -2250; // Arm up
-    public static int PHASE_13_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
-    public static int PHASE_14_R = 500; // Forward
-    public static int PHASE_15_R = -500; // Right
+//    public static int PHASE_3_R = 0; // Right (slow)
+//    public static int PHASE_5_R = -50; // Left (slow)
+//    public static int PHASE_7_R = -700; // Forward
+//    public static int PHASE_8_R = -1480; // Rotate left 180
+//    public static int PHASE_9_R = -3350; // Right
+//    public static int PHASE_10_R = -800; // Backward
+//    public static int PHASE_11_R = -2250; // Arm up
+//    public static int PHASE_13_R = Arm.MINIMAL_HOLD_POSITION; // Arm down
+//    public static int PHASE_14_R = 500; // Forward
+//    public static int PHASE_15_R = -500; // Right
 
     enum spike_position {
         LEFT,
@@ -184,86 +184,25 @@ public class AutonomousRF extends LinearOpMode{
             sleep(500);
             phase ++;
         }
-        else if (phase == 5) {
-//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
-//                EgnitionSystem.setHorizontalPower(0);
-//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
-//                Wrist.moveUp();
-//                sleep(500);
-//                EgnitionSystem.resetEncoders();
-//                phase ++;
-//            }
-//            else {
-//                EgnitionSystem.setAutonomousMovingPower(0.05);
-//                EgnitionSystem.setHorizontalPower(1);
-//            }
-            phase ++;
-        }
-        else if (phase == 6) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_L, true)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(10000);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
-        }
-        else if (phase == 7) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_L, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED+0.3);
-            }
-        }
-        else if (phase == 8) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_L, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(-1);
-            }
-        }
-        else if (phase == 9) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
-                Arm.brake();
-                sleep(1800);
-                phase ++;
-            }
-            else {
-                Arm.moveUp(ARM_SPEED);
-                Wrist.setPosition(0.35);
-            }
-        }
-        else if (phase == 10) {
-            Claws.openLeftClaw();
-            sleep(500);
-            phase ++;
-        }
-        else if (phase == 11) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, true)) {
-                Arm.brake();
-                sleep(500);
-                phase ++;
-            }
-            else {
-                Arm.moveDown(ARM_SPEED);
-            }
-        }
-//        else if (phase == 12) {
-//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_L, true)) {
+//        else if (phase == 5) {
+////            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_L, false)) {
+////                EgnitionSystem.setHorizontalPower(0);
+////                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+////                Wrist.moveUp();
+////                sleep(500);
+////                EgnitionSystem.resetEncoders();
+////                phase ++;
+////            }
+////            else {
+////                EgnitionSystem.setAutonomousMovingPower(0.05);
+////                EgnitionSystem.setHorizontalPower(1);
+////            }
+//            phase ++;
+//        }
+//        else if (phase == 6) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_L, true)) {
 //                EgnitionSystem.setVerticalPower(0);
-//                sleep(500);
+//                sleep(10000);
 //                EgnitionSystem.resetEncoders();
 //                phase ++;
 //            }
@@ -271,17 +210,78 @@ public class AutonomousRF extends LinearOpMode{
 //                EgnitionSystem.setVerticalPower(1);
 //            }
 //        }
-//        else if (phase == 13) {
-//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_L, false)) {
+//        else if (phase == 7) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_L, false)) {
 //                EgnitionSystem.setHorizontalPower(0);
+//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
 //                sleep(500);
 //                EgnitionSystem.resetEncoders();
 //                phase ++;
 //            }
 //            else {
 //                EgnitionSystem.setHorizontalPower(1);
+//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED+0.3);
 //            }
 //        }
+//        else if (phase == 8) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_L, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+//        }
+//        else if (phase == 9) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_9_L, false)) {
+//                Arm.brake();
+//                sleep(1800);
+//                phase ++;
+//            }
+//            else {
+//                Arm.moveUp(ARM_SPEED);
+//                Wrist.setPosition(0.35);
+//            }
+//        }
+//        else if (phase == 10) {
+//            Claws.openLeftClaw();
+//            sleep(500);
+//            phase ++;
+//        }
+//        else if (phase == 11) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_L, true)) {
+//                Arm.brake();
+//                sleep(500);
+//                phase ++;
+//            }
+//            else {
+//                Arm.moveDown(ARM_SPEED);
+//            }
+//        }
+////        else if (phase == 12) {
+////            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_L, true)) {
+////                EgnitionSystem.setVerticalPower(0);
+////                sleep(500);
+////                EgnitionSystem.resetEncoders();
+////                phase ++;
+////            }
+////            else {
+////                EgnitionSystem.setVerticalPower(1);
+////            }
+////        }
+////        else if (phase == 13) {
+////            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_13_L, false)) {
+////                EgnitionSystem.setHorizontalPower(0);
+////                sleep(500);
+////                EgnitionSystem.resetEncoders();
+////                phase ++;
+////            }
+////            else {
+////                EgnitionSystem.setHorizontalPower(1);
+////            }
+////        }
 
     }
     public void Center() {
@@ -297,116 +297,117 @@ public class AutonomousRF extends LinearOpMode{
             }
         }
         else if (phase == 2) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_C, false)) {
-                EgnitionSystem.setRotPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setRotPower(-1);
-            }
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_2_C, false)) {
+//                EgnitionSystem.setRotPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setRotPower(-1);
+//            }
+            phase ++;
         }
         else if (phase == 3) {
             Claws.openRightClaw();
             sleep(500);
             phase ++;
         }
-        else if (phase == 4) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getBlEncoderPosition(), PHASE_4_C, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
-                EgnitionSystem.setVerticalPower(1);
-            }
-        }
-        else if (phase == 5) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_C, true)) {
-                EgnitionSystem.setRotPower(0);
-                sleep(10000);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                Wrist.moveUp();
-                EgnitionSystem.setRotPower(1);
-            }
-        }
-        else if (phase == 6) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_C, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-            }
-        }
-        else if (phase == 7) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_C, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(-1);
-            }
-        }
-        else if (phase == 8) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_C, false)) {
-                Arm.brake();
-                sleep(1500);
-                phase ++;
-            }
-            else {
-                Wrist.moveUp();
-                Arm.moveUp(ARM_SPEED);
-            }
-        }
-        else if (phase == 9) {
-            Claws.openLeftClaw();
-            sleep(500);
-            phase ++;
-        }
-        else if (phase == 10) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_C, true)) {
-                Arm.brake();
-                sleep(500);
-                phase ++;
-            }
-            else {
-                Arm.moveDown(ARM_SPEED);
-            }
-        }
-        else if (phase == 11) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_C, true)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
-        }
-        else if (phase == 12) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-            }
-        }
+//        else if (phase == 4) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getBlEncoderPosition(), PHASE_4_C, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+//                EgnitionSystem.setVerticalPower(1);
+//            }
+//        }
+//        else if (phase == 5) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_C, true)) {
+//                EgnitionSystem.setRotPower(0);
+//                sleep(10000);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                Wrist.moveUp();
+//                EgnitionSystem.setRotPower(1);
+//            }
+//        }
+//        else if (phase == 6) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_6_C, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(1);
+//            }
+//        }
+//        else if (phase == 7) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_C, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+//        }
+//        else if (phase == 8) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_8_C, false)) {
+//                Arm.brake();
+//                sleep(1500);
+//                phase ++;
+//            }
+//            else {
+//                Wrist.moveUp();
+//                Arm.moveUp(ARM_SPEED);
+//            }
+//        }
+//        else if (phase == 9) {
+//            Claws.openLeftClaw();
+//            sleep(500);
+//            phase ++;
+//        }
+//        else if (phase == 10) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_10_C, true)) {
+//                Arm.brake();
+//                sleep(500);
+//                phase ++;
+//            }
+//            else {
+//                Arm.moveDown(ARM_SPEED);
+//            }
+//        }
+//        else if (phase == 11) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_11_C, true)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(1);
+//            }
+//        }
+//        else if (phase == 12) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_12_C, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(1);
+//            }
+//        }
     }
     public void Right () {
 
@@ -450,115 +451,115 @@ public class AutonomousRF extends LinearOpMode{
             sleep(500);
             phase ++;
         }
-        else if (phase == 5) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_R, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
-                EgnitionSystem.setHorizontalPower(-1);
-            }
-        }
-        else if (phase == 6) {
-            Wrist.moveUp();
-            phase ++;
-        }
-        else if (phase == 7) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_R, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
-        }
-        else if (phase == 8) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_R, false)) {
-                EgnitionSystem.setRotPower(0);
-                sleep(10000);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setRotPower(-1);
-            }
-        }
-        else if (phase == 9) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_9_R, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-            }
-        }
-        else if (phase == 10) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_10_R, false)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(-1);
-            }
-        }
-        else if (phase == 11) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_R, false)) {
-                Arm.brake();
-                sleep(1500);
-                phase ++;
-            }
-            else {
-                Wrist.moveUp();
-                Arm.moveUp(ARM_SPEED);
-            }
-        }
-        else if (phase == 12) {
-            Claws.openLeftClaw();
-            sleep(500);
-            phase ++;
-        }
-        else if (phase == 13) {
-            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_13_R, true)) {
-                Arm.brake();
-                sleep(500);
-                phase ++;
-            }
-            else {
-                Arm.moveDown(ARM_SPEED);
-            }
-        }
-        else if (phase == 14) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_R, true)) {
-                EgnitionSystem.setVerticalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setVerticalPower(1);
-            }
-        }
-        else if (phase == 15) {
-            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_15_R, false)) {
-                EgnitionSystem.setHorizontalPower(0);
-                sleep(500);
-                EgnitionSystem.resetEncoders();
-                phase ++;
-            }
-            else {
-                EgnitionSystem.setHorizontalPower(1);
-            }
-        }
+//        else if (phase == 5) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_5_R, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                EgnitionSystem.setAutonomousMovingPower(FAST_SPEED);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setAutonomousMovingPower(SLOW_SPEED);
+//                EgnitionSystem.setHorizontalPower(-1);
+//            }
+//        }
+//        else if (phase == 6) {
+//            Wrist.moveUp();
+//            phase ++;
+//        }
+//        else if (phase == 7) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_7_R, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(1);
+//            }
+//        }
+//        else if (phase == 8) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_8_R, false)) {
+//                EgnitionSystem.setRotPower(0);
+//                sleep(10000);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setRotPower(-1);
+//            }
+//        }
+//        else if (phase == 9) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_9_R, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(1);
+//            }
+//        }
+//        else if (phase == 10) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_10_R, false)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(-1);
+//            }
+//        }
+//        else if (phase == 11) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_11_R, false)) {
+//                Arm.brake();
+//                sleep(1500);
+//                phase ++;
+//            }
+//            else {
+//                Wrist.moveUp();
+//                Arm.moveUp(ARM_SPEED);
+//            }
+//        }
+//        else if (phase == 12) {
+//            Claws.openLeftClaw();
+//            sleep(500);
+//            phase ++;
+//        }
+//        else if (phase == 13) {
+//            if (Arm.arrivedPosition(Arm.getArm1Position(), PHASE_13_R, true)) {
+//                Arm.brake();
+//                sleep(500);
+//                phase ++;
+//            }
+//            else {
+//                Arm.moveDown(ARM_SPEED);
+//            }
+//        }
+//        else if (phase == 14) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_14_R, true)) {
+//                EgnitionSystem.setVerticalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setVerticalPower(1);
+//            }
+//        }
+//        else if (phase == 15) {
+//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_15_R, false)) {
+//                EgnitionSystem.setHorizontalPower(0);
+//                sleep(500);
+//                EgnitionSystem.resetEncoders();
+//                phase ++;
+//            }
+//            else {
+//                EgnitionSystem.setHorizontalPower(1);
+//            }
+//        }
     }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
