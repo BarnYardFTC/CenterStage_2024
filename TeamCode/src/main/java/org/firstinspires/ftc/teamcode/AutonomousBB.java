@@ -267,7 +267,7 @@ public class AutonomousBB extends LinearOpMode{
             }
         }
         else if (phase == 2) {
-            Claws.openRightClaw();
+            Claws.openRightClaw(); // ToDo: PROBLEM HERE
         }
         else if (phase == 3) {
             if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_C, false)) {
