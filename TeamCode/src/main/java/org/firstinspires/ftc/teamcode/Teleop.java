@@ -90,6 +90,8 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
+            HardwareLocal.PIXEL_IN_R = true;
+            HardwareLocal.PIXEL_IN_L = true;
         } else {
             Wrist.runWrist(gamepad1.y);
         }
@@ -110,6 +112,8 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
+            HardwareLocal.PIXEL_IN_R = false;
+            HardwareLocal.PIXEL_IN_L = false;
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
             Claws.openRightClaw();
@@ -117,6 +121,8 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
+            HardwareLocal.PIXEL_IN_R = false;
+            HardwareLocal.PIXEL_IN_L = false;
             Arm.loadingModeArm();
         } else {
             Arm.brake();
