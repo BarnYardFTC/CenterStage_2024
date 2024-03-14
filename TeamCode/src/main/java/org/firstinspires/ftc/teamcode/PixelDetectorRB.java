@@ -27,11 +27,11 @@ public class PixelDetectorRB implements VisionProcessor {
     int frameWidth;
     int frameHeight;
 
-    private final int LEFT_REGION_START_X = 130;
-    private final int LEFT_REGION_START_Y = 350;
+    private final int LEFT_REGION_START_X = 100;
+    private final int LEFT_REGION_START_Y = 250;
 
-    private final int RIGHT_REGION_START_X = 1060;
-    private final int RIGHT_REGION_START_Y = 340;
+    private final int RIGHT_REGION_START_X = 1120;
+    private final int RIGHT_REGION_START_Y = 250;
 
     private final int REGIONS_WIDTH = 100;
     private final int REGIONS_HEIGHT = 150;

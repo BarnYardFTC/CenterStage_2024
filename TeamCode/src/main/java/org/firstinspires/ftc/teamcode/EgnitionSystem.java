@@ -170,4 +170,16 @@ public class EgnitionSystem {
     public static double getHeading() {
         return heading;
     }
+    public static double getFlPower() {
+        return fl_wheel.getPower();
+    }
+    public static double getFrPower() {
+        return fr_wheel.getPower();
+    }
+    public static double getBlPower() {
+        return bl_wheel.getPower();
+    }
+    public static double getBrPower() {
+        return br_wheel.getPower();
+    }
 }

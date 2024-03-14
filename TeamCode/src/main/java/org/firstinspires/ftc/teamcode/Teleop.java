@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 // Imports
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
@@ -15,6 +16,8 @@ public class Teleop extends LinearOpMode {
 
 // Configuring
     Servo drone;
+    double DRONE_LUNCH = 1;
+    double DRONE_INIT = 0.3;
     @Override
     public void runOpMode() {
 
@@ -24,33 +27,50 @@ public class Teleop extends LinearOpMode {
         initClaws();
         initEgnitionSystem();
         initColorSensor();
+        initLed();
+        initDrone();
+        drone.setDirection(Servo.Direction.REVERSE);
+        drone.setPosition(DRONE_INIT);
 
-        drone = hardwareMap.get(Servo.class, "drone");
         telemetry.update();
 
         waitForStart();
-        drone.setPosition(drone.getPosition());
+
 
         while (opModeIsActive()) {
 
 // Running systems
-            if (gamepad1.dpad_down) {
-                drone.setPosition(0.5);
-            }
+            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
             runWrist();
             touchAndGo();
+            ledChange();
 
 // Telemetry update
+            telemetry.addData("Fl wheel power: ", EgnitionSystem.getFlPower());
+            telemetry.addData("Fr wheel power: ", EgnitionSystem.getFrPower());
+            telemetry.addData("Bl wheel power: ", EgnitionSystem.getBlPower());
+            telemetry.addData("Br wheel power: ", EgnitionSystem.getBrPower());
             telemetry.addData("Color Distance R", HardwareLocal.getProximityValueRight());
             telemetry.addData("Color Distance L", HardwareLocal.getProximityValueLeft());
             telemetry.update();
         }
+        drone.setPosition(0);
     }
 
 // Initializing & running system functions
+
+    public void initDrone() {
+        drone = hardwareMap.get(Servo.class, "drone");
+
+    }
+    public void runDrone() {
+        if (gamepad1.dpad_down) {
+            drone.setPosition(DRONE_LUNCH);
+        }
+    }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
@@ -71,6 +91,8 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
+            HardwareLocal.PIXEL_IN_R = true;
+            HardwareLocal.PIXEL_IN_L = true;
         } else {
             Wrist.runWrist(gamepad1.y);
         }
@@ -152,7 +174,15 @@ public class Teleop extends LinearOpMode {
         ColorRangeSensor distanceSensorLeft = hardwareMap.get(ColorRangeSensor.class, "distanceSensorLeft");
         HardwareLocal.init(distanceSensorRight, distanceSensorLeft);
     }
+    public void initLed() {
+        RevBlinkinLedDriver ledDriver = hardwareMap.get(RevBlinkinLedDriver.class, "ledDrive");
+        HardwareLocal.init(ledDriver);
+    }
     public void touchAndGo() {
+        if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
+            HardwareLocal.PIXEL_IN_L = true;
+            HardwareLocal.PIXEL_IN_R = true;
+        }
         if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
             Claws.closeRightClaw();
             HardwareLocal.PIXEL_IN_R = true;
@@ -168,5 +198,13 @@ public class Teleop extends LinearOpMode {
             HardwareLocal.PIXEL_IN_L = false;
         }
     }
-
+    public void ledChange() {
+        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
+            HardwareLocal.green();
+        } else if (HardwareLocal.pixelRight() || HardwareLocal.pixelLeft()) {
+            HardwareLocal.blink();
+        }else {
+            HardwareLocal.red();
+        }
+    }
 }
