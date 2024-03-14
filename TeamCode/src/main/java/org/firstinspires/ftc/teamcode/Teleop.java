@@ -49,12 +49,14 @@ public class Teleop extends LinearOpMode {
             ledChange();
 
 // Telemetry update
-            telemetry.addData("Fl wheel power: ", EgnitionSystem.getFlPower());
-            telemetry.addData("Fr wheel power: ", EgnitionSystem.getFrPower());
-            telemetry.addData("Bl wheel power: ", EgnitionSystem.getBlPower());
-            telemetry.addData("Br wheel power: ", EgnitionSystem.getBrPower());
             telemetry.addData("Color Distance R", HardwareLocal.getProximityValueRight());
             telemetry.addData("Color Distance L", HardwareLocal.getProximityValueLeft());
+            telemetry.addData("pixel left", HardwareLocal.PIXEL_IN_R);
+            telemetry.addData("pixel right", HardwareLocal.PIXEL_IN_L);
+            telemetry.addData("pixels", EgnitionSystem.PIXELS_IN);
+            telemetry.addData("claw L", Claws.getRightClawPosition());
+            telemetry.addData("claw R", Claws.getLeftClawPosition());
+            telemetry.addData("wrist", Wrist.getPosition());
             telemetry.update();
         }
         drone.setPosition(0);
@@ -64,7 +66,6 @@ public class Teleop extends LinearOpMode {
 
     public void initDrone() {
         drone = hardwareMap.get(Servo.class, "drone");
-
     }
     public void runDrone() {
         if (gamepad1.dpad_down) {
@@ -80,10 +81,10 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION) {
+        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
             Claws.openLeftClaw();
         }
-        if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+        if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001 && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
             Claws.openRightClaw();
         }
     }
@@ -97,8 +98,9 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
-            HardwareLocal.PIXEL_IN_R = true;
-            HardwareLocal.PIXEL_IN_L = true;
+        } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001) {
+            sleep(80);
+            Wrist.moveUp();
         } else {
             Wrist.runWrist(gamepad1.y);
         }
@@ -146,7 +148,7 @@ public class Teleop extends LinearOpMode {
             initEgnitionSystem();
             initEgnitionSystem();
         }
-        if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
+        if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
             EgnitionSystem.PIXELS_IN = false;
@@ -189,33 +191,29 @@ public class Teleop extends LinearOpMode {
             HardwareLocal.PIXEL_IN_L = true;
             HardwareLocal.PIXEL_IN_R = true;
         }
-        if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
+        if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001 && !HardwareLocal.PIXEL_IN_R) {
             Claws.closeRightClaw();
             HardwareLocal.PIXEL_IN_R = true;
         }
-        if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_L) {
+        if (HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && !HardwareLocal.PIXEL_IN_L) {
             Claws.closeLeftClaw();
             HardwareLocal.PIXEL_IN_L = true;
         }
         if (Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.pixelRight()) {
             HardwareLocal.PIXEL_IN_R = false;
         }
-        if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft()) {
+        if (Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && !HardwareLocal.pixelLeft()) {
             HardwareLocal.PIXEL_IN_L = false;
         }
     }
     public void ledChange() {
-        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
             HardwareLocal.green();
-        } else if (HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && !HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+        }
+        else if (!HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() || HardwareLocal.pixelRight() && !HardwareLocal.pixelLeft()) {
             HardwareLocal.blink();
-        } else if (HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
-            HardwareLocal.blink();
-        } else if (!HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
-            HardwareLocal.blink();
-        } else if (!HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
-            HardwareLocal.blink();
-        } else {
+        }
+        else {
             HardwareLocal.red();
         }
     }

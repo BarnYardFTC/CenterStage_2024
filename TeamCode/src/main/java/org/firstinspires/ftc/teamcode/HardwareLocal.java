@@ -42,15 +42,9 @@ public class HardwareLocal {
     public static int getProximityValueLeft() {return (int) distanceSensorLeft.getDistance(DistanceUnit.MM);}
 
 //// System's functions
-    public static boolean pixelRight() {
-        return distanceSensorRight.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;
-    }
-    public static boolean pixelLeft() {
-        return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;
-    }
-    public static void red() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);
-    }
+    public static boolean pixelRight() {return distanceSensorRight.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE - 4;}
+    public static boolean pixelLeft() {return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;}
+    public static void red() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);}
     public static void blink() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);}
-    public static void green() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-    }
+    public static void green() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
 }
