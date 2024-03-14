@@ -11,12 +11,14 @@ public class Wrist {
     static final double WRIST_UP_POSITION = 0;
     static final double WRIST_DOWN_POSITION = 0.94;
     static final double WRIST_UNLOADING_POSITION = 0.13;
+    static public boolean UP = false;
     static boolean was_Y_pressed;
 
 // Initializing
     public static void init(Servo servo) {
         wrist = servo;
         was_Y_pressed = false;
+        UP = false;
     }
 
 // System's functions
