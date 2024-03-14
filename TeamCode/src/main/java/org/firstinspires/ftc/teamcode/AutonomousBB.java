@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous (name = "Blue Back")
-@Config
 
 public class AutonomousBB extends LinearOpMode{
 
