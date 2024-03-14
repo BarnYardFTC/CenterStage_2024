@@ -64,7 +64,7 @@ public class EgnitionSystem {
         adjustedLx = 0;
         adjustedLy = 0;
         POWER = 1;
-        SLOW_POWER = 0.45;
+        SLOW_POWER = 0.5;
         SLOW_MODE = false;
         WAS_PRESSED = false;
         PIXELS_IN = false;

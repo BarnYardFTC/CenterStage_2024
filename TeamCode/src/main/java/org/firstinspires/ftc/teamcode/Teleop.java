@@ -80,6 +80,12 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
+        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION) {
+            Claws.openLeftClaw();
+        }
+        if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+            Claws.openRightClaw();
+        }
     }
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
@@ -199,11 +205,17 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void ledChange() {
-        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
+        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
             HardwareLocal.green();
-        } else if (HardwareLocal.pixelRight() || HardwareLocal.pixelLeft()) {
+        } else if (HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && !HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
             HardwareLocal.blink();
-        }else {
+        } else if (HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && !HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+            HardwareLocal.blink();
+        } else if (!HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION) {
+            HardwareLocal.blink();
+        } else if (!HardwareLocal.pixelRight() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_OPENED_POSITION && HardwareLocal.pixelLeft() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION) {
+            HardwareLocal.blink();
+        } else {
             HardwareLocal.red();
         }
     }

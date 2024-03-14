@@ -15,7 +15,7 @@ public class HardwareLocal {
     static private RevBlinkinLedDriver ledDrive;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
-    static private final int DETECTING_DISTANCE = 40;
+    static private final int DETECTING_DISTANCE = 36;
 
 // Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
