@@ -32,8 +32,6 @@ public class Teleop extends LinearOpMode {
         drone.setDirection(Servo.Direction.REVERSE);
         drone.setPosition(DRONE_INIT);
 
-        telemetry.addData("Drone position: ", String.valueOf(drone.getPosition()));
-
         telemetry.update();
 
         waitForStart();
@@ -51,7 +49,10 @@ public class Teleop extends LinearOpMode {
             ledChange();
 
 // Telemetry update
-            telemetry.addData("Drone position: ", drone.getPosition());
+            telemetry.addData("Fl wheel power: ", EgnitionSystem.getFlPower());
+            telemetry.addData("Fr wheel power: ", EgnitionSystem.getFrPower());
+            telemetry.addData("Bl wheel power: ", EgnitionSystem.getBlPower());
+            telemetry.addData("Br wheel power: ", EgnitionSystem.getBrPower());
             telemetry.addData("Color Distance R", HardwareLocal.getProximityValueRight());
             telemetry.addData("Color Distance L", HardwareLocal.getProximityValueLeft());
             telemetry.update();
@@ -112,8 +113,6 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
-            HardwareLocal.PIXEL_IN_R = false;
-            HardwareLocal.PIXEL_IN_L = false;
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
             Claws.openRightClaw();
@@ -121,8 +120,6 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
-            HardwareLocal.PIXEL_IN_R = false;
-            HardwareLocal.PIXEL_IN_L = false;
             Arm.loadingModeArm();
         } else {
             Arm.brake();
@@ -182,6 +179,10 @@ public class Teleop extends LinearOpMode {
         HardwareLocal.init(ledDriver);
     }
     public void touchAndGo() {
+        if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
+            HardwareLocal.PIXEL_IN_L = true;
+            HardwareLocal.PIXEL_IN_R = true;
+        }
         if (HardwareLocal.pixelRight() && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_OPENED_POSITION && !HardwareLocal.PIXEL_IN_R) {
             Claws.closeRightClaw();
             HardwareLocal.PIXEL_IN_R = true;

@@ -167,7 +167,8 @@ public class AutonomousRF extends LinearOpMode{
             }
         }
         else if (phase == 3) {
-//            if (EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
+//            if
+//            EgnitionSystem.arrivedPosition(EgnitionSystem.getFlEncoderPosition(), PHASE_3_L, true)) {
 //                EgnitionSystem.setHorizontalPower(0);
 //                sleep(500);
 //                EgnitionSystem.resetEncoders();
