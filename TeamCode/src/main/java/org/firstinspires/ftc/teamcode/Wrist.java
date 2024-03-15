@@ -48,6 +48,7 @@ public class Wrist {
             }
             else {
                 wrist.setPosition(WRIST_DOWN_POSITION);
+                UP = false;
             }
             was_Y_pressed = true;
         }
