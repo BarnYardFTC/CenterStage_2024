@@ -51,10 +51,8 @@ public class Teleop extends LinearOpMode {
             ledChange();
 
 // Telemetry update
-            telemetry.addData("pixel left", HardwareLocal.PIXEL_IN_L);
-            telemetry.addData("pixel right", HardwareLocal.PIXEL_IN_R);
-            telemetry.addData("pixel detector right", HardwareLocal.pixelRight());
-            telemetry.addData("pixel detector left", HardwareLocal.pixelLeft());
+            telemetry.addData("arm N encoder", Arm.getArm1Position());
+            telemetry.addData("wrist position", Wrist.getPosition());
             telemetry.update();
         }
         drone.setPosition(0);
@@ -93,7 +91,7 @@ public class Teleop extends LinearOpMode {
     }
     public void runWrist() {
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
+            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001 && !Wrist.UP) {
