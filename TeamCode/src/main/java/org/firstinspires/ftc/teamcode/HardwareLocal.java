@@ -15,7 +15,8 @@ public class HardwareLocal {
     static private RevBlinkinLedDriver ledDrive;
     static public boolean PIXEL_IN_R;
     static public boolean PIXEL_IN_L;
-    static private final int DETECTING_DISTANCE = 36;
+    static private final int DETECTING_DISTANCE_R = 32;
+    static private final int DETECTING_DISTANCE_L = 36;
 
 // Initializing
     public static void init(ColorRangeSensor distanceSensorRight, ColorRangeSensor distanceSensorLeft) {
@@ -42,8 +43,8 @@ public class HardwareLocal {
     public static int getProximityValueLeft() {return (int) distanceSensorLeft.getDistance(DistanceUnit.MM);}
 
 //// System's functions
-    public static boolean pixelRight() {return distanceSensorRight.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE - 4;}
-    public static boolean pixelLeft() {return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE;}
+    public static boolean pixelRight() {return distanceSensorRight.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE_R;}
+    public static boolean pixelLeft() {return distanceSensorLeft.getDistance(DistanceUnit.MM) <= DETECTING_DISTANCE_L;}
     public static void red() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);}
     public static void blink() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);}
     public static void green() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}

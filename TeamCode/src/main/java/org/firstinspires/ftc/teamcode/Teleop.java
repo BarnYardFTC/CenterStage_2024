@@ -51,8 +51,8 @@ public class Teleop extends LinearOpMode {
             ledChange();
 
 // Telemetry update
-            telemetry.addData("arm N encoder", Arm.getArm1Position());
-            telemetry.addData("wrist position", Wrist.getPosition());
+            telemetry.addData("sensor r", HardwareLocal.getProximityValueRight());
+            telemetry.addData("sensor l", HardwareLocal.getProximityValueLeft());
             telemetry.update();
         }
         drone.setPosition(0);
