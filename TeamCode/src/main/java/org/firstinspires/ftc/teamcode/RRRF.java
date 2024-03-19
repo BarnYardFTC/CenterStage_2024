@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "RRRB")
 
 public class RRRF extends LinearOpMode {
-    AutonomousRF.spike_position position;
+    spike_position position;
     static double SLOW_SPEED = 0.2;
     static double FAST_SPEED = 0.5;
 
@@ -41,15 +41,15 @@ public class RRRF extends LinearOpMode {
         // Find the spike with pixel and print in telemetry
         while (opModeInInit()) {
             if (PixelDetectorRF.getSpike_position() == 0) {
-                position = AutonomousRF.spike_position.LEFT;
+                position = spike_position.LEFT;
                 HardwareLocal.green();
             }
             else if (PixelDetectorRF.getSpike_position() == 1) {
-                position = AutonomousRF.spike_position.CENTER;
+                position = spike_position.CENTER;
                 HardwareLocal.green();
             }
             else {
-                position = AutonomousRF.spike_position.RIGHT;
+                position = spike_position.RIGHT;
                 HardwareLocal.blink();
             }
 
@@ -69,10 +69,10 @@ public class RRRF extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Choose a path according to the spike position
-            if (position == AutonomousRB.spike_position.RIGHT) {
+            if (position == spike_position.RIGHT) {
                 Right();
             }
-            else if (position == AutonomousRB.spike_position.LEFT) {
+            else if (position == spike_position.LEFT) {
                 Left();
             }
             else {
