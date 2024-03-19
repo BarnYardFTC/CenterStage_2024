@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.checkerframework.checker.units.qual.C;
-
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
 public class Teleop extends LinearOpMode {
@@ -112,7 +110,7 @@ public class Teleop extends LinearOpMode {
     public void runArm() {
         if (gamepad1.right_trigger > 0) {
             Arm.moveUp(gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger > 0) {
+        } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= 0 && Arm.getArm2Position() >= 0) {
             Arm.moveDown(gamepad1.left_trigger);
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
