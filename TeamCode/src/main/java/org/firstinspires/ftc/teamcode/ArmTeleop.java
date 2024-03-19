@@ -27,11 +27,9 @@ public class ArmTeleop {
 
     public static void init(DcMotor motor1, DcMotor motor2) {
         arm1 = motor1;
-        arm1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         arm2 = motor2;
-        arm2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public static void moveUp() {
