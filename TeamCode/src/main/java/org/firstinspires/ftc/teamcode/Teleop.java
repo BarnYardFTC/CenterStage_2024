@@ -108,7 +108,7 @@ public class Teleop extends LinearOpMode {
         Arm.init(motor, motor2);
     }
     public void runArm() {
-        if (gamepad1.right_trigger > 0) {
+        if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -3000) {
             Arm.moveUp(gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= 0 && Arm.getArm2Position() >= 0) {
             Arm.moveDown(gamepad1.left_trigger);
