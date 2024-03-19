@@ -10,6 +10,7 @@ public class ArmTest extends LinearOpMode{
         initArmTeleop();
         waitForStart();
         while (opModeIsActive()) {
+            runArmTeleop();
         }
     }
     public void initArmTeleop() {
@@ -17,7 +18,7 @@ public class ArmTest extends LinearOpMode{
         DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
         Arm.init(motor, motor2);
     }
-    public void runArnTeleop() {
+    public void runArmTeleop() {
         if (gamepad1.right_trigger > 0) {
             ArmTeleop.moveUp();
         }
