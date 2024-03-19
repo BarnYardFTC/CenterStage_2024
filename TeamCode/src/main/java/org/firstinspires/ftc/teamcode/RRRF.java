@@ -94,6 +94,11 @@ public class RRRF extends LinearOpMode {
             telemetry.update();
         }
     }
+
+    public void Right() {}
+    public void Center() {}
+    public void Left() {}
+
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
