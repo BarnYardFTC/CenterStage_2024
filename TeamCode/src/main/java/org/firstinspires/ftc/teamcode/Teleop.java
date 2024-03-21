@@ -15,9 +15,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Teleop extends LinearOpMode {
 
 // Configuring
-    Servo drone;
-    double DRONE_LUNCH = 1;
-    double DRONE_INIT = 0.3;
+//    Servo drone;
+//    double DRONE_LUNCH = 1;
+//    double DRONE_INIT = 0.3;
     @Override
     public void runOpMode() {
 
@@ -26,11 +26,11 @@ public class Teleop extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-        initColorSensor();
-        initLed();
-        initDrone();
-        drone.setDirection(Servo.Direction.REVERSE);
-        drone.setPosition(DRONE_INIT);
+        initColorRangeSensor();
+//        initLed();
+//        initDrone();
+//        drone.setDirection(Servo.Direction.REVERSE);
+//        drone.setPosition(DRONE_INIT);
 
         telemetry.update();
 
@@ -40,32 +40,34 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 // Running systems
-            runDrone();
+//            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
             runWrist();
             touchAndGo();
-            ledChange();
+//            ledChange();
 
 // Telemetry update
-            telemetry.addData("sensor r", HardwareLocal.getProximityValueRight());
-            telemetry.addData("sensor l", HardwareLocal.getProximityValueLeft());
+            telemetry.addData("right arm", Arm.getArm1Position());
+            telemetry.addData("right claw", Claws.getRightClawPosition());
+            telemetry.addData("left claw", Claws.getLeftClawPosition());
+            telemetry.addData("wrist", Wrist.getPosition());
             telemetry.update();
         }
-        drone.setPosition(0);
+//        drone.setPosition(0);
     }
 
 // Initializing & running system functions
 
-    public void initDrone() {
-        drone = hardwareMap.get(Servo.class, "drone");
-    }
-    public void runDrone() {
-        if (gamepad1.dpad_down) {
-            drone.setPosition(DRONE_LUNCH);
-        }
-    }
+//    public void initDrone() {
+//        drone = hardwareMap.get(Servo.class, "drone");
+//    }
+//    public void runDrone() {
+//        if (gamepad1.dpad_down) {
+//            drone.setPosition(DRONE_LUNCH);
+//        }
+//    }
     public void initClaws(){
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
@@ -75,10 +77,10 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
+        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
             Claws.openLeftClaw();
         }
-        if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001 && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
+        if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
             Claws.openRightClaw();
         }
     }
@@ -92,19 +94,19 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
-        } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() < Claws.RIGHT_CLAW_CLOSED_POSITION + 0.0001 && !Wrist.UP) {
+        } else if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION  && !Wrist.UP) {
             sleep(100);
             Wrist.UP = true;
             Wrist.moveUp();
-        } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && (!HardwareLocal.pixelRight() || !HardwareLocal.pixelLeft()) && Wrist.UP) {
+        } else if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION && (!HardwareLocal.pixelRight() || !HardwareLocal.pixelLeft()) && Wrist.UP) {
             Wrist.UP = false;
         } else {
             Wrist.runWrist(gamepad1.y);
         }
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "right_arm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "left_arm");
         Arm.init(motor, motor2);
     }
     public void runArm() {
@@ -146,7 +148,7 @@ public class Teleop extends LinearOpMode {
             initEgnitionSystem();
             initEgnitionSystem();
         }
-        if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
+        if (Wrist.getPosition() == Wrist.WRIST_DOWN_POSITION) {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
             EgnitionSystem.PIXELS_IN = false;
@@ -175,7 +177,7 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.runTeleop2();
         }
     }
-    public void initColorSensor() {
+    public void initColorRangeSensor() {
         ColorRangeSensor distanceSensorRight = hardwareMap.get(ColorRangeSensor.class, "distanceSensorRight");
         ColorRangeSensor distanceSensorLeft = hardwareMap.get(ColorRangeSensor.class, "distanceSensorLeft");
         HardwareLocal.init(distanceSensorRight, distanceSensorLeft);

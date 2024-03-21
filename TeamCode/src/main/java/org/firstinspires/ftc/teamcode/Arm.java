@@ -12,12 +12,12 @@ public class Arm {
 // Variables
     static private DcMotor rightArm;
     static private DcMotor leftArm;
-    static public final int MINIMAL_HOLD_POSITION = -300;
+    static public final int MINIMAL_HOLD_POSITION = -500;
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
-    static private int MAX_SPEED = 380;
+    static private int MAX_SPEED = 420;
     static private int HANGING_POSITION = -1196;
-    static public int UNLOADING_POSITION = -1925;
+    static public int UNLOADING_POSITION = -1775;
     static public boolean HANGING_MODE_ACTIVE = false;
     static private boolean DPAD_PRESSED = false;
     static public boolean LOADING_MODE_ACTIVE = false;
@@ -165,7 +165,7 @@ public class Arm {
 
 // Telemetry
     public static void addDataToTelemetry(Telemetry telemetry) {
-        telemetry.addData("arm1 encoder", rightArm.getCurrentPosition());
-        telemetry.addData("arm2 encoder", leftArm.getCurrentPosition());
+        telemetry.addData("right arm encoder", rightArm.getCurrentPosition());
+        telemetry.addData("left arm encoder", leftArm.getCurrentPosition());
     }
 }
