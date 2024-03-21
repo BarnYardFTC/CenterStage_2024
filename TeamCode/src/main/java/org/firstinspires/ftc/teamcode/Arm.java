@@ -37,6 +37,7 @@ public class Arm {
         DPAD_PRESSED = false;
         LOADING_MODE_ACTIVE = false;
         HANGING_MODE_ACTIVE = false;
+        got_position_to_hold = false;
     }
 
 // System's functions
