@@ -78,7 +78,6 @@ public class RRRB extends LinearOpMode {
         }
         Camera.close(1);
 
-
         // move the wrist down
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
         sleep(700);
@@ -95,8 +94,6 @@ public class RRRB extends LinearOpMode {
         }
 
         if (isStopRequested()) return;
-
-
     }
 
     public void RightInit() {}

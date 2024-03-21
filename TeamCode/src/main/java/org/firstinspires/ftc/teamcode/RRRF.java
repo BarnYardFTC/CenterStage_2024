@@ -83,11 +83,6 @@ public class RRRF extends LinearOpMode {
                 Center();
             }
 
-            // Adjust the wrist position according to the arm position
-            if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-                Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
-            }
-
             // Move the Egnition system
             EgnitionSystem.updateVariablesAutonomous();
             EgnitionSystem.runAutonomous();
