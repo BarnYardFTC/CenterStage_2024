@@ -26,7 +26,7 @@ public class Teleop extends LinearOpMode {
         initWrist();
         initClaws();
         initEgnitionSystem();
-        initColorSensor();
+        initColorRangeSensor();
         initLed();
         initDrone();
         drone.setDirection(Servo.Direction.REVERSE);
@@ -175,7 +175,7 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.runTeleop2();
         }
     }
-    public void initColorSensor() {
+    public void initColorRangeSensor() {
         ColorRangeSensor distanceSensorRight = hardwareMap.get(ColorRangeSensor.class, "distanceSensorRight");
         ColorRangeSensor distanceSensorLeft = hardwareMap.get(ColorRangeSensor.class, "distanceSensorLeft");
         HardwareLocal.init(distanceSensorRight, distanceSensorLeft);
