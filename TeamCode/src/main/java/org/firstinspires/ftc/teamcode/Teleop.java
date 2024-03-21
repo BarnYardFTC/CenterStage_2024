@@ -209,7 +209,15 @@ public class Teleop extends LinearOpMode {
             HardwareLocal.green();
         }
         else if (!HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() || HardwareLocal.pixelRight() && !HardwareLocal.pixelLeft()) {
-            HardwareLocal.blink();
+            if (HardwareLocal.BLINK_IN_TIME >= 0 && HardwareLocal.BLINK_IN_TIME < 20) {
+                HardwareLocal.black();
+                HardwareLocal.BLINK_IN_TIME ++;
+            } else if (HardwareLocal.BLINK_IN_TIME >= 20 && HardwareLocal.BLINK_IN_TIME < 40) {
+                HardwareLocal.red();
+                HardwareLocal.BLINK_IN_TIME ++;
+            } else {
+                HardwareLocal.BLINK_IN_TIME = 0;
+            }
         }
         else {
             HardwareLocal.red();
