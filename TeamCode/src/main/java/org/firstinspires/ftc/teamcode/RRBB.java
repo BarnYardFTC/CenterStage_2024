@@ -52,7 +52,7 @@ public class RRBB extends LinearOpMode {
             }
             else {
                 position = spike_position.RIGHT;
-                HardwareLocal.blink();
+                HardwareLocal.green();
             }
 
             telemetry.addData("Spike Position: ", position);
