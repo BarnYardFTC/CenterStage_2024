@@ -68,7 +68,7 @@ public class RRRB extends LinearOpMode {
             }
             else {
                 position = spike_position.RIGHT;
-                HardwareLocal.blink();
+                HardwareLocal.green();
             }
 
             telemetry.addData("Spike Position: ", position);
@@ -106,7 +106,7 @@ public class RRRB extends LinearOpMode {
                 .build();
     }
     public void LeftInit() {}
-    public void RightRun
+    public void RightRun() {}
     public void CenterRun() {
 
     }
