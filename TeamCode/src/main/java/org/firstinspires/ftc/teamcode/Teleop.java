@@ -27,7 +27,7 @@ public class Teleop extends LinearOpMode {
         initClaws();
         initEgnitionSystem();
         initColorRangeSensor();
-        initLed();
+//        initLed();
         initDrone();
         drone.setDirection(Servo.Direction.REVERSE);
         drone.setPosition(DRONE_INIT);
@@ -46,7 +46,7 @@ public class Teleop extends LinearOpMode {
             runClaws();
             runWrist();
             touchAndGo();
-            ledChange();
+//            ledChange();
 
 // Telemetry update
             telemetry.addData("sensor r", HardwareLocal.getProximityValueRight());
@@ -103,8 +103,8 @@ public class Teleop extends LinearOpMode {
         }
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "right_arm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "left_arm");
         Arm.init(motor, motor2);
     }
     public void runArm() {

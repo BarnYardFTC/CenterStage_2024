@@ -14,8 +14,8 @@ public class ArmTest extends LinearOpMode{
         }
     }
     public void initArmTeleop() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "arm1");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "arm2");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "right_arm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "left_arm");
         Arm.init(motor, motor2);
     }
     public void runArmTeleop() {
