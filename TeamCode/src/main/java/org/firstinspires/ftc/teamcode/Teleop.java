@@ -77,7 +77,7 @@ public class Teleop extends LinearOpMode {
     }
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
+        if (!HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() >= Claws.LEFT_CLAW_CLOSED_POSITION && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
             Claws.openLeftClaw();
         }
         if (!HardwareLocal.pixelRight() && Claws.getRightClawPosition() >= Claws.RIGHT_CLAW_CLOSED_POSITION && Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
@@ -94,7 +94,7 @@ public class Teleop extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
-        } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() == Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION  && !Wrist.UP) {
+        } else if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.getLeftClawPosition() >= Claws.LEFT_CLAW_CLOSED_POSITION && Claws.getRightClawPosition() == Claws.RIGHT_CLAW_CLOSED_POSITION  && !Wrist.UP) {
             sleep(100);
             Wrist.UP = true;
             Wrist.moveUp();
@@ -112,7 +112,7 @@ public class Teleop extends LinearOpMode {
     public void runArm() {
         if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -3000) {
             Arm.moveUp(gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= 0 && Arm.getArm2Position() >= 0) {
+        } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= -20 && Arm.getArm2Position() >= 20) {
             Arm.moveDown(gamepad1.left_trigger);
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
