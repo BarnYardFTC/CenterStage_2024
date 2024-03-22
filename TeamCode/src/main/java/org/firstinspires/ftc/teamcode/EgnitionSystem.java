@@ -52,8 +52,8 @@ public class EgnitionSystem {
         EgnitionSystem.imu = imu;
 
         EgnitionSystem.imu.initialize(new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP)));
+                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD)));
         EgnitionSystem.imu.resetYaw();
 
         max = 1;
