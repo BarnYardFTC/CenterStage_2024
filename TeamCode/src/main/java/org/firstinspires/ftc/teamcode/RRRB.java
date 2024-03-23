@@ -263,7 +263,7 @@ public class RRRB extends LinearOpMode {
     }
 
     public void initCamera() {
-        Camera.init(this, hardwareMap, 4);
+        Camera.init(this, hardwareMap, 1);
     }
 
     public void initLed() {
