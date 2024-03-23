@@ -105,7 +105,7 @@ public class RRBB extends LinearOpMode {
 //        }
 //        Camera.close(4);
 
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.05);
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);
 
         waitForStart();
@@ -116,7 +116,7 @@ public class RRBB extends LinearOpMode {
                     .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX()+5, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
                     .lineToConstantHeading(new Vector2d(traj2.end().getX(), 29))
@@ -129,22 +129,20 @@ public class RRBB extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(1, traj4.end().getY()))
                     .build();
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(1, traj5.end().getY()+22))
+                    .lineToConstantHeading(new Vector2d(1, traj5.end().getY() + 22))
                     .build();
 
-        }
-        else if (position == spike_position.LEFT) {
+        } else if (position == spike_position.LEFT) {
 
             // Execute left path
 
-        }
-        else {
+        } else {
 
             // Execute Center path
 
         }
 
-        if(isStopRequested()) return;
+        if (isStopRequested()) return;
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
@@ -159,14 +157,14 @@ public class RRBB extends LinearOpMode {
             drive.followTrajectory(traj4);
             Wrist.setPosition(0.3);
             sleep(200);
-            while (! (Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
             Arm.brake();
             sleep(800);
             Claws.openLeftClaw();
             sleep(500);
-            while (! (Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
                 Arm.moveDown(ARM_SPEED);
             }
             Arm.brake();
@@ -177,13 +175,11 @@ public class RRBB extends LinearOpMode {
             drive.followTrajectory(traj6);
 
 
-        }
-        else if (position == spike_position.LEFT) {
+        } else if (position == spike_position.LEFT) {
 
             // Execute left path
 
-        }
-        else {
+        } else {
 
             // Execute Center path
 
@@ -202,24 +198,29 @@ public class RRBB extends LinearOpMode {
 
 
     }
-    public void initClaws(){
+
+    public void initClaws() {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");
         Claws.init(left_claw, right_claw);
     }
+
     public void initWrist() {
         Servo servo = hardwareMap.get(Servo.class, "wrist");
         Wrist.init(servo);
     }
+
     public void initArm() {
         DcMotor motor = hardwareMap.get(DcMotor.class, "right_arm");
         DcMotor motor2 = hardwareMap.get(DcMotor.class, "left_arm");
         Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }
+
     public void initCamera() {
         Camera.init(this, hardwareMap, 4);
     }
+
     public void initLed() {
         RevBlinkinLedDriver ledDriver = hardwareMap.get(RevBlinkinLedDriver.class, "ledDrive");
         HardwareLocal.init(ledDriver);
