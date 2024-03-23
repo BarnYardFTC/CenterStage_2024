@@ -19,7 +19,7 @@ public class RRBB extends LinearOpMode {
     int ARM_UP_POSITION = -2000;
     int ARM_DOWN_POSITION = -300;
 
-    spike_position position = spike_position.RIGHT;
+    spike_position position;
 
     enum spike_position {
         LEFT,
@@ -57,11 +57,11 @@ public class RRBB extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         while (opModeInInit()) {
-            if (PixelDetectorBF.getSpike_position() == 0) {
+            if (PixelDetectorBB.getSpike_position() == 0) {
                 position = spike_position.LEFT;
                 //HardwareLocal.green();
             }
-            else if (PixelDetectorBF.getSpike_position() == 1) {
+            else if (PixelDetectorBB.getSpike_position() == 1) {
                 position = spike_position.CENTER;
                 //HardwareLocal.green();
             }
@@ -71,11 +71,11 @@ public class RRBB extends LinearOpMode {
             }
 
             telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(3));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(3));
             telemetry.update();
         }
-        Camera.close(4);
+        Camera.close(3);
 
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);
@@ -284,7 +284,7 @@ public class RRBB extends LinearOpMode {
     }
 
     public void initCamera() {
-        Camera.init(this, hardwareMap, 4);
+        Camera.init(this, hardwareMap, 3);
     }
 
     public void initLed() {
