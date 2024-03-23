@@ -42,6 +42,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class RRBB extends LinearOpMode {
 
+    double ARM_SPEED = 0.6;
+    int ARM_UP_POSITION = -2300;
+    int ARM_DOWN_POSITION = -300;
+
     spike_position position;
 
     enum spike_position {
@@ -49,6 +53,17 @@ public class RRBB extends LinearOpMode {
         RIGHT,
         CENTER
     }
+
+    Trajectory traj1;
+    Trajectory traj2;
+    Trajectory traj3;
+    Trajectory traj4;
+    Trajectory traj5;
+    Trajectory traj6;
+    Trajectory traj7;
+    Trajectory traj8;
+    Trajectory traj9;
+    Trajectory traj10;
 
     @Override
     public void runOpMode() {
@@ -94,12 +109,63 @@ public class RRBB extends LinearOpMode {
 
         waitForStart();
 
+        if (position == spike_position.RIGHT) {
+
+            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .forward(22)
+                    .build();
+            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), 10))
+                    .build();
+            traj3 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 2, traj2.end().getY()))
+                    .build();
+            traj4 = drive.trajectoryBuilder(traj3.end())
+                    .lineToConstantHeading(new Vector2d(2, traj3.end().getY()))
+                    .build();
+            traj5 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY()+12))
+                    .build();
+
+        }
+        else if (position == spike_position.LEFT) {
+
+            // Execute left path
+
+        }
+        else {
+
+            // Execute Center path
+
+        }
+
         if(isStopRequested()) return;
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
 
             // Execute right path
+
+            drive.followTrajectory(traj1);
+            drive.turn(-90);
+            Claws.openRightClaw();
+            drive.followTrajectory(traj2);
+            drive.followTrajectory(traj3);
+            while (! (Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+                Arm.moveUp(ARM_SPEED);
+            }
+            Arm.brake();
+            sleep(800);
+            Claws.openLeftClaw();
+            sleep(500);
+            while (! (Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
+                Arm.moveDown(ARM_SPEED);
+            }
+            Arm.brake();
+            drive.followTrajectory(traj4);
+            drive.turn(90);
+            drive.followTrajectory(traj5);
+
 
         }
         else if (position == spike_position.LEFT) {
@@ -148,4 +214,5 @@ public class RRBB extends LinearOpMode {
         RevBlinkinLedDriver ledDriver = hardwareMap.get(RevBlinkinLedDriver.class, "ledDrive");
         HardwareLocal.init(ledDriver);
     }
+
 }
