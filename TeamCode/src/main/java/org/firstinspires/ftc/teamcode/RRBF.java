@@ -20,6 +20,8 @@ public class RRBF extends LinearOpMode {
     int ARM_UP_POSITION = -2000;
     int ARM_DOWN_POSITION = -300;
 
+    spike_position position;
+
     enum spike_position {
         LEFT,
         RIGHT,
@@ -70,12 +72,12 @@ public class RRBF extends LinearOpMode {
         waitForStart();
 
         // Choose a path according to the spike position
-        if () {
+        if (position == spike_position.RIGHT) {
 
             // Execute right path
 
 
-        } else if () {
+        } else if (position == spike_position.LEFT) {
 
             // Execute left path
 
