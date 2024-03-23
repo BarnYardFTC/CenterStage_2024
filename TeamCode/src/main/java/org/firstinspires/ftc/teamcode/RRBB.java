@@ -114,7 +114,7 @@ public class RRBB extends LinearOpMode {
 
         } else if (position == spike_position.LEFT) {
 
-            // Execute left path
+            // Initialize left path
 
             // Forward towards spike mark
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
@@ -153,7 +153,7 @@ public class RRBB extends LinearOpMode {
 
         } else {
 
-            // Execute Center path
+            // Initialize Center path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .forward(30)
@@ -210,13 +210,13 @@ public class RRBB extends LinearOpMode {
 
             drive.followTrajectory(traj1);
             drive.followTrajectory(traj2);
-            drive.turn(-90);
+            drive.turn(Math.toRadians(-90));
             drive.followTrajectory(traj3);
             Claws.openRightClaw();
             drive.followTrajectory(traj4);
+            drive.followTrajectory(traj5);
             Wrist.setPosition(0.3);
             sleep(200);
-            drive.followTrajectory(traj5);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -230,7 +230,7 @@ public class RRBB extends LinearOpMode {
             Arm.brake();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(200);
-            drive.turn(90);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
         }
@@ -241,9 +241,9 @@ public class RRBB extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
             drive.followTrajectory(traj1);
             Claws.openRightClaw();
-            Wrist.setPosition(0.3);
             drive.followTrajectory(traj2);
-            drive.turn(-90);
+            drive.turn(Math.toRadians(-90));
+            Wrist.setPosition(0.3);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -257,7 +257,7 @@ public class RRBB extends LinearOpMode {
             Arm.brake();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(200);
-            drive.turn(90);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj3);
             drive.followTrajectory(traj4);
         }
