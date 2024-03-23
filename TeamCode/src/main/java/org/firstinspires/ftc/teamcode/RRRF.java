@@ -35,8 +35,8 @@ public class RRRF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-//        initCamera();
-//        initLed();
+        initCamera();
+        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -46,26 +46,26 @@ public class RRRF extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-//        while (opModeInInit()) {
-//            if (PixelDetectorRF.getSpike_position() == 0) {
-//                position = spike_position.LEFT;
-//                HardwareLocal.green();
-//            }
-//            else if (PixelDetectorRF.getSpike_position() == 1) {
-//                position = spike_position.CENTER;
-//                HardwareLocal.green();
-//            }
-//            else {
-//                position = spike_position.RIGHT;
-//                HardwareLocal.green();
-//            }
-//
-//            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
-//            telemetry.update();
-//        }
-//        Camera.close(4);
+        while (opModeInInit()) {
+            if (PixelDetectorRF.getSpike_position() == 0) {
+                position = spike_position.LEFT;
+                HardwareLocal.green();
+            }
+            else if (PixelDetectorRF.getSpike_position() == 1) {
+                position = spike_position.CENTER;
+                HardwareLocal.green();
+            }
+            else {
+                position = spike_position.RIGHT;
+                HardwareLocal.green();
+            }
+
+            telemetry.addData("Spike Position: ", position);
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
+            telemetry.update();
+        }
+        Camera.close(2);
 
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);

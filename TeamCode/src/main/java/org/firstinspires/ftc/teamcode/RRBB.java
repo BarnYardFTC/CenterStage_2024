@@ -103,7 +103,7 @@ public class RRBB extends LinearOpMode {
 //            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(3));
 //            telemetry.update();
 //        }
-//        Camera.close(4);
+//        Camera.close(3);
 
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);
