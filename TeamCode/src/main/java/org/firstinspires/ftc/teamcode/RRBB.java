@@ -43,10 +43,10 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 public class RRBB extends LinearOpMode {
 
     double ARM_SPEED = 0.6;
-    int ARM_UP_POSITION = -2300;
+    int ARM_UP_POSITION = -2000;
     int ARM_DOWN_POSITION = -300;
 
-    spike_position position;
+    spike_position position = spike_position.RIGHT;
 
     enum spike_position {
         LEFT,
@@ -56,6 +56,7 @@ public class RRBB extends LinearOpMode {
 
     Trajectory traj1;
     Trajectory traj2;
+    Trajectory traj2_2;
     Trajectory traj3;
     Trajectory traj4;
     Trajectory traj5;
@@ -72,8 +73,8 @@ public class RRBB extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-        initCamera();
-        initLed();
+//        initCamera();
+//        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -83,28 +84,28 @@ public class RRBB extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        while (opModeInInit()) {
-            if (PixelDetectorBF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-                HardwareLocal.green();
-            }
-            else if (PixelDetectorBF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-                HardwareLocal.green();
-            }
-            else {
-                position = spike_position.RIGHT;
-                HardwareLocal.green();
-            }
+//        while (opModeInInit()) {
+//            if (PixelDetectorBF.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//                HardwareLocal.green();
+//            }
+//            else if (PixelDetectorBF.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//                HardwareLocal.green();
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//                HardwareLocal.green();
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+//            telemetry.update();
+//        }
+//        Camera.close(4);
 
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
-            telemetry.update();
-        }
-        Camera.close(4);
-
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.05);
         sleep(500);
 
         waitForStart();
@@ -112,19 +113,23 @@ public class RRBB extends LinearOpMode {
         if (position == spike_position.RIGHT) {
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(22)
+                    .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), 10))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX()+5, traj1.end().getY()))
                     .build();
-            traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 2, traj2.end().getY()))
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), 29))
                     .build();
+
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(2, traj3.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 4, traj3.end().getY()))
                     .build();
             traj5 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY()+12))
+                    .lineToConstantHeading(new Vector2d(1, traj4.end().getY()))
+                    .build();
+            traj6 = drive.trajectoryBuilder(traj5.end())
+                    .lineToConstantHeading(new Vector2d(1, traj5.end().getY()+30))
                     .build();
 
         }
@@ -147,10 +152,13 @@ public class RRBB extends LinearOpMode {
             // Execute right path
 
             drive.followTrajectory(traj1);
-            drive.turn(-90);
-            Claws.openRightClaw();
+            drive.turn(Math.toRadians(-90));
             drive.followTrajectory(traj2);
+            Claws.openRightClaw();
             drive.followTrajectory(traj3);
+            drive.followTrajectory(traj4);
+            Wrist.setPosition(0.3);
+            sleep(200);
             while (! (Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -162,9 +170,11 @@ public class RRBB extends LinearOpMode {
                 Arm.moveDown(ARM_SPEED);
             }
             Arm.brake();
-            drive.followTrajectory(traj4);
-            drive.turn(90);
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            sleep(500);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj5);
+            drive.followTrajectory(traj6);
 
 
         }
@@ -202,8 +212,8 @@ public class RRBB extends LinearOpMode {
         Wrist.init(servo);
     }
     public void initArm() {
-        DcMotor motor = hardwareMap.get(DcMotor.class, "rightArm");
-        DcMotor motor2 = hardwareMap.get(DcMotor.class, "leftArm");
+        DcMotor motor = hardwareMap.get(DcMotor.class, "right_arm");
+        DcMotor motor2 = hardwareMap.get(DcMotor.class, "left_arm");
         Arm.init(motor, motor2);
         Arm.addDataToTelemetry(telemetry);
     }

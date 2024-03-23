@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "RRRB")
+@Autonomous(name = "RRBF")
 
 public class RRBF extends LinearOpMode {
 //    spike_position position;

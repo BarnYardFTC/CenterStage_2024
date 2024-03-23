@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@Autonomous(name = "RRRB")
+@Autonomous(name = "RRRF")
 
 public class RRRF extends LinearOpMode {
     spike_position position;
