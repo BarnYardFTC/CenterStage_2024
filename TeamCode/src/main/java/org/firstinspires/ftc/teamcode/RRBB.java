@@ -99,8 +99,8 @@ public class RRBB extends LinearOpMode {
 //            }
 //
 //            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(3));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(3));
 //            telemetry.update();
 //        }
 //        Camera.close(4);
@@ -218,7 +218,7 @@ public class RRBB extends LinearOpMode {
     }
 
     public void initCamera() {
-        Camera.init(this, hardwareMap, 4);
+        Camera.init(this, hardwareMap, 3);
     }
 
     public void initLed() {
