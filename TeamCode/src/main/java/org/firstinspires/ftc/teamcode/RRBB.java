@@ -123,13 +123,13 @@ public class RRBB extends LinearOpMode {
                     .build();
 
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 4, traj3.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 2, traj3.end().getY()))
                     .build();
             traj5 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
                     .lineToConstantHeading(new Vector2d(1, traj4.end().getY()))
                     .build();
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(1, traj5.end().getY()+30))
+                    .lineToConstantHeading(new Vector2d(1, traj5.end().getY()+22))
                     .build();
 
         }
