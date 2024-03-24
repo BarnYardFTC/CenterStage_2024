@@ -93,28 +93,25 @@ public class RRRF extends LinearOpMode {
                     .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 4, traj1.end().getY()))
                     .build();
-            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 24))
+            traj3 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 7))
                     .build();
-            traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 15, traj3.end().getY()))
+            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 20, traj3.end().getY()))
                     .build();
             traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX() + 48, traj4.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), -76))
                     .build();
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(77, traj5.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() -25, traj5.end().getY()))
                     .build();
-            traj7 = drive.trajectoryBuilder(traj6.end())
-                    .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() - 28))
+            traj7 = drive.trajectoryBuilder(new Pose2d(traj6.end().getX(), traj5.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX() + 30, traj6.end().getY()))
                     .build();
-            traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 31))
-                    .build();
-            traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX() + 10, traj8.end().getY()))
+            traj8 = drive.trajectoryBuilder(traj7.end())
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 16))
                     .build();
         }
         else if (position == spike_position.LEFT) {
@@ -129,13 +126,13 @@ public class RRRF extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(traj2.end().getX() - 7, traj2.end().getY()))
                     .build();
             traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 24))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 36))
                     .build();
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX() - 4, traj4.end().getY()))
                     .build();
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX() + 48, traj5.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() + 60, traj5.end().getY()))
                     .build();
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(77, traj6.end().getY()))
@@ -163,22 +160,13 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
             sleep(200);
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj3);
-            while (!(Arm.arrivedPosition(Arm.getArm1Position(), -20, false)) && opModeIsActive()) {
-                Arm.moveUp(ARM_SPEED);
-            }
-            Arm.brake();
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION + 0.05);
-            sleep(800);
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj4);
-            Claws.closeRightClaw();
-            sleep(200);
-            drive.followTrajectory(traj5);
             sleep(5000);
+            drive.followTrajectory(traj5);
             drive.followTrajectory(traj6);
-            drive.followTrajectory(traj7);
+            Wrist.setPosition(0.3);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -193,8 +181,8 @@ public class RRRF extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
             drive.turn(Math.toRadians(-90));
+            drive.followTrajectory(traj7);
             drive.followTrajectory(traj8);
-            drive.followTrajectory(traj9);
         }
         else if (position == spike_position.LEFT) {
             // Execute left path
