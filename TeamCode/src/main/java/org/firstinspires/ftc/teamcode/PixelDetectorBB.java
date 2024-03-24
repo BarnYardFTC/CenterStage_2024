@@ -36,7 +36,7 @@ public class PixelDetectorBB implements VisionProcessor {
     private final int REGIONS_WIDTH = 100;
     private final int REGIONS_HEIGHT = 150;
 
-    private final int BRIGHTNESS_DIFFERENCE = 13;
+    private final int BRIGHTNESS_DIFFERENCE = 17;
 
     public int getLeftRegion_avg() {
         return this.leftRegion_avg;

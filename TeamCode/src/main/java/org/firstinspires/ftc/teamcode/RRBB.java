@@ -118,37 +118,27 @@ public class RRBB extends LinearOpMode {
 
             // Forward towards spike mark
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(10)
-                    .build();
-
-            // Left towards spike mark
-            traj2 = drive.trajectoryBuilder(traj1.end())
-                    .strafeLeft(13)
+                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 7, drive.getPoseEstimate().getY() + 23))
                     .build();
 
             // Forward towards spike mark
-            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 20, traj2.end().getY()))
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 29, traj1.end().getY()))
                     .build();
 
             // Towards backdrop
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 15))
-                    .build();
-
-            // backwards
-            traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 5, traj4.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 18, traj3.end().getY() + 6))
                     .build();
 
             // backwards towards park
-            traj6 = drive.trajectoryBuilder(new Pose2d(traj5.end().getX(), traj5.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX() - 13, traj5.end().getY()))
+            traj6 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 15, traj4.end().getY()))
                     .build();
 
             // park
             traj7 = drive.trajectoryBuilder(traj6.end())
-                    .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() + 10))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() + 14))
                     .build();
 
         } else {
@@ -156,16 +146,19 @@ public class RRBB extends LinearOpMode {
             // Initialize Center path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(30)
+                    .forward(23)
                     .build();
             traj2 = drive.trajectoryBuilder(traj1.end())
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), traj1.end().getY() + 20))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX()-4, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 29, traj2.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX()+5, traj2.end().getY() + 30))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 15))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 23, traj3.end().getY()))
+                    .build();
+            traj5 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 15))
                     .build();
 
         }
@@ -209,12 +202,12 @@ public class RRBB extends LinearOpMode {
             // Execute left path
 
             drive.followTrajectory(traj1); // Forward towards spike mark
-            drive.followTrajectory(traj2); // Left towards spike mark
+//            drive.followTrajectory(traj2); // Left towards spike mark
             drive.turn(Math.toRadians(-90)); // Turn towards spike mark
             drive.followTrajectory(traj3); // Forward towards spike mark
             Claws.openRightClaw(); // Place purple pixel on spike mark
             drive.followTrajectory(traj4); // Towards backdrop
-            drive.followTrajectory(traj5); // Backward for better placement on the backdrop
+//            drive.followTrajectory(traj5); // Backward for better placement on the backdrop
             Wrist.setPosition(0.3);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
@@ -223,7 +216,7 @@ public class RRBB extends LinearOpMode {
             Arm.brake();
             sleep(800);
             Claws.openLeftClaw();
-            sleep(300);
+            sleep(500);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
                 Arm.moveDown(ARM_SPEED);
             }
@@ -242,15 +235,16 @@ public class RRBB extends LinearOpMode {
             drive.followTrajectory(traj1);
             Claws.openRightClaw();
             drive.followTrajectory(traj2);
+            drive.followTrajectory(traj3);
             drive.turn(Math.toRadians(-90));
-            Wrist.setPosition(0.3);
-            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+            Wrist.setPosition(0.4);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-50, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
             Arm.brake();
             sleep(800);
             Claws.openLeftClaw();
-            sleep(300);
+            sleep(500);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
                 Arm.moveDown(ARM_SPEED);
             }
@@ -258,8 +252,8 @@ public class RRBB extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(200);
             drive.turn(Math.toRadians(90));
-            drive.followTrajectory(traj3);
             drive.followTrajectory(traj4);
+            drive.followTrajectory(traj5);
         }
     }
 
