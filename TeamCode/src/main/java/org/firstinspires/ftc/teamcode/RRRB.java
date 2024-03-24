@@ -36,9 +36,6 @@ public class RRRB extends LinearOpMode {
     Trajectory traj5;
     Trajectory traj6;
     Trajectory traj7;
-    Trajectory traj8;
-    Trajectory traj9;
-    Trajectory traj10;
 
     @Override
     public void runOpMode() {
