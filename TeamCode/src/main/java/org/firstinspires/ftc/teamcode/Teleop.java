@@ -23,10 +23,10 @@ public class Teleop extends LinearOpMode {
 
 // Initialize
         initArm();
-        initWrist();
-        initClaws();
+//        initWrist();
+//        initClaws();
         initEgnitionSystem();
-        initColorRangeSensor();
+//        initColorRangeSensor();
 //        initLed();
 //        initDrone();
 //        drone.setDirection(Servo.Direction.REVERSE);
@@ -43,16 +43,14 @@ public class Teleop extends LinearOpMode {
 //            runDrone();
             runEgnitionSystem();
             runArm();
-            runClaws();
-            runWrist();
-            touchAndGo();
+//            runClaws();
+//            runWrist();
+//            touchAndGo();
 //            ledChange();
 
 // Telemetry update
             telemetry.addData("right arm", Arm.getArm1Position());
-            telemetry.addData("right claw", Claws.getRightClawPosition());
-            telemetry.addData("left claw", Claws.getLeftClawPosition());
-            telemetry.addData("wrist", Wrist.getPosition());
+//            telemetry.addData("wrist", Wrist.getPosition());
             telemetry.update();
         }
 //        drone.setPosition(0);
@@ -115,24 +113,24 @@ public class Teleop extends LinearOpMode {
     }
 
     public void runArm() {
-        if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -3000) {
+        if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -2200) {
             Arm.moveUp(gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= -20 && Arm.getArm2Position() >= 20) {
             Arm.moveDown(gamepad1.left_trigger);
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
-            Claws.closeRightClaw();
-            Claws.closeLeftClaw();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+//            Claws.closeRightClaw();
+//            Claws.closeLeftClaw();
+//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
-            Claws.closeLeftClaw();
-            Claws.closeRightClaw();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+//            Claws.closeLeftClaw();
+//            Claws.closeRightClaw();
+//            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
-            Wrist.UP = false;
+//            Wrist.UP = false;
             Arm.HANGING_MODE_ACTIVE = false;
             Arm.loadingModeArm();
         } else {
@@ -156,15 +154,15 @@ public class Teleop extends LinearOpMode {
             initEgnitionSystem();
             initEgnitionSystem();
         }
-        if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
-            EgnitionSystem.SLOW_MODE = true;
-            EgnitionSystem.WAS_PRESSED = false;
-            EgnitionSystem.PIXELS_IN = false;
-        } else if (Wrist.getPosition() == Wrist.WRIST_UP_POSITION && EgnitionSystem.SLOW_MODE && !EgnitionSystem.PIXELS_IN) {
-            EgnitionSystem.SLOW_MODE = false;
-            EgnitionSystem.WAS_PRESSED = false;
-            EgnitionSystem.PIXELS_IN = true;
-        }
+//        if (Wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION) {
+//            EgnitionSystem.SLOW_MODE = true;
+//            EgnitionSystem.WAS_PRESSED = false;
+//            EgnitionSystem.PIXELS_IN = false;
+//        } else if (Wrist.getPosition() == Wrist.WRIST_UP_POSITION && EgnitionSystem.SLOW_MODE && !EgnitionSystem.PIXELS_IN) {
+//            EgnitionSystem.SLOW_MODE = false;
+//            EgnitionSystem.WAS_PRESSED = false;
+//            EgnitionSystem.PIXELS_IN = true;
+//        }
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
@@ -181,7 +179,8 @@ public class Teleop extends LinearOpMode {
         }
         if (!EgnitionSystem.SLOW_MODE) {
             EgnitionSystem.runTeleop1();
-        } else {
+        }
+        else {
             EgnitionSystem.runTeleop2();
         }
     }

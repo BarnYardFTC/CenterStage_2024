@@ -28,9 +28,6 @@ public class Arm {
         rightArm = motor1;
         leftArm = motor2;
 
-        rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftArm.setDirection(DcMotorSimple.Direction.REVERSE);
-
         rightArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
