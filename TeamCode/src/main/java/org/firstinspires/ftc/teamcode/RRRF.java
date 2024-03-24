@@ -48,8 +48,8 @@ public class RRRF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-        initCamera();
-        initLed();
+//        initCamera();
+//        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -59,47 +59,47 @@ public class RRRF extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        while (opModeInInit()) {
-            if (PixelDetectorRF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-                HardwareLocal.green();
-            }
-            else if (PixelDetectorRF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-                HardwareLocal.green();
-            }
-            else {
-                position = spike_position.RIGHT;
-                HardwareLocal.green();
-            }
+//        while (opModeInInit()) {
+//            if (PixelDetectorRF.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//                HardwareLocal.green();
+//            }
+//            else if (PixelDetectorRF.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//                HardwareLocal.green();
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//                HardwareLocal.green();
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
+//            telemetry.update();
+//        }
+//        Camera.close(2);
 
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
-            telemetry.update();
-        }
-        Camera.close(2);
-
+        position = spike_position.RIGHT;
+        waitForStart();
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);
-
-        waitForStart();
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
             // Initialize right path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(15)
+                    .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 2, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
                     .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 24))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 26, traj3.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 15, traj3.end().getY()))
                     .build();
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX() + 48, traj4.end().getY()))
@@ -159,15 +159,22 @@ public class RRRF extends LinearOpMode {
             // Execute right path
 
             drive.followTrajectory(traj1);
-            drive.turn(-90);
+            drive.turn(Math.toRadians(-90));
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
+            sleep(200);
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            drive.turn(Math.toRadians(180) + 1e-6);
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj3);
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), -20, false)) && opModeIsActive()) {
+                Arm.moveUp(ARM_SPEED);
+            }
+            Arm.brake();
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION + 0.05);
+            sleep(800);
             drive.followTrajectory(traj4);
             Claws.closeRightClaw();
+            sleep(200);
             drive.followTrajectory(traj5);
             sleep(5000);
             drive.followTrajectory(traj6);
@@ -185,7 +192,7 @@ public class RRRF extends LinearOpMode {
             }
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
-            drive.turn(-90);
+            drive.turn(Math.toRadians(-90));
             drive.followTrajectory(traj8);
             drive.followTrajectory(traj9);
         }
@@ -218,7 +225,7 @@ public class RRRF extends LinearOpMode {
             }
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
-            drive.turn(-90);
+            drive.turn(Math.toRadians(-90));
             drive.followTrajectory(traj9);
             drive.followTrajectory(traj10);
         }

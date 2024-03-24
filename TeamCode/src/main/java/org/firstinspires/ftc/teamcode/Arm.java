@@ -19,7 +19,7 @@ public class Arm {
     static private int HANGING_POSITION = -1196;
     static public int UNLOADING_POSITION = -1775;
     static public boolean HANGING_MODE_ACTIVE = false;
-    static public boolean DPAD_PRESSED = false;
+    static private boolean DPAD_PRESSED = false;
     static public boolean LOADING_MODE_ACTIVE = false;
     static private boolean got_position_to_hold = false;
 
