@@ -55,32 +55,31 @@ public class RRBF extends LinearOpMode {
         Wrist.setPosition(0);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        while (opModeInInit()) {
-            if (PixelDetectorBF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-                HardwareLocal.green();
-            }
-            else if (PixelDetectorBF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-                HardwareLocal.green();
-            }
-            else {
-                position = spike_position.RIGHT;
-                HardwareLocal.green();
-            }
-
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
-            telemetry.update();
-        }
-        Camera.close(4);
-
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
-        sleep(500);
+        position = spike_position.RIGHT;
+//        while (opModeInInit()) {
+//            if (PixelDetectorBF.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//                HardwareLocal.green();
+//            }
+//            else if (PixelDetectorBF.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//                HardwareLocal.green();
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//                HardwareLocal.green();
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+//            telemetry.update();
+//        }
+//        Camera.close(4);
 
         waitForStart();
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
+        sleep(500);
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
@@ -183,7 +182,7 @@ public class RRBF extends LinearOpMode {
             }
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
-            drive.turn(90);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj9);
             drive.followTrajectory(traj10);
         }
@@ -217,7 +216,7 @@ public class RRBF extends LinearOpMode {
             }
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
-            drive.turn(90);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj8);
             drive.followTrajectory(traj9);
         }

@@ -134,7 +134,6 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.WAS_PRESSED = false;
             Wrist.UP = false;
             Arm.HANGING_MODE_ACTIVE = false;
-            Arm.DPAD_PRESSED = false;
             Arm.loadingModeArm();
         } else {
             Arm.brake();
