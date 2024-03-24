@@ -36,8 +36,6 @@ public class RRBF extends LinearOpMode {
     Trajectory traj6;
     Trajectory traj7;
     Trajectory traj8;
-    Trajectory traj9;
-    Trajectory traj10;
     @Override
     public void runOpMode() {
 
@@ -45,7 +43,7 @@ public class RRBF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-//        initCamera();
+        initCamera();
 //        initLed();
 
         // Close the claws
@@ -55,26 +53,26 @@ public class RRBF extends LinearOpMode {
         Wrist.setPosition(0);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-//        while (opModeInInit()) {
-//            if (PixelDetectorBF.getSpike_position() == 0) {
-//                position = spike_position.LEFT;
-//                HardwareLocal.green();
-//            }
-//            else if (PixelDetectorBF.getSpike_position() == 1) {
-//                position = spike_position.CENTER;
-//                HardwareLocal.green();
-//            }
-//            else {
-//                position = spike_position.RIGHT;
-//                HardwareLocal.green();
-//            }
-//
-//            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
-//            telemetry.update();
-//        }
-//        Camera.close(4);
+        while (opModeInInit()) {
+            if (PixelDetectorBF.getSpike_position() == 0) {
+                position = spike_position.LEFT;
+                HardwareLocal.green();
+            }
+            else if (PixelDetectorBF.getSpike_position() == 1) {
+                position = spike_position.CENTER;
+                HardwareLocal.green();
+            }
+            else {
+                position = spike_position.RIGHT;
+                HardwareLocal.green();
+            }
+
+            telemetry.addData("Spike Position: ", position);
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(4));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(4));
+            telemetry.update();
+        }
+        Camera.close(4);
 
         waitForStart();
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
