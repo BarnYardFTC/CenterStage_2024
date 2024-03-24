@@ -96,7 +96,7 @@ public class RRBB extends LinearOpMode {
                     .build();
             // towards backdrop
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), 29))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 29))
                     .build();
 
             // forward
@@ -143,7 +143,7 @@ public class RRBB extends LinearOpMode {
 
             // backwards towards park
             traj6 = drive.trajectoryBuilder(new Pose2d(traj5.end().getX(), traj5.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX() - 13, traj6.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() - 13, traj5.end().getY()))
                     .build();
 
             // park
@@ -177,30 +177,30 @@ public class RRBB extends LinearOpMode {
 
             // Execute right path
 
-            drive.followTrajectory(traj1);
-            drive.turn(Math.toRadians(-90));
-            drive.followTrajectory(traj2);
-            Claws.openRightClaw();
-            drive.followTrajectory(traj3);
-            drive.followTrajectory(traj4);
-            Wrist.setPosition(0.3);
+            drive.followTrajectory(traj1); // Forward towards spike mark
+            drive.turn(Math.toRadians(-90)); // Turn towards spike mark
+            drive.followTrajectory(traj2); // More forward for better placement on the spike mark
+            Claws.openRightClaw(); // Let go of purple pixel
+            drive.followTrajectory(traj3); // Towards backdrop
+            drive.followTrajectory(traj4); // Forward for better placement on the backdrop
+            Wrist.setPosition(0.3); // Lift wrist up
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
-                Arm.moveUp(ARM_SPEED);
+                Arm.moveUp(ARM_SPEED); // Lift the arm up
             }
             Arm.brake();
             sleep(800);
-            Claws.openLeftClaw();
+            Claws.openLeftClaw(); // Place yellow pixel on the backdrop
             sleep(500);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
-                Arm.moveDown(ARM_SPEED);
+                Arm.moveDown(ARM_SPEED); // Move the arm down
             }
             Arm.brake();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
-            drive.turn(Math.toRadians(90));
-            drive.followTrajectory(traj5);
-            drive.followTrajectory(traj6);
+            drive.turn(Math.toRadians(90)); // Turn the robot to teleop start position
+            drive.followTrajectory(traj5); // Park
+            drive.followTrajectory(traj6); // Park
 
 
         }
@@ -208,13 +208,13 @@ public class RRBB extends LinearOpMode {
 
             // Execute left path
 
-            drive.followTrajectory(traj1);
-            drive.followTrajectory(traj2);
-            drive.turn(Math.toRadians(-90));
-            drive.followTrajectory(traj3);
-            Claws.openRightClaw();
-            drive.followTrajectory(traj4);
-            drive.followTrajectory(traj5);
+            drive.followTrajectory(traj1); // Forward towards spike mark
+            drive.followTrajectory(traj2); // Left towards spike mark
+            drive.turn(Math.toRadians(-90)); // Turn towards spike mark
+            drive.followTrajectory(traj3); // Forward towards spike mark
+            Claws.openRightClaw(); // Place purple pixel on spike mark
+            drive.followTrajectory(traj4); // Towards backdrop
+            drive.followTrajectory(traj5); // Backward for better placement on the backdrop
             Wrist.setPosition(0.3);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
