@@ -89,7 +89,7 @@ public class RRBB extends LinearOpMode {
             // forward towards spike mark
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .forward(25)
-                    .build();
+                        .build();
             // more forward towards spike mark
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 7, traj1.end().getY()))

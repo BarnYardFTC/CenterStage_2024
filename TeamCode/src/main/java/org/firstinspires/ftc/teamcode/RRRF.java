@@ -120,7 +120,7 @@ public class RRRF extends LinearOpMode {
                     .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() - 4, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 4, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(traj2.end())
                     .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 3))
