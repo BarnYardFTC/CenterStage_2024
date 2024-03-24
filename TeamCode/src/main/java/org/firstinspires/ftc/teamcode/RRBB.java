@@ -84,7 +84,7 @@ public class RRBB extends LinearOpMode {
 
         if (position == spike_position.RIGHT) {
 
-            // Execute right path
+            // Initialize right path
 
             // forward towards spike mark
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
@@ -261,8 +261,6 @@ public class RRBB extends LinearOpMode {
             drive.followTrajectory(traj3);
             drive.followTrajectory(traj4);
         }
-
-
     }
 
     public void initClaws() {

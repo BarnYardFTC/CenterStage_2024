@@ -240,8 +240,6 @@ public class RRRB extends LinearOpMode {
             drive.followTrajectory(traj3);
             drive.followTrajectory(traj4);
         }
-
-
     }
 
     public void initClaws() {

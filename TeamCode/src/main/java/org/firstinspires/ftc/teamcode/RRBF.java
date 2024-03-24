@@ -27,6 +27,17 @@ public class RRBF extends LinearOpMode {
         RIGHT,
         CENTER
     }
+
+    Trajectory traj1;
+    Trajectory traj2;
+    Trajectory traj3;
+    Trajectory traj4;
+    Trajectory traj5;
+    Trajectory traj6;
+    Trajectory traj7;
+    Trajectory traj8;
+    Trajectory traj9;
+    Trajectory traj10;
     @Override
     public void runOpMode() {
 
@@ -73,34 +84,146 @@ public class RRBF extends LinearOpMode {
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
+            // Initialize right path
 
-            // Execute right path
-
-
-        } else if (position == spike_position.LEFT) {
-
-            // Execute left path
-
-        } else {
-
-            // Execute Center path
-
+            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .forward(13)
+                    .build();
+            traj2 = drive.trajectoryBuilder(traj1.end())
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), traj1.end().getY() + 15))
+                    .build();
+            traj3 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 7, traj2.end().getY()))
+                    .build();
+            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 24))
+                    .build();
+            traj5 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX() + 4, traj4.end().getY()))
+                    .build();
+            traj6 = drive.trajectoryBuilder(traj5.end())
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() - 48, traj5.end().getY()))
+                    .build();
+            traj7 = drive.trajectoryBuilder(traj6.end())
+                    .lineToConstantHeading(new Vector2d(-77, traj6.end().getY()))
+                    .build();
+            traj8 = drive.trajectoryBuilder(traj7.end())
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 16))
+                    .build();
+            traj9 = drive.trajectoryBuilder(new Pose2d(traj8.end().getX(), traj8.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 26))
+                    .build();
+            traj10 = drive.trajectoryBuilder(traj9.end())
+                    .lineToConstantHeading(new Vector2d(traj9.end().getX() - 10, traj9.end().getY()))
+                    .build();
+        }
+        else if (position == spike_position.LEFT) {
+            // Initialize left path
+            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .forward(15)
+                    .build();
+            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() - 2, traj1.end().getY()))
+                    .build();
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 24))
+                    .build();
+            traj4 = drive.trajectoryBuilder(traj3.end())
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 26, traj3.end().getY()))
+                    .build();
+            traj5 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 48, traj4.end().getY()))
+                    .build();
+            traj6 = drive.trajectoryBuilder(traj5.end())
+                    .lineToConstantHeading(new Vector2d(-77, traj5.end().getY()))
+                    .build();
+            traj7 = drive.trajectoryBuilder(traj6.end())
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() - 28))
+                    .build();
+            traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 31))
+                    .build();
+            traj9 = drive.trajectoryBuilder(traj8.end())
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX() - 10, traj8.end().getY()))
+                    .build();
+        }
+        else {
+            // Initialize Center path
         }
 
         if (isStopRequested()) return;
 
-        // Adjust the wrist position according to the arm position
-        if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.018 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -50)));
+        if (position == spike_position.RIGHT) {
+            // Execute right path
+
+            drive.followTrajectory(traj1);
+            drive.followTrajectory(traj2);
+            Claws.openRightClaw();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            drive.followTrajectory(traj3);
+            drive.turn(Math.toRadians(-90));
+            drive.followTrajectory(traj4);
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            drive.followTrajectory(traj5);
+            Claws.closeRightClaw();
+            drive.followTrajectory(traj6);
+            sleep(5000);
+            drive.followTrajectory(traj7);
+            drive.followTrajectory(traj8);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+                Arm.moveUp(ARM_SPEED);
+            }
+            Arm.brake();
+            sleep(800);
+            Claws.openLeftClaw();
+            Claws.openRightClaw();
+            sleep(300);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
+                Arm.moveDown(ARM_SPEED);
+            }
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            sleep(500);
+            drive.turn(90);
+            drive.followTrajectory(traj9);
+            drive.followTrajectory(traj10);
         }
+        else if (position == spike_position.LEFT) {
+            // Execute left path
 
-        // Add data to telemetry
-        telemetry.addData("Arm1 encoder: ", Arm.getArm1Position());
-        telemetry.addData("FL encoder position: ", EgnitionSystem.getFlEncoderPosition());
-        telemetry.addData("Heading: ", EgnitionSystem.getHeading());
-        telemetry.update();
-
-
+            drive.followTrajectory(traj1);
+            drive.turn(Math.toRadians(90));
+            drive.followTrajectory(traj2);
+            Claws.openRightClaw();
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            drive.turn(Math.toRadians(180) - 1e-6);
+            drive.followTrajectory(traj3);
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+            drive.followTrajectory(traj4);
+            Claws.closeRightClaw();
+            drive.followTrajectory(traj5);
+            sleep(5000);
+            drive.followTrajectory(traj6);
+            drive.followTrajectory(traj7);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+                Arm.moveUp(ARM_SPEED);
+            }
+            Arm.brake();
+            sleep(800);
+            Claws.openLeftClaw();
+            Claws.openRightClaw();
+            sleep(300);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
+                Arm.moveDown(ARM_SPEED);
+            }
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            sleep(500);
+            drive.turn(90);
+            drive.followTrajectory(traj8);
+            drive.followTrajectory(traj9);
+        }
+        else {
+            // Execute Center path
+        }
     }
 
     public void initClaws() {
