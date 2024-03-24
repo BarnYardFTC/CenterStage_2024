@@ -48,7 +48,7 @@ public class RRRF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-//        initCamera();
+        initCamera();
 //        initLed();
 
         // Close the claws
@@ -59,28 +59,27 @@ public class RRRF extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-//        while (opModeInInit()) {
-//            if (PixelDetectorRF.getSpike_position() == 0) {
-//                position = spike_position.LEFT;
-//                HardwareLocal.green();
-//            }
-//            else if (PixelDetectorRF.getSpike_position() == 1) {
-//                position = spike_position.CENTER;
-//                HardwareLocal.green();
-//            }
-//            else {
-//                position = spike_position.RIGHT;
-//                HardwareLocal.green();
-//            }
-//
-//            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
-//            telemetry.update();
-//        }
-//        Camera.close(2);
+        while (opModeInInit()) {
+            if (PixelDetectorRF.getSpike_position() == 0) {
+                position = spike_position.LEFT;
+                HardwareLocal.green();
+            }
+            else if (PixelDetectorRF.getSpike_position() == 1) {
+                position = spike_position.CENTER;
+                HardwareLocal.green();
+            }
+            else {
+                position = spike_position.RIGHT;
+                HardwareLocal.green();
+            }
 
-        position = spike_position.RIGHT;
+            telemetry.addData("Spike Position: ", position);
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
+            telemetry.update();
+        }
+        Camera.close(2);
+
         waitForStart();
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
         sleep(500);
@@ -93,65 +92,82 @@ public class RRRF extends LinearOpMode {
                     .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
-                    .build();
-            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 24))
-                    .build();
-            traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 15, traj3.end().getY()))
-                    .build();
-            traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX() + 48, traj4.end().getY()))
-                    .build();
-            traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(77, traj5.end().getY()))
-                    .build();
-            traj7 = drive.trajectoryBuilder(traj6.end())
-                    .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() - 28))
-                    .build();
-            traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 31))
-                    .build();
-            traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX() + 10, traj8.end().getY()))
-                    .build();
-        }
-        else if (position == spike_position.LEFT) {
-            // Initialize left path
-            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .strafeLeft(13)
-                    .build();
-            traj2 = drive.trajectoryBuilder(traj1.end())
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), traj1.end().getY() + 15))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 4, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 7, traj2.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 7))
                     .build();
             traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 24))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 20, traj3.end().getY()))
                     .build();
             traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 4, traj4.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), -76))
                     .build();
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX() + 48, traj5.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() -25, traj5.end().getY()))
                     .build();
-            traj7 = drive.trajectoryBuilder(traj6.end())
-                    .lineToConstantHeading(new Vector2d(77, traj6.end().getY()))
+            traj7 = drive.trajectoryBuilder(new Pose2d(traj6.end().getX(), traj5.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX() + 30, traj6.end().getY()))
                     .build();
             traj8 = drive.trajectoryBuilder(traj7.end())
                     .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 16))
                     .build();
-            traj9 = drive.trajectoryBuilder(new Pose2d(traj8.end().getX(), traj8.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 26))
+        }
+        else if (position == spike_position.LEFT) {
+            // Initialize left path
+
+            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .forward(25)
                     .build();
-            traj10 = drive.trajectoryBuilder(traj9.end())
-                    .lineToConstantHeading(new Vector2d(traj9.end().getX() + 10, traj9.end().getY()))
+            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() - 4, traj1.end().getY()))
+                    .build();
+            traj3 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 3))
+                    .build();
+            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 20, traj3.end().getY()))
+                    .build();
+            traj5 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), -76))
+                    .build();
+            traj6 = drive.trajectoryBuilder(traj5.end())
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() -15, traj5.end().getY()))
+                    .build();
+            traj7 = drive.trajectoryBuilder(new Pose2d(traj6.end().getX(), traj5.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX() + 20, traj6.end().getY()))
+                    .build();
+            traj8 = drive.trajectoryBuilder(traj7.end())
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 16))
                     .build();
         }
         else {
             // Initialize Center path
+
+            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                    .forward(27)
+                    .build();
+            traj2 = drive.trajectoryBuilder(traj1.end())
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX(), traj1.end().getY() - 3))
+                    .build();
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 7))
+                    .build();
+            traj4 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 20, traj3.end().getY()))
+                    .build();
+            traj5 = drive.trajectoryBuilder(traj4.end())
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), -80))
+                    .build();
+            traj6 = drive.trajectoryBuilder(traj5.end())
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX() -19, traj5.end().getY()))
+                    .build();
+            traj7 = drive.trajectoryBuilder(new Pose2d(traj6.end().getX(), traj5.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX() + 26, traj6.end().getY()))
+                    .build();
+            traj8 = drive.trajectoryBuilder(traj7.end())
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 16))
+                    .build();
         }
         if (isStopRequested()) return;
 
@@ -163,22 +179,13 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
             sleep(200);
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
-            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj3);
-            while (!(Arm.arrivedPosition(Arm.getArm1Position(), -20, false)) && opModeIsActive()) {
-                Arm.moveUp(ARM_SPEED);
-            }
-            Arm.brake();
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION + 0.05);
-            sleep(800);
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj4);
-            Claws.closeRightClaw();
-            sleep(200);
-            drive.followTrajectory(traj5);
             sleep(5000);
+            drive.followTrajectory(traj5);
             drive.followTrajectory(traj6);
-            drive.followTrajectory(traj7);
+            Wrist.setPosition(0.3);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -193,25 +200,24 @@ public class RRRF extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
             drive.turn(Math.toRadians(-90));
+            drive.followTrajectory(traj7);
             drive.followTrajectory(traj8);
-            drive.followTrajectory(traj9);
         }
         else if (position == spike_position.LEFT) {
             // Execute left path
+
             drive.followTrajectory(traj1);
+            drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
-            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            sleep(200);
             drive.followTrajectory(traj3);
-            drive.turn(Math.toRadians(90));
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj4);
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
-            drive.followTrajectory(traj5);
-            Claws.closeRightClaw();
-            drive.followTrajectory(traj6);
             sleep(5000);
-            drive.followTrajectory(traj7);
-            drive.followTrajectory(traj8);
+            drive.followTrajectory(traj5);
+            drive.followTrajectory(traj6);
+            Wrist.setPosition(0.3);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -226,11 +232,39 @@ public class RRRF extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
             drive.turn(Math.toRadians(-90));
-            drive.followTrajectory(traj9);
-            drive.followTrajectory(traj10);
+            drive.followTrajectory(traj7);
+            drive.followTrajectory(traj8);
         }
         else {
             // Execute Center path
+
+            drive.followTrajectory(traj1);
+            drive.followTrajectory(traj2);
+            Claws.openRightClaw();
+            sleep(200);
+            drive.turn(Math.toRadians(90));
+            drive.followTrajectory(traj3);
+            drive.followTrajectory(traj4);
+            sleep(5000);
+            drive.followTrajectory(traj5);
+            drive.followTrajectory(traj6);
+            Wrist.setPosition(0.3);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+                Arm.moveUp(ARM_SPEED);
+            }
+            Arm.brake();
+            sleep(800);
+            Claws.openLeftClaw();
+            Claws.openRightClaw();
+            sleep(300);
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {
+                Arm.moveDown(ARM_SPEED);
+            }
+            Wrist.setPosition(Wrist.WRIST_UP_POSITION);
+            sleep(500);
+            drive.turn(Math.toRadians(-90));
+            drive.followTrajectory(traj7);
+            drive.followTrajectory(traj8);
         }
     }
 
