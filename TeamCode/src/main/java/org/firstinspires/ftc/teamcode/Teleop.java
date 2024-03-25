@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.A;
+
 // Teleop
 @TeleOp(name = "CenterStage TeleOp")
 public class Teleop extends LinearOpMode {
@@ -117,7 +119,7 @@ public class Teleop extends LinearOpMode {
     }
 
     public void runArm() {
-        if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -2220) {
+        if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -2300) {
             Arm.moveUp(gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= -20 && Arm.getArm2Position() >= 20) {
             Arm.moveDown(gamepad1.left_trigger);
@@ -157,6 +159,14 @@ public class Teleop extends LinearOpMode {
         if (gamepad1.b) {
             initEgnitionSystem();
             initEgnitionSystem();
+            HardwareLocal.BLINK_IN_TIME = 20;
+            if (HardwareLocal.BLINK_IN_TIME % 2 == 0) {
+                HardwareLocal.black();
+                HardwareLocal.BLINK_IN_TIME--;
+            } else {
+                HardwareLocal.red();
+                HardwareLocal.BLINK_IN_TIME--;
+            }
         }
         if (Wrist.isWristDown()) {
             EgnitionSystem.SLOW_MODE = true;
@@ -220,13 +230,16 @@ public class Teleop extends LinearOpMode {
     }
 
     public void ledChange() {
+        if (Arm.getArm1Position() == -1195) {
+            HardwareLocal.blue();
+        }
         if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
             HardwareLocal.green();
         } else if (!HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() || HardwareLocal.pixelRight() && !HardwareLocal.pixelLeft()) {
-            if (HardwareLocal.BLINK_IN_TIME >= 0 && HardwareLocal.BLINK_IN_TIME < 20) {
+            if (HardwareLocal.BLINK_IN_TIME >= 0 && HardwareLocal.BLINK_IN_TIME < 5) {
                 HardwareLocal.black();
                 HardwareLocal.BLINK_IN_TIME++;
-            } else if (HardwareLocal.BLINK_IN_TIME >= 20 && HardwareLocal.BLINK_IN_TIME < 40) {
+            } else if (HardwareLocal.BLINK_IN_TIME >= 5 && HardwareLocal.BLINK_IN_TIME < 10) {
                 HardwareLocal.red();
                 HardwareLocal.BLINK_IN_TIME++;
             } else {

@@ -9,8 +9,8 @@ public class Wrist {
 // Variables
     static Servo wrist;
     static final double WRIST_UP_POSITION = 0.13;
-    static final double WRIST_DOWN_POSITION = 0.7;
-    static final double WRIST_UNLOADING_POSITION = 0.04;
+    static final double WRIST_DOWN_POSITION = 0.677;
+    static final double WRIST_UNLOADING_POSITION = 0.17;
     static public boolean UP = false;
     static boolean was_Y_pressed;
 
@@ -39,8 +39,8 @@ public class Wrist {
     public static double getPosition() {
         return wrist.getPosition();
     }
-    public static boolean isWristUp() {return wrist.getPosition() <= Wrist.WRIST_UP_POSITION + 1 && wrist.getPosition() >= Wrist.WRIST_UP_POSITION - 1;}
-    public static boolean isWristDown() {return wrist.getPosition() <= Wrist.WRIST_DOWN_POSITION + 1 && wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION - 1;}
+    public static boolean isWristUp() {return wrist.getPosition() <= Wrist.WRIST_UP_POSITION + 0.000001 && wrist.getPosition() >= Wrist.WRIST_UP_POSITION - 0.000001;}
+    public static boolean isWristDown() {return wrist.getPosition() <= Wrist.WRIST_DOWN_POSITION + 0.000001 && wrist.getPosition() >= Wrist.WRIST_DOWN_POSITION - 0.000001;}
 
 // Operating System
     public static void runWrist(boolean Y_pressed){

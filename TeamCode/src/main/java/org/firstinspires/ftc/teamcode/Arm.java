@@ -15,11 +15,11 @@ public class Arm {
     static public final int MINIMAL_HOLD_POSITION = -500;
     static private int hold_position1 = 0;
     static private int hold_position2 = 0;
-    static private int MAX_SPEED = 420;
-    static private int HANGING_POSITION = -1193;
-    static public int UNLOADING_POSITION = -1700;
+    static private int MAX_SPEED = 450;
+    static private int HANGING_POSITION = -1195;
+    static public int UNLOADING_POSITION = -1650;
     static public boolean HANGING_MODE_ACTIVE = false;
-    static private boolean DPAD_PRESSED = false;
+    static public boolean DPAD_PRESSED = false;
     static public boolean LOADING_MODE_ACTIVE = false;
     static private boolean got_position_to_hold = false;
     static public final int COLLECT_WHITE_PIXEL_POSITION = -140;

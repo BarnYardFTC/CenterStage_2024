@@ -9,9 +9,9 @@ public class Claws {
     private static Servo left_claw;
     private static Servo right_claw;
     static final double LEFT_CLAW_CLOSED_POSITION = 0.65;
-    static final double LEFT_CLAW_OPENED_POSITION = 0.45;
+    static final double LEFT_CLAW_OPENED_POSITION = 0.47;
     static final double RIGHT_CLAW_CLOSED_POSITION = 0.65;
-    static final double RIGHT_CLAW_OPENED_POSITION = 0.9;
+    static final double RIGHT_CLAW_OPENED_POSITION = 0.11;
     private static boolean was_right_bumper_pressed;
     private static boolean was_left_bumper_pressed;
 
@@ -76,18 +76,18 @@ public class Claws {
         return left_claw.getPosition();
     }
     public static boolean isLeftOpen() {
-        return left_claw.getPosition() <= LEFT_CLAW_OPENED_POSITION + 1 && left_claw.getPosition() <= LEFT_CLAW_OPENED_POSITION - 1;
+        return left_claw.getPosition() <= LEFT_CLAW_OPENED_POSITION + 0.000001 && left_claw.getPosition() >= LEFT_CLAW_OPENED_POSITION - 0.000001;
     }
     public static boolean isLeftClose() {
-        return left_claw.getPosition() <= LEFT_CLAW_CLOSED_POSITION + 1 && left_claw.getPosition() <= LEFT_CLAW_CLOSED_POSITION - 1;
+        return left_claw.getPosition() <= LEFT_CLAW_CLOSED_POSITION + 0.000001 && left_claw.getPosition() >= LEFT_CLAW_CLOSED_POSITION - 0.000001;
     }
     public static double getRightClawPosition() {
         return right_claw.getPosition();
     }
     public static boolean isRightOpen() {
-        return right_claw.getPosition() <= RIGHT_CLAW_OPENED_POSITION + 1 && right_claw.getPosition() <= RIGHT_CLAW_OPENED_POSITION - 1;
+        return right_claw.getPosition() <= RIGHT_CLAW_OPENED_POSITION + 0.000001 && right_claw.getPosition() >= RIGHT_CLAW_OPENED_POSITION - 0.000001;
     }
     public static boolean isRightClose() {
-        return right_claw.getPosition() <= RIGHT_CLAW_CLOSED_POSITION + 1 && right_claw.getPosition() <= RIGHT_CLAW_CLOSED_POSITION - 1;
+        return right_claw.getPosition() <= RIGHT_CLAW_CLOSED_POSITION + 0.000001 && right_claw.getPosition() >= RIGHT_CLAW_CLOSED_POSITION - 0.000001;
     }
 }

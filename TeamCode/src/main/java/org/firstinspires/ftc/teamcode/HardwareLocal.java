@@ -50,4 +50,5 @@ public class HardwareLocal {
     public static void red() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.DARK_RED);}
     public static void black() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);}
     public static void green() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
+    public static void blue() {ledDrive.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);}
 }
