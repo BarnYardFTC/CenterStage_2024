@@ -276,9 +276,11 @@ public class RRRF extends LinearOpMode {
         else {
             // Execute Center path
 
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.2);
             drive.followTrajectory(traj1);
-            drive.turn(Math.toRadians(-90));
+            drive.turn(Math.toRadians(180));
+            Claws.openRightClaw();
+            drive.followTrajectory(traj2);
+            drive.turn(Math.toRadians(180));
 
             Wrist.setPosition(0.3);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
