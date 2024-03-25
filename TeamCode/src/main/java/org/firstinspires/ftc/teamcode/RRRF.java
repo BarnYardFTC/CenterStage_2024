@@ -61,26 +61,26 @@ public class RRRF extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-//        while (opModeInInit()) {
-//            if (PixelDetectorRF.getSpike_position() == 0) {
-//                position = spike_position.LEFT;
-//                HardwareLocal.green();
-//            }
-//            else if (PixelDetectorRF.getSpike_position() == 1) {
-//                position = spike_position.CENTER;
-//                HardwareLocal.green();
-//            }
-//            else {
-//                position = spike_position.RIGHT;
-//                HardwareLocal.green();
-//            }
-//
-//            telemetry.addData("Spike Position: ", position);
-//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
-//            telemetry.update();
-//        }
-//        Camera.close(2);
+        while (opModeInInit()) {
+            if (PixelDetectorRF.getSpike_position() == 0) {
+                position = spike_position.LEFT;
+                HardwareLocal.green();
+            }
+            else if (PixelDetectorRF.getSpike_position() == 1) {
+                position = spike_position.CENTER;
+                HardwareLocal.green();
+            }
+            else {
+                position = spike_position.RIGHT;
+                HardwareLocal.green();
+            }
+
+            telemetry.addData("Spike Position: ", position);
+            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
+            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
+            telemetry.update();
+        }
+        Camera.close(2);
 
         waitForStart();
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
@@ -88,13 +88,6 @@ public class RRRF extends LinearOpMode {
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
-
-//            traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-//                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 7, drive.getPoseEstimate().getY()))
-//                    .build();
-//            traj2 = drive.trajectoryBuilder(traj1.end())
-//                    .lineToConstantHeading(new Vector2d(traj1.end().getX() - 7, traj1.end().getY()))
-//                    .build();
 
             // Initialize right path
 
