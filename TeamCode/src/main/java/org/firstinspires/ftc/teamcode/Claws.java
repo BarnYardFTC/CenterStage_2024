@@ -8,17 +8,17 @@ public class Claws {
 // Variables
     private static Servo left_claw;
     private static Servo right_claw;
-    static final double LEFT_CLAW_CLOSED_POSITION = 0.39;
-    static final double LEFT_CLAW_OPENED_POSITION = 0;
-    static final double RIGHT_CLAW_CLOSED_POSITION = 0.2;
-    static final double RIGHT_CLAW_OPENED_POSITION = 0.6;
+    static final double LEFT_CLAW_CLOSED_POSITION = 0.65;
+    static final double LEFT_CLAW_OPENED_POSITION = 0.45;
+    static final double RIGHT_CLAW_CLOSED_POSITION = 0.65;
+    static final double RIGHT_CLAW_OPENED_POSITION = 0.9;
     private static boolean was_right_bumper_pressed;
     private static boolean was_left_bumper_pressed;
 
 // Initializing
-    public static void init(Servo right_claw, Servo left_claw) {
-        Claws.left_claw = right_claw;
-        Claws.right_claw = left_claw;
+    public static void init(Servo left_claw, Servo right_claw) {
+        Claws.left_claw = left_claw;
+        Claws.right_claw = right_claw;
 
         was_right_bumper_pressed = false;
         was_left_bumper_pressed = false;
@@ -75,7 +75,19 @@ public class Claws {
     public static double getLeftClawPosition() {
         return left_claw.getPosition();
     }
+    public static boolean isLeftOpen() {
+        return left_claw.getPosition() <= LEFT_CLAW_OPENED_POSITION + 1 && left_claw.getPosition() <= LEFT_CLAW_OPENED_POSITION - 1;
+    }
+    public static boolean isLeftClose() {
+        return left_claw.getPosition() <= LEFT_CLAW_CLOSED_POSITION + 1 && left_claw.getPosition() <= LEFT_CLAW_CLOSED_POSITION - 1;
+    }
     public static double getRightClawPosition() {
         return right_claw.getPosition();
+    }
+    public static boolean isRightOpen() {
+        return right_claw.getPosition() <= RIGHT_CLAW_OPENED_POSITION + 1 && right_claw.getPosition() <= RIGHT_CLAW_OPENED_POSITION - 1;
+    }
+    public static boolean isRightClose() {
+        return right_claw.getPosition() <= RIGHT_CLAW_CLOSED_POSITION + 1 && right_claw.getPosition() <= RIGHT_CLAW_CLOSED_POSITION - 1;
     }
 }
