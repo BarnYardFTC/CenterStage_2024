@@ -8,8 +8,8 @@ public class Wrist {
 
 // Variables
     static Servo wrist;
-    static final double WRIST_UP_POSITION = 0;
-    static final double WRIST_DOWN_POSITION = 0.87;
+    static final double WRIST_UP_POSITION = 0.1;
+    static final double WRIST_DOWN_POSITION = 0.6;
     static final double WRIST_UNLOADING_POSITION = 0.04;
     static public boolean UP = false;
     static boolean was_Y_pressed;

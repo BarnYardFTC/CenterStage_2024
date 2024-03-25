@@ -23,7 +23,6 @@ public class RRRF extends LinearOpMode {
     int ARM_DOWN_POSITION = -300;
 
     spike_position position = spike_position.RIGHT;
-    private Trajectory ;
 
     enum spike_position {
         LEFT,
@@ -195,7 +194,10 @@ public class RRRF extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(traj6.end().getX() - 20, traj6.end().getY()))
                     .build();
             traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj3.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX() + 20, traj3.end().getY()))
+                    .build();
+            traj9 = drive.trajectoryBuilder(traj8.end())
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() - 20))
                     .build();
 
         }

@@ -28,9 +28,9 @@ public class Teleop extends LinearOpMode {
         initEgnitionSystem();
         initColorRangeSensor();
 //        initLed();
-        initDrone();
-        drone.setDirection(Servo.Direction.REVERSE);
-        drone.setPosition(DRONE_INIT);
+//        initDrone();
+//        drone.setDirection(Servo.Direction.REVERSE);
+//        drone.setPosition(DRONE_INIT);
 
         telemetry.update();
 
@@ -40,7 +40,7 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 // Running systems
-            runDrone();
+//            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -53,7 +53,7 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("wrist", Wrist.getPosition());
             telemetry.update();
         }
-        drone.setPosition(0);
+//        drone.setPosition(0);
     }
 
 // Initializing & running system functions
