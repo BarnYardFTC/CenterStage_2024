@@ -15,9 +15,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Teleop extends LinearOpMode {
 
     // Configuring
-//    Servo drone;
-//    double DRONE_LUNCH = 1;
-//    double DRONE_INIT = 0.3;
+    Servo drone;
+    double DRONE_LUNCH = 1;
+    double DRONE_INIT = 0.3;
     @Override
     public void runOpMode() {
 
@@ -28,9 +28,9 @@ public class Teleop extends LinearOpMode {
         initEgnitionSystem();
         initColorRangeSensor();
 //        initLed();
-//        initDrone();
-//        drone.setDirection(Servo.Direction.REVERSE);
-//        drone.setPosition(DRONE_INIT);
+        initDrone();
+        drone.setDirection(Servo.Direction.REVERSE);
+        drone.setPosition(DRONE_INIT);
 
         telemetry.update();
 
@@ -40,7 +40,7 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 // Running systems
-//            runDrone();
+            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -53,19 +53,19 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("wrist", Wrist.getPosition());
             telemetry.update();
         }
-//        drone.setPosition(0);
+        drone.setPosition(0);
     }
 
 // Initializing & running system functions
 
-    //    public void initDrone() {
-//        drone = hardwareMap.get(Servo.class, "drone");
-//    }
-//    public void runDrone() {
-//        if (gamepad1.dpad_down) {
-//            drone.setPosition(DRONE_LUNCH);
-//        }
-//    }
+    public void initDrone() {
+        drone = hardwareMap.get(Servo.class, "drone");
+    }
+    public void runDrone() {
+        if (gamepad1.dpad_down) {
+            drone.setPosition(DRONE_LUNCH);
+        }
+    }
     public void initClaws() {
         Servo left_claw = hardwareMap.get(Servo.class, "left_claw");
         Servo right_claw = hardwareMap.get(Servo.class, "right_claw");

@@ -20,7 +20,7 @@ public class RRRF extends LinearOpMode {
     int ARM_UP_POSITION = -2000;
     int ARM_DOWN_POSITION = -300;
 
-    spike_position position;
+    spike_position position = spike_position.RIGHT;
 
     enum spike_position {
         LEFT,
@@ -44,7 +44,7 @@ public class RRRF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-        initCamera();
+//        initCamera();
 //        initLed();
 
         // Close the claws
@@ -55,26 +55,26 @@ public class RRRF extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        while (opModeInInit()) {
-            if (PixelDetectorRF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-                HardwareLocal.green();
-            }
-            else if (PixelDetectorRF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-                HardwareLocal.green();
-            }
-            else {
-                position = spike_position.RIGHT;
-                HardwareLocal.green();
-            }
-
-            telemetry.addData("Spike Position: ", position);
-            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
-            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
-            telemetry.update();
-        }
-        Camera.close(2);
+//        while (opModeInInit()) {
+//            if (PixelDetectorRF.getSpike_position() == 0) {
+//                position = spike_position.LEFT;
+//                HardwareLocal.green();
+//            }
+//            else if (PixelDetectorRF.getSpike_position() == 1) {
+//                position = spike_position.CENTER;
+//                HardwareLocal.green();
+//            }
+//            else {
+//                position = spike_position.RIGHT;
+//                HardwareLocal.green();
+//            }
+//
+//            telemetry.addData("Spike Position: ", position);
+//            telemetry.addData("Right Region avg: ", Camera.getRightRegion_avg(2));
+//            telemetry.addData("Left Region avg: ", Camera.getLeftRegion_avg(2));
+//            telemetry.update();
+//        }
+//        Camera.close(2);
 
         waitForStart();
         Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.05);
@@ -82,6 +82,7 @@ public class RRRF extends LinearOpMode {
 
         // Choose a path according to the spike position
         if (position == spike_position.RIGHT) {
+
             // Initialize right path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
