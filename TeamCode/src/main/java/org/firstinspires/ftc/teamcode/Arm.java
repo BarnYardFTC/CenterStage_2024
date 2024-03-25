@@ -22,6 +22,7 @@ public class Arm {
     static private boolean DPAD_PRESSED = false;
     static public boolean LOADING_MODE_ACTIVE = false;
     static private boolean got_position_to_hold = false;
+    static public final int COLLECT_WHITE_PIXEL_POSITION = -140;
 
 // Initializing
     public static void init(DcMotor motor1, DcMotor motor2) {
@@ -103,6 +104,21 @@ public class Arm {
 
             LOADING_MODE_ACTIVE = false;
         }
+    }
+    public static void BRAKE() {
+        if (!got_position_to_hold) {
+            got_position_to_hold = true;
+            hold_position1 = rightArm.getCurrentPosition();
+            hold_position2 = leftArm.getCurrentPosition();
+        }
+        rightArm.setPower(1);
+        leftArm.setPower(1);
+
+        rightArm.setTargetPosition(hold_position1);
+        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftArm.setTargetPosition(hold_position2);
+        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public static void brake(){
         if (!got_position_to_hold) {
