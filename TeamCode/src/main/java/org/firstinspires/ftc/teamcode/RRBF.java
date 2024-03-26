@@ -342,7 +342,7 @@ public class RRBF extends LinearOpMode {
     }
 
     public void initCamera() {
-        Camera.init(this, hardwareMap, 2);
+        Camera.init(this, hardwareMap, 4);
     }
 
     public void initLed() {
