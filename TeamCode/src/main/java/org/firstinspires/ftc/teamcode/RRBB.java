@@ -173,7 +173,7 @@ public class RRBB extends LinearOpMode {
             Claws.openRightClaw(); // Let go of purple pixel
             drive.followTrajectory(traj3); // Towards backdrop
             drive.followTrajectory(traj4); // Forward for better placement on the backdrop
-            Wrist.setPosition(0.285); // Lift wrist up
+            Wrist.setPosition(0.45); // Lift wrist up
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED); // Lift the arm up
@@ -206,7 +206,7 @@ public class RRBB extends LinearOpMode {
             Claws.openRightClaw(); // Place purple pixel on spike mark
             drive.followTrajectory(traj4); // Towards backdrop
 //            drive.followTrajectory(traj5); // Backward for better placement on the backdrop
-            Wrist.setPosition(0.3);
+            Wrist.setPosition(0.45);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-50, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);

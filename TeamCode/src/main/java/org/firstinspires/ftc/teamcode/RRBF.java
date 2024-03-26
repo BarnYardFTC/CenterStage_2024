@@ -110,7 +110,7 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 39 y: 0
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 75))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -122,7 +122,7 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 39 y: 70
             traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 20))
                     .build();
             // x: 39 y: 92
 
@@ -153,19 +153,19 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 39 y: 0
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 75))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
-                    .lineToConstantHeading(new Vector2d(traj6.end().getX() - 30, traj6.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj6.end().getX() - 29, traj6.end().getY()))
                     .build();
             // x: 9 y: 70
             traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX() + 30, traj7.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX() + 29, traj7.end().getY()))
                     .build();
             // x: 39 y: 70
             traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 20))
                     .build();
             // x: 39 y: 92
 
@@ -191,7 +191,7 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 39 y: 0
             traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 75))
                     .build();
             // x: 39 y: 70
             traj6 = drive.trajectoryBuilder(traj5.end())
@@ -203,7 +203,7 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 39 y: 70
             traj8 = drive.trajectoryBuilder(traj7.end())
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 20))
                     .build();
             // x: 39 y: 92
         }
@@ -226,7 +226,7 @@ public class RRBF extends LinearOpMode {
 
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
-            Wrist.setPosition(0.285);
+            Wrist.setPosition(0.45);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -263,7 +263,7 @@ public class RRBF extends LinearOpMode {
 
             drive.followTrajectory(traj8);
             drive.followTrajectory(traj9);
-            Wrist.setPosition(0.285);
+            Wrist.setPosition(0.45);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -298,7 +298,7 @@ public class RRBF extends LinearOpMode {
 
             drive.followTrajectory(traj5);
             drive.followTrajectory(traj6);
-            Wrist.setPosition(0.285);
+            Wrist.setPosition(0.45);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
