@@ -242,7 +242,7 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj7);
             drive.followTrajectory(traj8);
             drive.followTrajectory(traj9);
-            Wrist.setPosition(0.3);
+            Wrist.setPosition(0.285);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -278,7 +278,7 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
             drive.followTrajectory(traj8);
-            Wrist.setPosition(0.3);
+            Wrist.setPosition(0.285);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
@@ -314,7 +314,7 @@ public class RRRF extends LinearOpMode {
 
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
-            Wrist.setPosition(0.3);
+            Wrist.setPosition(0.285);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
