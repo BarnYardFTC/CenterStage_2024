@@ -88,16 +88,16 @@ public class RRRB extends LinearOpMode {
             // Initialize right path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 20, drive.getPoseEstimate().getY() - 21))
+                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 10, drive.getPoseEstimate().getY() - 23))
                     .build();
             traj3 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 15, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 25, traj1.end().getY()))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 15, traj3.end().getY() - 6))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 18, traj3.end().getY() - 6))
                     .build();
             traj6 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 19, traj4.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX() - 17, traj4.end().getY()))
                     .build();
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() - 15))
@@ -110,7 +110,7 @@ public class RRRB extends LinearOpMode {
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 27, drive.getPoseEstimate().getY() - 2))
                     .build();
-//            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
+//           traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
 //                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
 //                    .build();
             traj3 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
@@ -131,13 +131,13 @@ public class RRRB extends LinearOpMode {
                     .forward(24)
                     .build();
             traj2 = drive.trajectoryBuilder(traj1.end())
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 6, traj1.end().getY() - 31))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 8, traj1.end().getY() - 32))
                     .build();
             traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 29, traj2.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() - 28, traj2.end().getY()))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 10))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 20))
                     .build();
         }
 
@@ -153,7 +153,7 @@ public class RRRB extends LinearOpMode {
             drive.followTrajectory(traj3);
             Claws.openRightClaw();
             drive.followTrajectory(traj4);
-            Wrist.setPosition(0.45);
+            Wrist.setPosition(0.4);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-50, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
@@ -175,12 +175,12 @@ public class RRRB extends LinearOpMode {
         else if (position == spike_position.LEFT) {
 
             // Execute left path
-
+            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
             drive.followTrajectory(traj1);
             drive.turn(Math.toRadians(90));
             Claws.openRightClaw();
             drive.followTrajectory(traj3);
-            Wrist.setPosition(0.45);
+            Wrist.setPosition(0.4);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-100, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
@@ -203,17 +203,16 @@ public class RRRB extends LinearOpMode {
 
             // Execute Center path
 
-            Wrist.setPosition(Wrist.WRIST_DOWN_POSITION-0.2);
             drive.followTrajectory(traj1);
             Claws.openRightClaw();
             drive.followTrajectory(traj2);
             drive.turn(Math.toRadians(90));
-            Wrist.setPosition(0.45);
+            Wrist.setPosition(0.4);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-100, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }
             Arm.brake();
-            sleep(800);
+            sleep(1200);
             Claws.openLeftClaw();
             sleep(300);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_DOWN_POSITION, true)) && opModeIsActive()) {

@@ -18,7 +18,7 @@ public class Teleop extends LinearOpMode {
 
     // Configuring
     Servo drone;
-    double DRONE_LUNCH = 0;
+    double DRONE_LUNCH = 0.5;
     double DRONE_INIT = 1;
     @Override
     public void runOpMode() {
