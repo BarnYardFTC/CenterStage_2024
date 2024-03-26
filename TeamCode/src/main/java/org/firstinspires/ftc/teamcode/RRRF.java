@@ -104,7 +104,7 @@ public class RRRF extends LinearOpMode {
                     .build();
             // x: 29 y: 20
             traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() + 10, traj3.end().getY() - 10))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 10))
                     .build();
             // x: 39 y: 10
             traj5 = drive.trajectoryBuilder(traj4.end())
@@ -238,6 +238,7 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj5);
             collectWhitePixel2();
             drive.followTrajectory(traj6);
+            sleep(900);
 
             drive.followTrajectory(traj7);
             drive.followTrajectory(traj8);
@@ -274,6 +275,7 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj4);
             collectWhitePixel2();
             drive.followTrajectory(traj5);
+            sleep(900);
 
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
@@ -311,6 +313,7 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj4);
             collectWhitePixel2();
             drive.followTrajectory(traj5);
+            sleep(900);
 
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
