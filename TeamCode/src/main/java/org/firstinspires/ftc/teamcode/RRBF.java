@@ -178,12 +178,12 @@ public class RRBF extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 30, drive.getPoseEstimate().getY()))
                     .build();
             // x: 30 y: 0
-            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 9, traj1.end().getY() + 4))
+            traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 9, traj1.end().getY() - 4))
                     .build();
             // x: 39 y: 4
-            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 26))
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 18))
                     .build();
             // x: 39 y: -22
             traj4 = drive.trajectoryBuilder(traj3.end())
@@ -285,7 +285,7 @@ public class RRBF extends LinearOpMode {
             // Execute Center path
 
             drive.followTrajectory(traj1);
-            drive.turn(Math.toRadians(-90));
+            drive.turn(Math.toRadians(90));
             Claws.openRightClaw();
             collectWhitePixel1();
             drive.followTrajectory(traj2);

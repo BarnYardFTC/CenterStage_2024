@@ -100,20 +100,20 @@ public class RRRF extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
                     .build();
             // x: 30 y: 0
-            traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
+            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() + 15))
                     .build();
             // x: 39 y: -15
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 7))
                     .build();
             // x: 39 y: -22
             traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() - 22))
                     .build();
             // x: 39 y: 0
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() - 70))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -125,7 +125,7 @@ public class RRRF extends LinearOpMode {
                     .build();
             // x: 39 y: 70
             traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() - 22))
                     .build();
             // x: 39 y: 92
 
@@ -144,19 +144,19 @@ public class RRRF extends LinearOpMode {
                     .build();
             // x: 30 y: 0
             traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() + 15))
                     .build();
             // x: 39 y: -15
-            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
+            traj4 = drive.trajectoryBuilder(traj3.end())
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 7))
                     .build();
             // x: 39 y: -22
             traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() - 22))
                     .build();
             // x: 39 y: 0
             traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() - 70))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -168,7 +168,7 @@ public class RRRF extends LinearOpMode {
                     .build();
             // x: 39 y: 70
             traj9 = drive.trajectoryBuilder(traj8.end())
-                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj8.end().getX(), traj8.end().getY() - 22))
                     .build();
             // x: 39 y: 92
 
@@ -186,11 +186,11 @@ public class RRRF extends LinearOpMode {
                     .build();
             // x: 39 y: 4
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 26))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 26))
                     .build();
             // x: 39 y: -22
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 22))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 22))
                     .build();
             // x: 39 y: 0
             traj5 = drive.trajectoryBuilder(traj4.end())
@@ -219,6 +219,7 @@ public class RRRF extends LinearOpMode {
             drive.turn(Math.toRadians(-90));
             Claws.openRightClaw();
             drive.followTrajectory(traj2);
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj3);
 
             collectWhitePixel1();
@@ -255,7 +256,6 @@ public class RRRF extends LinearOpMode {
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
             drive.followTrajectory(traj3);
-            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj4);
 
             collectWhitePixel1();
