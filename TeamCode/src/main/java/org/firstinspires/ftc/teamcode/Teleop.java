@@ -55,8 +55,8 @@ public class Teleop extends LinearOpMode {
             telemetry.addData("wrist", Wrist.getPosition());
             telemetry.addData("claw right", Claws.getRightClawPosition());
             telemetry.addData("claw left", Claws.getLeftClawPosition());
-            telemetry.addData("sens left", HardwareLocal.getProximityValueLeft());
-            telemetry.addData("sens right", HardwareLocal.getProximityValueRight());
+            telemetry.addData("sensor left", HardwareLocal.getProximityValueLeft());
+            telemetry.addData("sensor right", HardwareLocal.getProximityValueRight());
             telemetry.update();
         }
 //        drone.setPosition(0);
@@ -82,10 +82,10 @@ public class Teleop extends LinearOpMode {
 
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (!HardwareLocal.pixelLeft() && Claws.isLeftClose() && Wrist.isWristDown()) {
+        if (!HardwareLocal.pixelLeft() && Claws.isLeftClose() && Wrist.isWristDown() && !HardwareLocal.PIXEL_IN_L) {
             Claws.openLeftClaw();
         }
-        if (!HardwareLocal.pixelRight() && Claws.isRightClose() && Wrist.isWristDown()) {
+        if (!HardwareLocal.pixelRight() && Claws.isRightClose() && Wrist.isWristDown() && !HardwareLocal.PIXEL_IN_R) {
             Claws.openRightClaw();
         }
     }
@@ -98,7 +98,7 @@ public class Teleop extends LinearOpMode {
 
     public void runWrist() {
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
+            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.005 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.isWristDown() && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.isLeftClose() && Claws.isRightClose() && !Wrist.UP) {
@@ -121,14 +121,17 @@ public class Teleop extends LinearOpMode {
     public void runArm() {
         if (gamepad1.right_trigger > 0 && Arm.getArm1Position() >= -2300) {
             Arm.moveUp(gamepad1.right_trigger);
+            HardwareLocal.HANGING_LAD = false;
         } else if (gamepad1.left_trigger > 0 && Arm.getArm1Position() <= -20 && Arm.getArm2Position() >= 20) {
             Arm.moveDown(gamepad1.left_trigger);
+            HardwareLocal.HANGING_LAD = false;
         } else if (gamepad1.dpad_up && !Arm.HANGING_MODE_ACTIVE || !gamepad1.dpad_up && Arm.HANGING_MODE_ACTIVE) {
             Claws.closeRightClaw();
             Claws.closeLeftClaw();
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
+            HardwareLocal.HANGING_LAD = true;
             Arm.hangingModeArm();
         } else if (gamepad1.x && !Arm.LOADING_MODE_ACTIVE || !gamepad1.x && Arm.LOADING_MODE_ACTIVE) {
             Claws.closeLeftClaw();
@@ -137,7 +140,9 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.SLOW_MODE = false;
             EgnitionSystem.WAS_PRESSED = false;
             Wrist.UP = false;
+            HardwareLocal.HANGING_LAD = false;
             Arm.HANGING_MODE_ACTIVE = false;
+            Arm.DPAD_PRESSED = false;
             Arm.loadingModeArm();
         } else {
             Arm.brake();
@@ -160,13 +165,7 @@ public class Teleop extends LinearOpMode {
             initEgnitionSystem();
             initEgnitionSystem();
             HardwareLocal.BLINK_IN_TIME = 20;
-            if (HardwareLocal.BLINK_IN_TIME % 2 == 0) {
-                HardwareLocal.black();
-                HardwareLocal.BLINK_IN_TIME--;
-            } else {
-                HardwareLocal.red();
-                HardwareLocal.BLINK_IN_TIME--;
-            }
+            HardwareLocal.NOTIFICATION_LAD = true;
         }
         if (Wrist.isWristDown()) {
             EgnitionSystem.SLOW_MODE = true;
@@ -211,6 +210,17 @@ public class Teleop extends LinearOpMode {
     }
 
     public void touchAndGo() {
+        if (gamepad1.a && !HardwareLocal.PIXEL_IN_L && !HardwareLocal.PIXEL_IN_R && !HardwareLocal.A_WAS_PRESSED) {
+            HardwareLocal.PIXEL_IN_L = true;
+            HardwareLocal.PIXEL_IN_R = true;
+            HardwareLocal.A_WAS_PRESSED = true;
+        } else if (gamepad1.a && HardwareLocal.PIXEL_IN_L && HardwareLocal.PIXEL_IN_R && !HardwareLocal.A_WAS_PRESSED) {
+            HardwareLocal.PIXEL_IN_L = false;
+            HardwareLocal.PIXEL_IN_R = false;
+            HardwareLocal.A_WAS_PRESSED = true;
+        } else {
+            HardwareLocal.A_WAS_PRESSED = false;
+        }
         if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
             HardwareLocal.PIXEL_IN_L = true;
             HardwareLocal.PIXEL_IN_R = true;
@@ -230,10 +240,19 @@ public class Teleop extends LinearOpMode {
     }
 
     public void ledChange() {
-        if (Arm.getArm1Position() == -1195) {
+        if (HardwareLocal.NOTIFICATION_LAD) {
+            if (HardwareLocal.BLINK_IN_TIME % 2 == 0) {
+                HardwareLocal.black();
+                HardwareLocal.BLINK_IN_TIME--;
+            } else if (HardwareLocal.BLINK_IN_TIME >= 0){
+                HardwareLocal.red();
+                HardwareLocal.BLINK_IN_TIME--;
+            } else {
+                HardwareLocal.NOTIFICATION_LAD = false;
+            }
+        } else if (HardwareLocal.HANGING_LAD) {
             HardwareLocal.blue();
-        }
-        if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
+        } else if (HardwareLocal.pixelRight() && HardwareLocal.pixelLeft()) {
             HardwareLocal.green();
         } else if (!HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() || HardwareLocal.pixelRight() && !HardwareLocal.pixelLeft()) {
             if (HardwareLocal.BLINK_IN_TIME >= 0 && HardwareLocal.BLINK_IN_TIME < 5) {
