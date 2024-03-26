@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import androidx.core.view.accessibility.AccessibilityViewCommand;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.google.ar.core.Pose;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -94,7 +90,7 @@ public class RRRB extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 25, traj1.end().getY()))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 18, traj3.end().getY() - 6))
+                    .lineToConstantHeading(new Vector2d(traj3.end().getX() - 16, traj3.end().getY() - 6))
                     .build();
             traj6 = drive.trajectoryBuilder(new Pose2d(traj4.end().getX(), traj4.end().getY(), Math.toRadians(0)))
                     .lineToConstantHeading(new Vector2d(traj4.end().getX() - 17, traj4.end().getY()))
@@ -128,7 +124,7 @@ public class RRRB extends LinearOpMode {
             // Initialize Center path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(24)
+                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 24, drive.getPoseEstimate().getY() - 3))
                     .build();
             traj2 = drive.trajectoryBuilder(traj1.end())
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 8, traj1.end().getY() - 32))

@@ -7,7 +7,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -92,7 +91,7 @@ public class RRBB extends LinearOpMode {
                     .build();
             // towards backdrop
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 31))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 29))
                     .build();
 
             // backward
@@ -114,7 +113,7 @@ public class RRBB extends LinearOpMode {
 
             // Forward towards spike mark
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 7, drive.getPoseEstimate().getY() + 25
+                    .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 7, drive.getPoseEstimate().getY() + 26
                     ))
                     .build();
 
@@ -143,13 +142,13 @@ public class RRBB extends LinearOpMode {
             // Initialize Center path
 
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .forward(24)
+                    .forward(25)
                     .build();
             traj2 = drive.trajectoryBuilder(traj1.end())
                     .lineToConstantHeading(new Vector2d(traj1.end().getX()-4, traj1.end().getY()))
                     .build();
             traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX()+5, traj2.end().getY() + 34))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 4, traj2.end().getY() + 34.5))
                     .build();
             traj4 = drive.trajectoryBuilder(traj3.end())
                     .lineToConstantHeading(new Vector2d(traj3.end().getX() - 23, traj3.end().getY()))
@@ -173,9 +172,9 @@ public class RRBB extends LinearOpMode {
             Claws.openRightClaw(); // Let go of purple pixel
             drive.followTrajectory(traj3); // Towards backdrop
             drive.followTrajectory(traj4); // Forward for better placement on the backdrop
-            Wrist.setPosition(0.45); // Lift wrist up
+            Wrist.setPosition(0.4); // Lift wrist up
             sleep(200);
-            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
+            while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-100, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED); // Lift the arm up
             }
             Arm.brake();
@@ -206,7 +205,7 @@ public class RRBB extends LinearOpMode {
             Claws.openRightClaw(); // Place purple pixel on spike mark
             drive.followTrajectory(traj4); // Towards backdrop
 //            drive.followTrajectory(traj5); // Backward for better placement on the backdrop
-            Wrist.setPosition(0.45);
+            Wrist.setPosition(0.35);
             sleep(200);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-50, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
@@ -235,7 +234,7 @@ public class RRBB extends LinearOpMode {
             drive.followTrajectory(traj2);
             drive.followTrajectory(traj3);
             drive.turn(Math.toRadians(-90));
-            Wrist.setPosition(0.45);
+            Wrist.setPosition(0.35);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION-100, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
             }

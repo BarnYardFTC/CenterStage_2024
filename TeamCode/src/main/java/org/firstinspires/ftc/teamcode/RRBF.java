@@ -3,13 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.google.ar.core.Pose;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -94,23 +91,23 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 25 y: 0
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 14, traj1.end().getY()))
                     .build();
             // x: 30 y: 0
-            traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
-                    .build();
-            // x: 39 y: -15
-            traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
-                    .build();
+//            traj3 = drive.trajectoryBuilder(traj2.end())
+//                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
+//                    .build();
+//            // x: 39 y: -15
+//            traj4 = drive.trajectoryBuilder(traj3.end())
+//                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
+//                    .build();
             // x: 39 y: -22
-            traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 22))
-                    .build();
+//            traj5 = drive.trajectoryBuilder(traj4.end())
+//                    .lineToConstantHeading(new Vector2d(traj4.end().getX() + 39, traj4.end().getY()))
+//                    .build();
             // x: 39 y: 0
-            traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 75))
+            traj6 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 75))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -137,23 +134,23 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 25 y: 0
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 14, traj1.end().getY()))
                     .build();
             // x: 30 y: 0
-            traj3 = drive.trajectoryBuilder(traj2.end())
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
-                    .build();
-            // x: 39 y: -15
-            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
-                    .build();
+//            traj3 = drive.trajectoryBuilder(traj2.end())
+//                    .lineToConstantHeading(new Vector2d(traj2.end().getX() + 9, traj2.end().getY() - 15))
+//                    .build();
+//            // x: 39 y: -15
+//            traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(0)))
+//                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
+//                    .build();
             // x: 39 y: -22
-            traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 22))
-                    .build();
+//            traj5 = drive.trajectoryBuilder(traj4.end())
+//                    .lineToConstantHeading(new Vector2d(traj4.end().getX() + 9, traj4.end().getY()))
+//                    .build();
             // x: 39 y: 0
-            traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 75))
+            traj6 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(0)))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 70))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -182,20 +179,20 @@ public class RRBF extends LinearOpMode {
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 9, traj1.end().getY() - 4))
                     .build();
             // x: 39 y: 4
-            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 18))
-                    .build();
-            // x: 39 y: -22
-            traj4 = drive.trajectoryBuilder(traj3.end())
-                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 22))
-                    .build();
-            // x: 39 y: 0
-            traj5 = drive.trajectoryBuilder(traj4.end())
-                    .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 75))
+//            traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(-90)))
+//                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 18))
+//                    .build();
+//            // x: 39 y: -22
+//            traj4 = drive.trajectoryBuilder(traj3.end())
+//                    .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() + 22))
+//                    .build();
+//            // x: 39 y: 0
+            traj5 = drive.trajectoryBuilder(traj2.end())
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 75))
                     .build();
             // x: 39 y: 70
-            traj6 = drive.trajectoryBuilder(traj5.end())
-                    .lineToConstantHeading(new Vector2d(traj5.end().getX() - 20, traj5.end().getY()))
+            traj6 = drive.trajectoryBuilder(new Pose2d(traj5.end().getX(), traj5.end().getY(), Math.toRadians(-90)))
+                    .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() - 20))
                     .build();
             // x: 19 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -216,13 +213,6 @@ public class RRBF extends LinearOpMode {
             drive.turn(Math.toRadians(-90));
             Claws.openRightClaw();
             drive.followTrajectory(traj2);
-            drive.followTrajectory(traj3);
-
-            collectWhitePixel1();
-            drive.followTrajectory(traj4);
-            collectWhitePixel2();
-            drive.followTrajectory(traj5);
-            sleep(900);
 
             drive.followTrajectory(traj6);
             drive.followTrajectory(traj7);
@@ -252,14 +242,7 @@ public class RRBF extends LinearOpMode {
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
             drive.followTrajectory(traj3);
-            drive.turn(Math.toRadians(180));
-            drive.followTrajectory(traj4);
 
-            collectWhitePixel1();
-            drive.followTrajectory(traj5);
-            collectWhitePixel2();
-            drive.followTrajectory(traj6);
-            sleep(900);
 
             drive.followTrajectory(traj8);
             drive.followTrajectory(traj9);
@@ -287,16 +270,10 @@ public class RRBF extends LinearOpMode {
             drive.followTrajectory(traj1);
             drive.turn(Math.toRadians(90));
             Claws.openRightClaw();
-            collectWhitePixel1();
             drive.followTrajectory(traj2);
-            drive.turn(Math.toRadians(180));
-            drive.followTrajectory(traj3);
-            collectWhitePixel2();
-            drive.followTrajectory(traj4);
-
-            sleep(900);
 
             drive.followTrajectory(traj5);
+            drive.turn(Math.toRadians(180));
             drive.followTrajectory(traj6);
             Wrist.setPosition(0.45);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
