@@ -18,8 +18,8 @@ public class Teleop extends LinearOpMode {
 
     // Configuring
     Servo drone;
-    double DRONE_LUNCH = 1;
-    double DRONE_INIT = 0.3;
+    double DRONE_LUNCH = 0;
+    double DRONE_INIT = 1;
     @Override
     public void runOpMode() {
 
@@ -30,9 +30,7 @@ public class Teleop extends LinearOpMode {
         initEgnitionSystem();
         initColorRangeSensor();
         initLed();
-//        initDrone();
-//        drone.setDirection(Servo.Direction.REVERSE);
-//        drone.setPosition(DRONE_INIT);
+        initDrone();
 
         telemetry.update();
 
@@ -42,7 +40,7 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
 
 // Running systems
-//            runDrone();
+            runDrone();
             runEgnitionSystem();
             runArm();
             runClaws();
@@ -66,6 +64,7 @@ public class Teleop extends LinearOpMode {
 
     public void initDrone() {
         drone = hardwareMap.get(Servo.class, "drone");
+        drone.setPosition(DRONE_INIT);
     }
     public void runDrone() {
         if (gamepad1.dpad_down) {
