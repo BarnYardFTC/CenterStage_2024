@@ -88,105 +88,136 @@ public class RRBF extends LinearOpMode {
 
             // Initialize right path
 
+            // x: 0 y: 0
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 25, drive.getPoseEstimate().getY()))
                     .build();
+            // x: 25 y: 0
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 15, traj1.end().getY()))
                     .build();
+            // x: 40 y: 0
             traj3 = drive.trajectoryBuilder(traj2.end())
                     .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 15))
                     .build();
+            // x: 40 y: -15
             traj4 = drive.trajectoryBuilder(traj3.end())
                     .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
                     .build();
+            // x: 40 y: -22
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 7))
                     .build();
+            // x: 40 y: -15
             traj6 = drive.trajectoryBuilder(traj5.end())
                     .lineToConstantHeading(new Vector2d(traj5.end().getX() + 10, traj5.end().getY() + 10))
                     .build();
+            // x: 50 y: -5
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(traj6.end().getX(), traj6.end().getY() + 40))
                     .build();
+            // x: 50 y: 35
             traj8 = drive.trajectoryBuilder(traj7.end())
                     .lineToConstantHeading(new Vector2d(traj7.end().getX() - 10, traj7.end().getY()))
                     .build();
+            // x: 40 y: 35
             traj9 = drive.trajectoryBuilder(new Pose2d(traj8.end().getX(), traj8.end().getY(), Math.toRadians(0)))
                     .lineToConstantHeading(new Vector2d(traj8.end().getX() + 10, traj8.end().getY()))
                     .build();
+            // x: 50 y: 35
             traj10 = drive.trajectoryBuilder(traj9.end())
                     .lineToConstantHeading(new Vector2d(traj9.end().getX(), traj9.end().getY() + 15))
                     .build();
+            // x: 50 y: 50
 
         }
         else if (position == spike_position.LEFT) {
 
             // Initialize left path
 
+            // x: 0 y: 0
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 25, drive.getPoseEstimate().getY()))
                     .build();
+            // x: 25 y: 0
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 4, traj1.end().getY()))
                     .build();
+            // x: 29 y: 0
             traj3 = drive.trajectoryBuilder(traj2.end())
                     .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() - 20))
                     .build();
+            // x: 29 y: -20
             traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
                     .lineToConstantHeading(new Vector2d(traj3.end().getX() + 10, traj3.end().getY() + 10))
                     .build();
+            // x: 39 y: -10
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() - 7))
                     .build();
+            // x: 39 y: -3
             traj6 = drive.trajectoryBuilder(traj5.end())
                     .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 7))
                     .build();
+            // x: 39 y: -10
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(traj6.end().getX() + 15, traj6.end().getY() + 10))
                     .build();
+            // x: 54 y: 0
             traj8 = drive.trajectoryBuilder(traj7.end())
                     .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() + 40))
                     .build();
+            // x: 54 y: 40
             traj9 = drive.trajectoryBuilder(traj8.end())
                     .lineToConstantHeading(new Vector2d(traj8.end().getX() - 30, traj8.end().getY()))
                     .build();
+            // x: 24 y: 40
             traj10 = drive.trajectoryBuilder(new Pose2d(traj9.end().getX(), traj9.end().getY(), Math.toRadians(0)))
                     .lineToConstantHeading(new Vector2d(traj9.end().getX() + 30, traj9.end().getY()))
                     .build();
+            // x: 54 y: 40
             traj11 = drive.trajectoryBuilder(traj10.end())
                     .lineToConstantHeading(new Vector2d(traj10.end().getX(), traj10.end().getY() + 15))
                     .build();
+            // x: 54 y: 55
 
         }
         else {
             // Initialize Center path
 
+            // x: 0 y: 0
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 30, drive.getPoseEstimate().getY() + 15))
                     .build();
+            // x: 30 y: 15
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(-90)))
                     .lineToConstantHeading(new Vector2d(traj1.end().getX(), traj1.end().getY() - 7))
                     .build();
+            // x: 30 y: 8
             traj3 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(90)))
                     .lineToConstantHeading(new Vector2d(traj2.end().getX() + 10, traj2.end().getY()))
                     .build();
+            // x: 40 y: 8
             traj4 = drive.trajectoryBuilder(traj3.end())
                     .lineToConstantHeading(new Vector2d(traj3.end().getX(), traj3.end().getY() - 7))
                     .build();
+            // x: 40 y: 1
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 7))
                     .build();
+            // x: 40 y: 8
             traj6 = drive.trajectoryBuilder(traj5.end())
                     .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() + 60))
                     .build();
+            // x: 40 y: 68
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(traj6.end().getX() - 20, traj6.end().getY()))
                     .build();
+            // x: 20 y: 68
             traj8 = drive.trajectoryBuilder(new Pose2d(traj7.end().getX(), traj7.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj3.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj3.end().getY() + 20))
                     .build();
-
+            // x: 20 y: 48
         }
         if (isStopRequested()) return;
 
