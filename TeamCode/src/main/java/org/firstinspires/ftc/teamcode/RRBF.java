@@ -134,7 +134,7 @@ public class RRBF extends LinearOpMode {
                     .build();
             // x: 25 y: 0
             traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
-                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 14, traj1.end().getY()))
+                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 14, traj1.end().getY() - 5))
                     .build();
             // x: 30 y: 0
 //            traj3 = drive.trajectoryBuilder(traj2.end())
@@ -150,7 +150,7 @@ public class RRBF extends LinearOpMode {
 //                    .build();
             // x: 39 y: 0
             traj6 = drive.trajectoryBuilder(new Pose2d(traj2.end().getX(), traj2.end().getY(), Math.toRadians(0)))
-                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 70))
+                    .lineToConstantHeading(new Vector2d(traj2.end().getX(), traj2.end().getY() + 75))
                     .build();
             // x: 39 y: 70
             traj7 = drive.trajectoryBuilder(traj6.end())
@@ -241,11 +241,10 @@ public class RRBF extends LinearOpMode {
             drive.turn(Math.toRadians(90));
             drive.followTrajectory(traj2);
             Claws.openRightClaw();
-            drive.followTrajectory(traj3);
+            drive.followTrajectory(traj6);
 
 
-            drive.followTrajectory(traj8);
-            drive.followTrajectory(traj9);
+            drive.followTrajectory(traj7);
             Wrist.setPosition(0.45);
             while (!(Arm.arrivedPosition(Arm.getArm1Position(), ARM_UP_POSITION, false)) && opModeIsActive()) {
                 Arm.moveUp(ARM_SPEED);
@@ -261,8 +260,8 @@ public class RRBF extends LinearOpMode {
             Wrist.setPosition(Wrist.WRIST_UP_POSITION);
             sleep(500);
             drive.turn(Math.toRadians(90));
-            drive.followTrajectory(traj10);
-            drive.followTrajectory(traj11);
+            drive.followTrajectory(traj8);
+            drive.followTrajectory(traj9);
         }
         else {
             // Execute Center path
