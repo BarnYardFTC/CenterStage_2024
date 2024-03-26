@@ -22,7 +22,7 @@ public class RRRF extends LinearOpMode {
     int ARM_UP_POSITION = -2000;
     int ARM_DOWN_POSITION = -300;
 
-    spike_position position = spike_position.RIGHT;
+    spike_position position;
 
     enum spike_position {
         LEFT,
@@ -50,8 +50,8 @@ public class RRRF extends LinearOpMode {
         initArm();
         initClaws();
         initWrist();
-//        initCamera();
-//        initLed();
+        initCamera();
+        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -63,11 +63,11 @@ public class RRRF extends LinearOpMode {
 
         while (opModeInInit()) {
             if (PixelDetectorRF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
+                position = spike_position.CENTER;
                 HardwareLocal.green();
             }
             else if (PixelDetectorRF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
+                position = spike_position.LEFT;
                 HardwareLocal.green();
             }
             else {
@@ -106,35 +106,35 @@ public class RRRF extends LinearOpMode {
             traj4 = drive.trajectoryBuilder(new Pose2d(traj3.end().getX(), traj3.end().getY(), Math.toRadians(90)))
                     .lineToConstantHeading(new Vector2d(traj3.end().getX() + 10, traj3.end().getY() - 10))
                     .build();
-            // x: 39 y: -10
+            // x: 39 y: 10
             traj5 = drive.trajectoryBuilder(traj4.end())
                     .lineToConstantHeading(new Vector2d(traj4.end().getX(), traj4.end().getY() + 7))
                     .build();
-            // x: 39 y: -3
+            // x: 39 y: 17
             traj6 = drive.trajectoryBuilder(traj5.end())
                     .lineToConstantHeading(new Vector2d(traj5.end().getX(), traj5.end().getY() - 7))
                     .build();
-            // x: 39 y: -10
+            // x: 39 y: 10
             traj7 = drive.trajectoryBuilder(traj6.end())
                     .lineToConstantHeading(new Vector2d(traj6.end().getX() + 15, traj6.end().getY() - 10))
                     .build();
-            // x: 54 y: -20
+            // x: 54 y: 0
             traj8 = drive.trajectoryBuilder(traj7.end())
                     .lineToConstantHeading(new Vector2d(traj7.end().getX(), traj7.end().getY() - 40))
                     .build();
-            // x: 54 y: -60
+            // x: 54 y: -40
             traj9 = drive.trajectoryBuilder(traj8.end())
                     .lineToConstantHeading(new Vector2d(traj8.end().getX() - 30, traj8.end().getY()))
                     .build();
-            // x: 24 y: -60
+            // x: 24 y: -40
             traj10 = drive.trajectoryBuilder(new Pose2d(traj9.end().getX(), traj9.end().getY(), Math.toRadians(0)))
                     .lineToConstantHeading(new Vector2d(traj9.end().getX() + 30, traj9.end().getY()))
                     .build();
-            // x: 54 y: -60
+            // x: 54 y: -40
             traj11 = drive.trajectoryBuilder(traj10.end())
                     .lineToConstantHeading(new Vector2d(traj10.end().getX(), traj10.end().getY() - 15))
                     .build();
-            // x: 54 y: -75
+            // x: 54 y: -55
         }
         else if (position == spike_position.LEFT) {
 

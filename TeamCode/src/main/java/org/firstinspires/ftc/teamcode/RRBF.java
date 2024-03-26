@@ -49,7 +49,7 @@ public class RRBF extends LinearOpMode {
         initClaws();
         initWrist();
         initCamera();
-//        initLed();
+        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -60,11 +60,11 @@ public class RRBF extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         while (opModeInInit()) {
             if (PixelDetectorBF.getSpike_position() == 0) {
-                position = spike_position.LEFT;
+                position = spike_position.CENTER;
                 HardwareLocal.green();
             }
             else if (PixelDetectorBF.getSpike_position() == 1) {
-                position = spike_position.CENTER;
+                position = spike_position.LEFT;
                 HardwareLocal.green();
             }
             else {

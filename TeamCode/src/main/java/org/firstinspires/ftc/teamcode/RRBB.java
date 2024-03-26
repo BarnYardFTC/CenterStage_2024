@@ -43,7 +43,7 @@ public class RRBB extends LinearOpMode {
         initClaws();
         initWrist();
         initCamera();
-//        initLed();
+        initLed();
 
         // Close the claws
         Claws.closeRightClaw();
@@ -55,16 +55,16 @@ public class RRBB extends LinearOpMode {
 
         while (opModeInInit()) {
             if (PixelDetectorBB.getSpike_position() == 0) {
-                position = spike_position.LEFT;
-                //HardwareLocal.green();
+                position = spike_position.CENTER;
+                HardwareLocal.green();
             }
             else if (PixelDetectorBB.getSpike_position() == 1) {
-                position = spike_position.CENTER;
-                //HardwareLocal.green();
+                position = spike_position.LEFT;
+                HardwareLocal.green();
             }
             else {
                 position = spike_position.RIGHT;
-                //HardwareLocal.green();
+                HardwareLocal.green();
             }
 
             telemetry.addData("Spike Position: ", position);
