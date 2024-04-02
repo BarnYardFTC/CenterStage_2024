@@ -74,7 +74,7 @@ public class RRBB extends LinearOpMode {
         Camera.close(3);
 
         waitForStart();
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION);
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION_Autonomous);
         sleep(500);
 
         if (position == spike_position.RIGHT) {

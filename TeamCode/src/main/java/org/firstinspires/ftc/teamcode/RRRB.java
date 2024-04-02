@@ -76,7 +76,7 @@ public class RRRB extends LinearOpMode {
 
 
         waitForStart();
-        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION - 0.1);
+        Wrist.setPosition(Wrist.WRIST_DOWN_POSITION_Autonomous);
         sleep(500);
 
         if (position == spike_position.RIGHT) {
@@ -106,9 +106,6 @@ public class RRRB extends LinearOpMode {
             traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .lineToConstantHeading(new Vector2d(drive.getPoseEstimate().getX() + 27, drive.getPoseEstimate().getY() - 2))
                     .build();
-//           traj2 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
-//                    .lineToConstantHeading(new Vector2d(traj1.end().getX() + 5, traj1.end().getY()))
-//                    .build();
             traj3 = drive.trajectoryBuilder(new Pose2d(traj1.end().getX(), traj1.end().getY(), Math.toRadians(90)))
                     .lineToConstantHeading(new Vector2d(traj1.end().getX() + 12, traj1.end().getY() - 26))
                     .build();

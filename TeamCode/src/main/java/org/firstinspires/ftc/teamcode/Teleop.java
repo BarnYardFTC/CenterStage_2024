@@ -32,8 +32,6 @@ public class Teleop extends LinearOpMode {
         initLed();
         initDrone();
 
-        telemetry.update();
-
         waitForStart();
 
 
@@ -49,12 +47,6 @@ public class Teleop extends LinearOpMode {
             ledChange();
 
 // Telemetry update
-            telemetry.addData("right arm", Arm.getArm1Position());
-            telemetry.addData("wrist", Wrist.getPosition());
-            telemetry.addData("claw right", Claws.getRightClawPosition());
-            telemetry.addData("claw left", Claws.getLeftClawPosition());
-            telemetry.addData("sensor left", HardwareLocal.getProximityValueLeft());
-            telemetry.addData("sensor right", HardwareLocal.getProximityValueRight());
             telemetry.update();
         }
 //        drone.setPosition(0);
@@ -97,7 +89,7 @@ public class Teleop extends LinearOpMode {
 
     public void runWrist() {
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.007 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
+            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.isWristDown() && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.isLeftClose() && Claws.isRightClose() && !Wrist.UP) {
