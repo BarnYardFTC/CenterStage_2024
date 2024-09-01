@@ -1,17 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
 
+@Autonomous(name = "huskyLensAlpha")
 public class HuskylensAlpha extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
 
     private HuskyLens huskyLens;
+
+    enum prop_position{
+        NOT_FOUND,
+        LEFT,
+        CENTER,
+        RIGHT
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -32,6 +41,9 @@ public class HuskylensAlpha extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        prop_position red_position = prop_position.NOT_FOUND;
+        prop_position blue_position = prop_position.NOT_FOUND;
+
         while (opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
                 continue;
@@ -39,14 +51,37 @@ public class HuskylensAlpha extends LinearOpMode {
             rateLimit.reset();
 
             HuskyLens.Block[] blocks = huskyLens.blocks();
-            telemetry.addData("Block count: ", blocks.length);
-            for (int i = 0; i < blocks.length; i++) {
 
-                // ToDo: Right an algorithm to locate team prop
+            if (blocks.length > 0) {
+                telemetry.addData("Block count: ", blocks.length);
+                for (int i = 0; i < blocks.length; i++) {
 
+                    HuskyLens.Block frame = blocks[i];
+
+                    if (frame.id == 1) {
+                        red_position = locateProp(frame.x);
+                    }
+                    if (frame.id == 2) {
+                        blue_position = locateProp(frame.x);
+                    }
+                }
+                telemetry.addData("blue prop position: ", blue_position.toString());
+                telemetry.addData("red prop position: ", red_position.toString());
             }
+            telemetry.update();
+
 
         }
-
+    }
+    public prop_position locateProp(int x) {
+        if (x < 120) {
+            return prop_position.LEFT;
+        }
+        else if (x < 200) {
+            return prop_position.CENTER;
+        }
+        else {
+            return prop_position.RIGHT;
+        }
     }
 }
