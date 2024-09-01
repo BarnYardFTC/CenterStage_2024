@@ -42,24 +42,46 @@ public class Arm {
     public static void moveUp(double SPEED) {
         got_position_to_hold = false;
 
-        rightArm.setPower(1);
-        rightArm.setTargetPosition(rightArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED));
-        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (rightArm.getCurrentPosition() > Arm.UNLOADING_POSITION + 200) {
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED));
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftArm.setPower(1);
-        leftArm.setTargetPosition(leftArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED));
-        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(leftArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED));
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else {
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED * 0.5));
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(leftArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED * 0.5));
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
     public static void moveDown(double SPEED) {
         got_position_to_hold = false;
 
-        rightArm.setPower(1);
-        rightArm.setTargetPosition(rightArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED));
-        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (rightArm.getCurrentPosition() > Arm.UNLOADING_POSITION + 200) {
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED));
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftArm.setPower(1);
-        leftArm.setTargetPosition(leftArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED));
-        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(leftArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED));
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else {
+            rightArm.setPower(1);
+            rightArm.setTargetPosition(rightArm.getCurrentPosition() + (int) (MAX_SPEED * SPEED * 0.5));
+            rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            leftArm.setPower(1);
+            leftArm.setTargetPosition(leftArm.getCurrentPosition() - (int) (MAX_SPEED * SPEED * 0.5));
+            leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
     public static void hangingModeArm() {
         got_position_to_hold = false;

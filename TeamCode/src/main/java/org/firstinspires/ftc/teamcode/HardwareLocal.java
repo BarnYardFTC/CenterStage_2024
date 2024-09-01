@@ -17,8 +17,6 @@ public class HardwareLocal {
     static public boolean PIXEL_IN_L;
     static public boolean HANGING_LAD;
     static public boolean NOTIFICATION_LAD;
-    static public boolean A_WAS_PRESSED;
-    static public boolean SENSOR_USAGE;
     static private final int DETECTING_DISTANCE_R = 32;
     static private final int DETECTING_DISTANCE_L = 36;
     static public int BLINK_IN_TIME;
@@ -32,8 +30,6 @@ public class HardwareLocal {
         BLINK_IN_TIME = 0;
         HANGING_LAD = false;
         NOTIFICATION_LAD = false;
-        A_WAS_PRESSED = false;
-        SENSOR_USAGE = true;
     }
     public static void init(RevBlinkinLedDriver ledDrive) {
         HardwareLocal.ledDrive = ledDrive;

@@ -73,10 +73,14 @@ public class Teleop extends LinearOpMode {
 
     public void runClaws() {
         Claws.runClawsTeleop(gamepad1.left_bumper, gamepad1.right_bumper);
-        if (!HardwareLocal.pixelLeft() && Claws.isLeftClose() && Wrist.isWristDown() && HardwareLocal.SENSOR_USAGE) {
+        if (gamepad1.a && Wrist.isWristDown()) {
+            Claws.openLeftClaw();
+            Claws.openRightClaw();
+        }
+        if (!HardwareLocal.pixelLeft() && Claws.isLeftClose() && Wrist.isWristDown()) {
             Claws.openLeftClaw();
         }
-        if (!HardwareLocal.pixelRight() && Claws.isRightClose() && Wrist.isWristDown() && HardwareLocal.SENSOR_USAGE) {
+        if (!HardwareLocal.pixelRight() && Claws.isRightClose() && Wrist.isWristDown()) {
             Claws.openRightClaw();
         }
     }
@@ -93,8 +97,8 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.isWristDown() && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.isLeftClose() && Claws.isRightClose() && !Wrist.UP) {
-            sleep(100);
             Wrist.UP = true;
+            sleep(100);
             Wrist.moveUp();
         } else if (Wrist.isWristDown() && (!HardwareLocal.pixelRight() || !HardwareLocal.pixelLeft()) && Wrist.UP) {
             Wrist.UP = false;
@@ -201,26 +205,17 @@ public class Teleop extends LinearOpMode {
     }
 
     public void touchAndGo() {
-        if (gamepad1.a && !HardwareLocal.A_WAS_PRESSED && HardwareLocal.SENSOR_USAGE) {
-            HardwareLocal.SENSOR_USAGE = false;
-            HardwareLocal.A_WAS_PRESSED = true;
-        } else if (gamepad1.a && !HardwareLocal.A_WAS_PRESSED && !HardwareLocal.SENSOR_USAGE) {
-            HardwareLocal.SENSOR_USAGE = true;
-            HardwareLocal.A_WAS_PRESSED = true;
-        } else {
-            HardwareLocal.A_WAS_PRESSED = false;
-        }
         if (Arm.getArm1Position() <= Arm.MINIMAL_HOLD_POSITION) {
             HardwareLocal.PIXEL_IN_L = true;
             HardwareLocal.PIXEL_IN_R = true;
         }
-        if (!HardwareLocal.PIXEL_IN_R && HardwareLocal.pixelRight() && Claws.isRightOpen() && HardwareLocal.SENSOR_USAGE) {
+        if (!HardwareLocal.PIXEL_IN_R && HardwareLocal.pixelRight() && Claws.isRightOpen()) {
             Claws.closeRightClaw();
             HardwareLocal.PIXEL_IN_R = true;
         } else if (!HardwareLocal.pixelRight()) {
             HardwareLocal.PIXEL_IN_R = false;
         }
-        if (!HardwareLocal.PIXEL_IN_L && HardwareLocal.pixelLeft() && Claws.isLeftOpen() && HardwareLocal.SENSOR_USAGE) {
+        if (!HardwareLocal.PIXEL_IN_L && HardwareLocal.pixelLeft() && Claws.isLeftOpen()) {
             Claws.closeLeftClaw();
             HardwareLocal.PIXEL_IN_L = true;
         } else if (!HardwareLocal.pixelLeft()) {
