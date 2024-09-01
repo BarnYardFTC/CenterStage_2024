@@ -97,10 +97,10 @@ public class Teleop extends LinearOpMode {
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.isWristDown() && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.isLeftClose() && Claws.isRightClose() && !Wrist.UP) {
-            Wrist.UP = true;
             sleep(100);
+            Wrist.UP = true;
             Wrist.moveUp();
-        } else if (Wrist.isWristDown() && (!HardwareLocal.pixelRight() || !HardwareLocal.pixelLeft()) && Wrist.UP) {
+        } else if (Wrist.isWristDown() && Wrist.UP && !HardwareLocal.pixelRight() && !HardwareLocal.pixelLeft()) {
             Wrist.UP = false;
         } else {
             Wrist.runWrist(gamepad1.y);
