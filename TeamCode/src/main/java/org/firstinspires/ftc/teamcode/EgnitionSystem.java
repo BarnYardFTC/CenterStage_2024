@@ -121,7 +121,7 @@ public class EgnitionSystem {
         adjustedLy = ly * Math.cos(heading) + lx * Math.sin(heading);
 
         telemetry.addLine("Press B to reset robot's head direction");
-        telemetry.addData("heading: ", heading);
+       telemetry.addData("heading: ", heading);
     }
 
     public static void resetEncoders() {
