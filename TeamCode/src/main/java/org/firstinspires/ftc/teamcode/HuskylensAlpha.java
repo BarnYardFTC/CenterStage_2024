@@ -11,10 +11,11 @@ import java.util.concurrent.TimeUnit;
 @Autonomous(name = "huskyLensAlpha")
 public class HuskylensAlpha extends LinearOpMode {
 
-    private final int READ_PERIOD = 1;
+    private final int READ_PERIOD = 1; // Copied from the sdk example program
 
-    private HuskyLens huskyLens;
+    private HuskyLens huskyLens; // Create the huskyLens
 
+    // An enum that represents the different options for the prop location on the spike marks
     enum prop_position{
         NOT_FOUND,
         LEFT,
@@ -25,54 +26,67 @@ public class HuskylensAlpha extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        // initiate the huskyLens
         huskyLens = hardwareMap.get(HuskyLens.class, "huskyLens");
 
-        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
-        rateLimit.expire();
+        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS); // copied from the sdk example program
+        rateLimit.expire(); // "" "" "" "" "" ""
 
-        if (!huskyLens.knock()) {
+        if (!huskyLens.knock()) { // "" "" "" "" "" ""
             telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
-        } else {
+        } else { // "" "" "" "" "" ""
             telemetry.addData(">>", "Press start to continue");
         }
 
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION); // work with the COLOR_RECOGNITION built-in algorithm
 
         telemetry.update();
         waitForStart();
 
+        // Assign the prop positions to not found
         prop_position red_position = prop_position.NOT_FOUND;
         prop_position blue_position = prop_position.NOT_FOUND;
 
         while (opModeIsActive()) {
+
+            // Copied from the SDK example program
             if (!rateLimit.hasExpired()) {
                 continue;
             }
             rateLimit.reset();
 
-            HuskyLens.Block[] blocks = huskyLens.blocks();
+            HuskyLens.Block[] blocks = huskyLens.blocks(); // A list of all the blocks (=colors)
+                                                          // the huskyLens has identified
 
-            if (blocks.length > 0) {
-                telemetry.addData("Block count: ", blocks.length);
-                for (int i = 0; i < blocks.length; i++) {
+            if (blocks.length > 0) { // If the huskyLens identified a color:
+                for (int i = 0; i < blocks.length; i++) { // loop through all the blocks
 
-                    HuskyLens.Block frame = blocks[i];
+                    HuskyLens.Block frame = blocks[i]; // assign each block into a variable
 
+                    // If the current frame is red (id=1)
                     if (frame.id == 1) {
-                        red_position = locateProp(frame.x);
-                    }
+                        red_position = locateProp(frame.x); // Assign the red prop position to
+                                                            // the corresponding spike mark
+                }
+
+                    // If the current frame is blue (id=2)
                     if (frame.id == 2) {
-                        blue_position = locateProp(frame.x);
+                        blue_position = locateProp(frame.x); // Assign the blue prop position to
+                                                            // the corresponding spike mark
                     }
                 }
-                telemetry.addData("blue prop position: ", blue_position.toString());
-                telemetry.addData("red prop position: ", red_position.toString());
+
             }
+
+            // Print data to telemetry
+            telemetry.addData("blue prop position: ", blue_position.toString());
+            telemetry.addData("red prop position: ", red_position.toString());
             telemetry.update();
 
 
         }
     }
+    // This function returns a prop position based on where on the camera (x) the prop is located
     public prop_position locateProp(int x) {
         if (x < 120) {
             return prop_position.LEFT;
