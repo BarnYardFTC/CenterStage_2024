@@ -93,7 +93,7 @@ public class Teleop extends LinearOpMode {
 
     public void runWrist() {
         if (Arm.getArm1Position() <= Arm.UNLOADING_POSITION) {
-            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((int) ((Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25)));
+            Wrist.setPosition(Wrist.WRIST_UNLOADING_POSITION + 0.01 * ((double) (Arm.getArm1Position() - Arm.UNLOADING_POSITION) / -25));
             EgnitionSystem.SLOW_MODE = true;
             EgnitionSystem.WAS_PRESSED = false;
         } else if (Wrist.isWristDown() && HardwareLocal.pixelRight() && HardwareLocal.pixelLeft() && Claws.isLeftClose() && Claws.isRightClose() && !Wrist.UP) {
